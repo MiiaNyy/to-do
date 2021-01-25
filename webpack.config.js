@@ -1,5 +1,6 @@
 const path = require('path');
 
+
 module.exports = {
     // defaults to ./src, Here the application starts executing and webpack starts bundling
     entry: "./src/index.js",
@@ -18,10 +19,12 @@ module.exports = {
         hot: true
     },
     module: {
-        rules: [{
+        rules: [
+            {
             test: /\.css$/,
             use: ["style-loader", "css-loader"]
-        }],
+        }, 
+    ],
     }
 
 }

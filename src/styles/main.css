@@ -1,4 +1,5 @@
 @import "nav.css";
+@import "header.css";
 
 /* include border and padding in element width and height */
 * {
@@ -23,42 +24,27 @@ body {
 .content-container {
     display: grid;
     grid-template-columns: 300px repeat(3, 1fr);
-    grid-template-rows: 1fr repeat(3, 2fr) 5%;
+    grid-template-rows: 80px repeat(3, 2fr) 5%;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     height: 100%;
     width: 100%;
 }
 
-.header {
-    grid-area: 1 / 2 / 2 / 5;
-    background-color: rgb(221, 215, 250);
-}
 
-.side-bar {
-    grid-area: 1 / 1 / 6 / 2;
-    background-color: rgb(250, 215, 215);
-    height: 100%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    overflow-x: hidden;
-    transition: 0.5s;
 
-    width: 300px;
-}
+
 
 .content {
     grid-area: 2 / 2 / 5 / 5;
-    background-color: rgb(177, 243, 151);
+    background-color: #FAFAFA ;
     transition: margin-left .5s;
     padding: 16px;
 }
 
 .footer {
     grid-area: 5 / 2 / 6 / 5;
-    background-color: rgb(86, 118, 190);
+    background-color: #FAFAFA ;
 }
 
 .main {

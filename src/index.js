@@ -1,22 +1,36 @@
 import "./styles/main.css"
-import {closeNav, openNav} from "./dom"
+import {
+    closeNav,
+    openNav,
+    toggleFolderDisplay,
+} from "./dom"
 
-let navIcon= document.querySelector('#nav-icon');
-
+let navIcon = document.querySelector('#nav-icon');
+let projectsBtn = document.querySelector(".project-btn");
+let filterFolderBtn = document.querySelector(".filter-btn");
 
 let navIsOpen = true;
 
-navIcon.addEventListener('click', function() {    
+navIcon.addEventListener('click', function () {
     this.classList.toggle("open");
-    if(navIsOpen) {
+    if (navIsOpen) {
         closeNav();
         navIsOpen = false;
-        
-    } else if(!navIsOpen) {
+
+    } else if (!navIsOpen) {
         openNav();
         navIsOpen = true;
     }
 })
+
+projectsBtn.addEventListener('click', function(event) {
+    toggleFolderDisplay(event);
+})
+
+filterFolderBtn.addEventListener('click', function(event) {
+    toggleFolderDisplay(event);
+})
+
 
 
 
