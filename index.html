@@ -8,7 +8,12 @@
     </head>
     <body>
         <div class="content-container">
-            <div class="header main">header </div>
+            <div class="header main">
+                <h1>My To-Dos</h1>
+                <button id="header-btn" class="add-task-btn">
+                    <img src="pics/plus.png" alt="">
+                </button>    
+            </div>
             <div id="side-nav" class="side-bar">
                 <div id="nav-icon" class="open">
                     <span></span>
@@ -16,21 +21,70 @@
                     <span></span>
                 </div>
                 <div class="menu">
-                    <button class="add-task-btn">
-                        <img src="pics/add.png"> Add
-                    </button>
-                    <div class="menu-item">
+                    <div class="menu-item fade-effect">
                         <img src="pics/calendar.png">
                         <p>Today</p>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item fade-effect">
                         <img src="pics/planner.png">
                         <p>Tomorrow</p>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item fade-effect">
                         <img src="pics/folder.png">
-                        <p>Projecs</p>
+                        <p id="projects" class="project-btn">
+                            <span class="project-span">&#11166;</span>
+
+                            Projects</p>
+                    </div>    
+                    <div class="collapse-menu project-menu fade-effect">
+                        <div class="project-item">
+                            <div class="color-code"></div>
+                            <p>Home</p>
+                        </div>
+                        <div class="project-item">
+                            <div class="color-code"></div>
+                            <p>Work</p>
+                        </div>
+                        <div class="project-item">
+                            <div class="color-code"></div>
+                            <p>Movies</p>
+                        </div>
+                        <div class="project-item">
+                            <div class="color-code"></div>
+                            <p>Books</p>
+                        </div>                    
                     </div>
+                    <div class="menu-item filter-folder">
+                        <img src="pics/folder.png">
+                        <p id="filter" class="filter-btn">
+                            <span class="filter-span">&#11166;</span>
+                            Filter</p>
+                    </div>
+                    <div id="top" class="collapse-menu filter-menu fade-effect">
+                        <div class="project-item">
+                            <div id="priority1" class="color-code"></div>
+                            <p class="on-top">Priority 1</p>
+                        </div>
+                        <div class="project-item">
+                            <div id="priority2" class="color-code"></div>
+                            <p class="on-top">Priority 2</p>
+                        </div>
+                        <div class="project-item">
+                            <div id="priority3" class="color-code"></div>
+                            <p class="on-top">Priority 3</p>
+                        </div>
+                        <div class="project-item">
+                            <div id="priority4" class="color-code"></div>
+                            <p class="on-top">Priority 4</p>
+                        </div>  
+                        <div class="project-item">
+                            <div id="priority5" class="color-code"></div>
+                            <p class="on-top">Priority 5</p>
+                        </div>                                      
+                    </div>
+                    <button id="side-btn" class="add-task-btn fade-effect">
+                        <img src="pics/plus.png" alt="">
+                    </button>
                 </div>
             </div>
             <div class="content main">content </div>                       
