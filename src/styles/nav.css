@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
 .side-bar {
     grid-area: 1 / 1 / 6 / 2;
     background-color: rgb(245, 243, 243);
@@ -113,7 +115,7 @@
     color: rgb(119, 119, 119);
 }
 
-.add-task-btn {
+.open-task-form-btn {
     width: 50px;
     height: 50px;
     border-radius: 30px;
@@ -128,12 +130,12 @@
     cursor: pointer;
 }
 
-.add-task-btn:hover {
+.open-task-form-btn:hover {
     box-shadow: 0px 10px 13px -7px #555555, 5px 0px 14px 2px rgba(102, 101, 101, 0.34);
     transform: scale(1.05);
 }
 
-.add-task-btn img {
+.open-task-form-btn img {
     margin-top: 8px;
     margin-bottom: 5px;
     width: 27px;
@@ -175,14 +177,24 @@
 }
 
 .menu-item span {
+    font-family: 'Montserrat', sans-serif;
     color: #555555;
     font-size: 17px;
     transition: all 0.2s ease-in-out;
-    transform: rotate(20deg);
+    display: inline-block;
+    text-shadow: none;
+    margin-right: 5px;
+    -ms-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
+    
 }
 
 .rotate-span {
-    
+    -ms-transform: rotate(70deg);
+    -webkit-transform: rotate(70deg);
+    transform: rotate(70deg);
+
 }
 
 .collapse-menu {
@@ -240,7 +252,7 @@
 
 .filter-btn {
     z-index: 2;
-    
+
 }
 
 .filter-folder {

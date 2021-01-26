@@ -1,5 +1,8 @@
 @import "nav.css";
 @import "header.css";
+@import "form.css";
+@import "content.css";
+
 
 /* include border and padding in element width and height */
 * {
@@ -17,6 +20,7 @@ body {
     height: 100vh;
     width: 100vw;
     font-family: 'Source Sans Pro', sans-serif;
+    background-color: #FAFAFA;
 }
 
 
@@ -47,8 +51,7 @@ body {
     background-color: #FAFAFA ;
 }
 
-.main {
+.main, .content {
     transition: margin-left .5s;
-    padding: 16px
 }
 

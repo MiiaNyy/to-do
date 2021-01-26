@@ -1,0 +1,13 @@
+.content {
+    grid-area: 2 / 2 / 5 / 5;
+    background-color: #FAFAFA ;
+    transition: margin-left .5s;
+    padding: 16px;
+    margin-left: 100px ;
+}
+
+.project-folder {
+    display: grid;
+    grid-template-columns: 40px 200px;
+    grid-column-gap: 10px;
+}
