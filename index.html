@@ -4,91 +4,173 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>My To-Do</title>
-        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"/>
     </head>
     <body>
-        <div class="content-container">
-            <div class="header main">
-                <h1>My To-Dos</h1>
-                <button id="header-btn" class="add-task-btn">
-                    <img src="pics/plus.png" alt="">
-                </button>    
+    <div class="content-container">
+        <div class="header main">
+            <h1>My To-Dos</h1>
+            <button id="header-btn" class="open-task-form-btn">
+            <img src="pics/whiteplus.png" alt="" />
+            </button>
+        </div>
+        <div id="side-nav" class="side-bar">
+            <div id="nav-icon" class="open">
+            <span></span>
+            <span></span>
+            <span></span>
             </div>
-            <div id="side-nav" class="side-bar">
-                <div id="nav-icon" class="open">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="menu">
-                    <div class="menu-item fade-effect">
-                        <img src="pics/calendar.png">
-                        <p>Today</p>
-                    </div>
-                    <div class="menu-item fade-effect">
-                        <img src="pics/planner.png">
-                        <p>Tomorrow</p>
-                    </div>
-                    <div class="menu-item fade-effect">
-                        <img src="pics/folder.png">
-                        <p id="projects" class="project-btn">
-                            <span class="project-span">&#11166;</span>
+            <div class="menu">
+            <div class="menu-item fade-effect">
+                <img src="pics/calendar.png" />
+                <p>Today</p>
+            </div>
+            <div class="menu-item fade-effect">
+                <img src="pics/planner.png" />
+                <p>Tomorrow</p>
+            </div>
+            <div class="menu-item fade-effect">
+                <img src="pics/folder.png" />
+                <p id="projects" class="project-btn">
+                <span class="project-span">v</span>
 
-                            Projects</p>
-                    </div>    
-                    <div class="collapse-menu project-menu fade-effect">
-                        <div class="project-item">
-                            <div class="color-code"></div>
-                            <p>Home</p>
-                        </div>
-                        <div class="project-item">
-                            <div class="color-code"></div>
-                            <p>Work</p>
-                        </div>
-                        <div class="project-item">
-                            <div class="color-code"></div>
-                            <p>Movies</p>
-                        </div>
-                        <div class="project-item">
-                            <div class="color-code"></div>
-                            <p>Books</p>
-                        </div>                    
-                    </div>
-                    <div class="menu-item filter-folder">
-                        <img src="pics/folder.png">
-                        <p id="filter" class="filter-btn">
-                            <span class="filter-span">&#11166;</span>
-                            Filter</p>
-                    </div>
-                    <div id="top" class="collapse-menu filter-menu fade-effect">
-                        <div class="project-item">
-                            <div id="priority1" class="color-code"></div>
-                            <p class="on-top">Priority 1</p>
-                        </div>
-                        <div class="project-item">
-                            <div id="priority2" class="color-code"></div>
-                            <p class="on-top">Priority 2</p>
-                        </div>
-                        <div class="project-item">
-                            <div id="priority3" class="color-code"></div>
-                            <p class="on-top">Priority 3</p>
-                        </div>
-                        <div class="project-item">
-                            <div id="priority4" class="color-code"></div>
-                            <p class="on-top">Priority 4</p>
-                        </div>  
-                        <div class="project-item">
-                            <div id="priority5" class="color-code"></div>
-                            <p class="on-top">Priority 5</p>
-                        </div>                                      
-                    </div>
-                    <button id="side-btn" class="add-task-btn fade-effect">
-                        <img src="pics/plus.png" alt="">
-                    </button>
+                Projects
+                </p>
+            </div>
+            <div class="collapse-menu project-menu fade-effect">
+                <div class="project-item">
+                <div class="color-code"></div>
+                <p>Home</p>
+                </div>
+                <div class="project-item">
+                <div class="color-code"></div>
+                <p>Work</p>
+                </div>
+                <div class="project-item">
+                <div class="color-code"></div>
+                <p>Movies</p>
+                </div>
+                <div class="project-item">
+                <div class="color-code"></div>
+                <p>Books</p>
                 </div>
             </div>
-            <div class="content main">content </div>                       
-            <div class="footer main"> footer</div>
+            <div class="menu-item filter-folder">
+                <img src="pics/folder.png" />
+                <p id="filter" class="filter-btn">
+                <span class="filter-span">v</span>
+                Filter
+                </p>
+            </div>
+            <div id="top" class="collapse-menu filter-menu fade-effect">
+                <div class="project-item">
+                <div id="priority1" class="color-code"></div>
+                <p class="on-top">Priority 1</p>
+                </div>
+                <div class="project-item">
+                <div id="priority2" class="color-code"></div>
+                <p class="on-top">Priority 2</p>
+                </div>
+                <div class="project-item">
+                <div id="priority3" class="color-code"></div>
+                <p class="on-top">Priority 3</p>
+                </div>
+                <div class="project-item">
+                <div id="priority4" class="color-code"></div>
+                <p class="on-top">Priority 4</p>
+                </div>
+                <div class="project-item">
+                <div id="priority5" class="color-code"></div>
+                <p class="on-top">Priority 5</p>
+                </div>
+            </div>
+            <button id="side-btn" class="open-task-form-btn fade-effect">
+                <img src="pics/plus.png" alt="" />
+            </button>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <div class="project-folder">
+                <div id="priority5" class="color-code"></div>
+                <h1>General</h1>
+            </div>
+
+            <div class="tasks-container">
+                <!--This is where tasks live when they are created-->
+            </div>
+
+            <form class="task-form">
+                <span class="close-form-btn">&#10006;</span>
+                <h2>Add Task</h2>
+                <hr class="divider"/>
+
+                    <label for="task-name" class="text-label">Task</label>
+                    <br />
+                    <input class="input-field" required type="text" id="task-name" name="task-name"/>
+                    
+                    <br/><br/>
+
+                    <label for="project">Select Project</label>
+                    <select id="project" name="project">
+                        <option value="home">Home</option>
+                        <option value="work">Work</option>
+                        <option value="hobbies">Hobbies</option>
+                        <option value="books">Books</option>
+                        <option value="movies">Movies</option>
+                    </select>
+
+                    <br/><br/>
+
+                    <label for="dueDate">Due date</label>
+                    <input type="date" id="dueDate" name="dueDate">
+                    <input type="time" name="time" id="time">
+
+                    <br/><br/>
+
+                    <div class="select-priority-cont">
+
+                        <div class="priority-cont">
+                            <input type="radio" name="task-priority" id=priority1"" value="priority1"/>
+                            <div id="priority1" class="color-code"></div>
+                            <label for="priority1"> Priority 1</label>                            
+                        </div>
+                        <div class="priority-cont">
+                            <input type="radio" name="task-priority" id="priority2" value="priority2"/>
+                            <div id="priority2" class="color-code"></div>
+                            <label for="priority2"> Priority 2</label>                            
+                        </div>
+                        <div class="priority-cont">
+                            <input type="radio" name="task-priority" id="priority3" value="priority3"/>
+                            <div id="priority3" class="color-code"></div>
+                            <label for="priority3"> Priority 3</label>                            
+                        </div>
+                        <div class="priority-cont">
+                            <input type="radio" name="task-priority" id="priority4" value="priority4"/>
+                            <div id="priority4" class="color-code"></div>
+                            <label for="priority4"> Priority 4</label>                            
+                        </div>
+                        <div class="priority-cont">
+                            <input type="radio" name="task-priority" id="priority5" value="priority5"/>
+                            <div id="priority5" class="color-code"></div>
+                            <label for="priority5"> Priority 5</label>                            
+                        </div>                 
+
+                    </div>
+
+                    
+
+ 
+                    
+                <input type="submit" value="Add" class="add-task-btn"/>
+                <input type="reset" value="Cancel"/>
+            </form>
+
+            <p id="log"></p>
+            </div>
+
+            <div class="footer main">footer</div>
         </div>
         <script src="bundle.js"></script>
     </body>
