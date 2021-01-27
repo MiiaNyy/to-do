@@ -1,7 +1,10 @@
+import { v4 as uuidv4 } from 'uuid';
+
 class TodoProject {
     constructor(projectName, projectPriority) {
         this.projectName = projectName;
         this.projectPriority = projectPriority;
+        this.id = uuidv4();
     }
 
     get name() {
@@ -28,7 +31,7 @@ class TodoItem {
         this.dueTime = dueTime;
         this.project = project;
         this.priority = priority;
-        this.id = Date.now();
+        this.id = uuidv4();
     }
     get projectName() {
         return this.project.name

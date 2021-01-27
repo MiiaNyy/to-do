@@ -1,8 +1,13 @@
 let headAndFoot = document.querySelectorAll(".main");
 let taskContainer = document.querySelector('.tasks-container');
+let openProjectForm = document.querySelector('.add-project-btn');
+let projectForm = document.querySelector('.add-project-form');
+
+
 
 let projectsFolderIsOpen = false;
 let filterFolderIsOpen = false;
+let projectFormOpen = false;
 
 let formIsOpen = false;
 
@@ -78,14 +83,64 @@ function displayNewTask(obj) {
     let taskHtml = document.createElement('div');
     taskHtml.classList.add('task', 'fade-effect');
     taskHtml.id = obj.id;
-    taskHtml.innerHTML = `<input class=" div1 task-completed" type="radio">` +
-        `<div id="${obj.priority}" class="div2 color-code"></div>` +
-        `<div class = "div3 task-name" >${obj.name}</div>` +
-        `<div class="div4 due-date">${obj.dueDate}</div>` +
-        `<div class = "div5 due-time" > at ${obj.dueTime}</div>`;
+    taskHtml.innerHTML = `<input class="div1 task-completed" type="radio">` +
+        `<div class="div2 color-code ${obj.priority}"></div>` +
+        `<div class = "div9 task-name" >${obj.name}</div>` +
+        `<div class="div4"><img src="pics/calendar2.png"></div>` +
+        `<div class="div5 due-date">${obj.dueDate}</div>` +
+        `<div class="div6"><img src="pics/alarm-clock.png"> </div>` +
+        `<div class = "div7 due-time" >${obj.dueTime}</div>` +
+        `<button class="div8 edit-task-btn">edit</button>` +
+        `<div class="div3"> </div>`;
     taskContainer.appendChild(taskHtml);
 }
 
+function displayNewProject(obj) {
+    let projectFolder = document.querySelector('.project-menu');
+
+    let projectItem = document.createElement('div');
+    projectItem.classList.add('project-item');
+    projectItem.id = obj.id;
+    projectItem.innerHTML = `<div class="${obj.projectPriority} color-code"></div>` +
+        `<p>${obj.projectName}</p></div>`;
+    projectFolder.appendChild(projectItem);
+}
+
+
+
+function toggleProjectFormDisplay() {
+    if (!projectFormOpen) {
+        displayProjectForm();
+        projectFormOpen = true;
+    } else {
+        removeProjectForm();
+        projectFormOpen = false;
+    }
+}
+
+function displayProjectForm() {
+    projectForm.innerHTML = `<span class="close-form-btn">&#10006;</span><h2>Add project</h2><hr class="divider"/>` +
+        `<label for="project-name" class="text-label">Project name</label> <br />` +
+        `<input class="input-field" maxlength="20" required type="text" id="project-name" name="project-name"/>` +
+        `<div class="select-priority-cont"><div class="priority-cont"> <input type="radio" name="task-priority" id=priority1"" value="priority1"/>` +
+        `<div class="priority1 color-code"></div><label for="priority1"> Priority 1</label> </div>` +
+        `<div class="priority-cont"><input type="radio" name="task-priority" id="priority2" value="priority2"/>` +
+        `<div class="priority2 color-code"></div><label for="priority2"> Priority 2</label></div>` +
+        `<div class="priority-cont"><input type="radio" name="task-priority" id="priority3" value="priority3"/><div class="priority3 color-code"></div>` +
+        `<label for="priority3"> Priority 3</label></div><div class="priority-cont"><input type="radio" name="task-priority" id="priority4" value="priority4"/>` +
+        `<div class="priority4 color-code"></div><label for="priority4"> Priority 4</label></div><div class="priority-cont">` +
+        `<input type="radio" name="task-priority" id="priority5" value="priority5"/><div class="priority5 color-code"></div>` +
+        `<label for="priority5"> Priority 5</label></div></div>` +
+        `<input type="submit" value="Add" class="add-project"/><input type="reset" value="Cancel"/>`;
+}
+
+function removeProjectForm() {
+    projectForm.innerHTML = '';
+}
+
+openProjectForm.addEventListener('click', function () {
+    toggleProjectFormDisplay();
+})
 
 
 export {
@@ -94,5 +149,5 @@ export {
     toggleFolderDisplay,
     toggleTaskFormDisplay,
     displayNewTask,
-
+    displayNewProject,
 };

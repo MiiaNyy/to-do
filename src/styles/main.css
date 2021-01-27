@@ -2,7 +2,7 @@
 @import "header.css";
 @import "form.css";
 @import "content.css";
-
+@import "dotMenu.css";
 
 /* include border and padding in element width and height */
 * {
@@ -24,7 +24,6 @@ body {
 }
 
 
-
 .content-container {
     display: grid;
     grid-template-columns: 300px repeat(3, 1fr);
@@ -36,15 +35,37 @@ body {
 }
 
 
-
-
-
-.content {
-    grid-area: 2 / 2 / 5 / 5;
-    background-color: #FAFAFA ;
-    transition: margin-left .5s;
-    padding: 16px;
+.color-code {
+    justify-self: end;
+    align-self: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 20px;
 }
+
+.priority1 {
+    background-color: #e63946;
+}
+
+.priority2 {
+    background-color: #a2d2ff;
+}
+
+.priority3 {
+    background-color: #d8bbff;
+}
+
+.priority4 {
+    background-color: #06d6a0;
+}
+
+.priority5 {
+    background-color: #ffd166;
+}
+
+
+
+
 
 .footer {
     grid-area: 5 / 2 / 6 / 5;

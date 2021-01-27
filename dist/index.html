@@ -26,35 +26,22 @@
                 <p>Today</p>
             </div>
             <div class="menu-item fade-effect">
-                <img src="pics/planner.png" />
+                <img src="pics/calendar2.png" />
                 <p>Tomorrow</p>
             </div>
             <div class="menu-item fade-effect">
                 <img src="pics/folder.png" />
-                <p id="projects" class="project-btn">
+                <p id="projects" class="open-project-folder">
                 <span class="project-span">v</span>
+                Project</p>
+                
 
-                Projects
-                </p>
             </div>
-            <div class="collapse-menu project-menu fade-effect">
-                <div class="project-item">
-                <div class="color-code"></div>
-                <p>Home</p>
-                </div>
-                <div class="project-item">
-                <div class="color-code"></div>
-                <p>Work</p>
-                </div>
-                <div class="project-item">
-                <div class="color-code"></div>
-                <p>Movies</p>
-                </div>
-                <div class="project-item">
-                <div class="color-code"></div>
-                <p>Books</p>
-                </div>
+            <div class="project-menu fade-effect collapse-menu">
+     
+                <!--This is where different projects live-->
             </div>
+
             <div class="menu-item filter-folder">
                 <img src="pics/folder.png" />
                 <p id="filter" class="filter-btn">
@@ -64,24 +51,24 @@
             </div>
             <div id="top" class="collapse-menu filter-menu fade-effect">
                 <div class="project-item">
-                <div id="priority1" class="color-code"></div>
-                <p class="on-top">Priority 1</p>
+                    <div class="priority1 color-code"></div>
+                    <p class="on-top">Priority 1</p>
                 </div>
                 <div class="project-item">
-                <div id="priority2" class="color-code"></div>
-                <p class="on-top">Priority 2</p>
+                    <div class="priority2 color-code"></div>
+                    <p class="on-top">Priority 2</p>
                 </div>
                 <div class="project-item">
-                <div id="priority3" class="color-code"></div>
-                <p class="on-top">Priority 3</p>
+                    <div class="priority3 color-code"></div>
+                    <p class="on-top">Priority 3</p>
                 </div>
                 <div class="project-item">
-                <div id="priority4" class="color-code"></div>
-                <p class="on-top">Priority 4</p>
+                    <div class="priority4 color-code"></div>
+                    <p class="on-top">Priority 4</p>
                 </div>
                 <div class="project-item">
-                <div id="priority5" class="color-code"></div>
-                <p class="on-top">Priority 5</p>
+                    <div class="priority5 color-code"></div>
+                    <p class="on-top">Priority 5</p>
                 </div>
             </div>
             <button id="side-btn" class="open-task-form-btn fade-effect">
@@ -93,13 +80,14 @@
         <div class="content">
 
             <div class="project-folder">
-                <div id="priority5" class="color-code"></div>
+                <div class="priority5 color-code"></div>
                 <h1>General</h1>
             </div>
 
             <div class="tasks-container">
-                <!--This is where tasks live when they are created-->
+                <!--This is where tasks live when they are created-->  
             </div>
+
 
             <form class="task-form">
                 <span class="close-form-btn">&#10006;</span>
@@ -132,46 +120,58 @@
                     <div class="select-priority-cont">
 
                         <div class="priority-cont">
-                            <input type="radio" name="task-priority" id=priority1"" value="priority1"/>
-                            <div id="priority1" class="color-code"></div>
+                            <input type="radio" name="task-priority" id="priority1" value="priority1"/>
+                            <div id="" class="priority1 color-code"></div>
                             <label for="priority1"> Priority 1</label>                            
                         </div>
                         <div class="priority-cont">
                             <input type="radio" name="task-priority" id="priority2" value="priority2"/>
-                            <div id="priority2" class="color-code"></div>
+                            <div class="priority2 color-code"></div>
                             <label for="priority2"> Priority 2</label>                            
                         </div>
                         <div class="priority-cont">
                             <input type="radio" name="task-priority" id="priority3" value="priority3"/>
-                            <div id="priority3" class="color-code"></div>
+                            <div class="priority3 color-code"></div>
                             <label for="priority3"> Priority 3</label>                            
                         </div>
                         <div class="priority-cont">
                             <input type="radio" name="task-priority" id="priority4" value="priority4"/>
-                            <div id="priority4" class="color-code"></div>
+                            <div class="priority4 color-code"></div>
                             <label for="priority4"> Priority 4</label>                            
                         </div>
                         <div class="priority-cont">
                             <input type="radio" name="task-priority" id="priority5" value="priority5"/>
-                            <div id="priority5" class="color-code"></div>
+                            <div class="priority5 color-code"></div>
                             <label for="priority5"> Priority 5</label>                            
-                        </div>                 
-
-                    </div>
-
-                    
-
- 
-                    
+                        </div>           
+                    </div> 
+                <input type="submit" value="Edit" class="add-edited-task">                      
                 <input type="submit" value="Add" class="add-task-btn"/>
                 <input type="reset" value="Cancel"/>
             </form>
 
-            <p id="log"></p>
+            <form class="add-project-form"></form>
+            <button class="add-project-btn"> +</button>
             </div>
 
-            <div class="footer main">footer</div>
-        </div>
+            <div class="footer main">footer
+            <!-- three dot menu -->
+            <div class="dropdown">
+                <!-- three dots -->
+                <ul class="dropbtn icons btn-right showLeft">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <!-- menu -->
+                <div id="myDropdown" class="dropdown-content">
+                    <a>Delete</a>
+                    <a>Edit</a>
+                    
+                </div>
+            </div>
+            </div>
+        </div>        
         <script src="bundle.js"></script>
     </body>
 </html>
