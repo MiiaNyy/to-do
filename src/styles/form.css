@@ -14,8 +14,9 @@
     margin: 5px 0;
 
 }
-.add-edited-task {
-    display: none;
+
+.add-project-form {
+    opacity: 0;
 }
 
 

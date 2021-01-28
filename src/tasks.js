@@ -3,18 +3,36 @@ import {
 } from "./classes";
 
 import {
-    displayNewTask
+    displayNewTask,
+    
 } from "./dom";
 
 
 let taskForm = document.querySelector('.task-form');
+let editOldTaskForm = document.querySelector('.edit-old-task-form');
+
 let tasks = [];
 
+//When user deletes project, all of the tasks in that project also are erased 
+function eraseTasksFromProject(projectName) {
+    for(let i = 0; i < tasks.length; i++) {
+        console.log('tasks project is ' + tasks[i].project + ' and removed projects name is ' + projectName);
+        if(tasks[i].project == projectName) {         
+            let eleId = tasks[i].id;
+            let element = document.getElementById(eleId);
+            console.log(element);
+            element.remove();
+            tasks.splice(i, 1);
+        }
+    }
+    saveTasksToStorage();
+}
+
+//When user wants to edit already existing task. Open obj values in the form.
 function openFormWithObjValues(event) {
     let element = event.target;
     let parentId = element.parentNode.id;
-
-    let formElements = taskForm.elements;
+    let formElements = editOldTaskForm.elements;
 
     let taskId;
 
@@ -43,18 +61,13 @@ function openFormWithObjValues(event) {
                         }
                         break;
                 }
-
             }
         }
     }
-    document.querySelector('.add-edited-task').style.display = 'block';
-    document.querySelector('.add-task-btn').style.display = 'none';
-    taskForm.style.display = 'block';
     return taskId;
 }
 
-function getEditedValuesFromForm(form, id) {
-    let data = new FormData(form);
+function getValuesFromTaskForm(data, id, submitType) {    
     let taskName;
     let projectName;
     let dueDate;
@@ -79,17 +92,20 @@ function getEditedValuesFromForm(form, id) {
                 taskPriority = entry[1];
                 break;
         }
-    }
-    return changeOldTaskObjValues(id, taskName, projectName, dueDate, dueTime, taskPriority)
-
+    }    
+    if(submitType == 'edit') {
+        return changeOldTaskObjValues(id, taskName, projectName, dueDate, dueTime, taskPriority);
+    } else if(submitType == 'addNew') {
+        return new TodoItem(taskName, dueDate, dueTime, projectName, taskPriority);
+    } 
 }
 
-function changeOldTaskObjValues(id, name, project, duedate, duetime, priority) {
+//When user is ready to submit edited values to the task, this changes the right task obj
+function changeOldTaskObjValues(id, name, project, duedate, duetime, priority) {    
     let obj;
     for (let i = 0; i < tasks.length; i++) {
-
         let element = tasks[i];
-        console.log('task before editing it ' + element.name);
+        //By comparing elements id to the obj.id we find the right obj
         if (element.id == id) {
             obj = tasks[i];
             element.name = name;
@@ -97,28 +113,31 @@ function changeOldTaskObjValues(id, name, project, duedate, duetime, priority) {
             element.dueDate = duedate;
             element.dueTime = duetime;
             element.priority = priority;
-        }
-        console.log('task after editing it ' + element.name);
+        }        
     }
     return obj;
 }
 
 function editOldTask(form, id) {
+    let data = new FormData(form);
+    let obj = getValuesFromTaskForm(data, id, 'edit');  
 
-    let obj = getEditedValuesFromForm(form, id);
-    console.log(obj);
+    displayNewTaskAfterEdit(id, obj);
+    saveTasksToStorage();
+}
 
+//Changes the screen view, that edited task values show
+function displayNewTaskAfterEdit(id, obj) {
+    let element = document.getElementById(id)
+    let childElements = element.children;
 
-
-    let item = document.getElementById(id);
-    let childElements = item.children;
-    console.log(childElements.length);
     for (let i = 0; i < childElements.length; i++) {
         const e = childElements[i];
-        const eNames = e.classList;
-        console.log(eNames);
-        for (let j = 0; j < eNames.length; j++) {
-            switch (eNames[j]) {
+        //elements class name list
+        const eClassNames = e.classList;
+        
+        for (let j = 0; j < eClassNames.length; j++) {
+            switch (eClassNames[j]) {
                 case 'task-name':
                     e.innerHTML = obj.name;
                     break;
@@ -130,24 +149,26 @@ function editOldTask(form, id) {
                     break;
                 case 'color-code':
                     //Because class name priority is always on the last item on the divs classlist
-                    let elementsPriority = eNames[2];
+                    let elementsPriority = eClassNames[2];
                     e.classList.remove(elementsPriority);
                     e.classList.add(obj.priority);
                     break;
             }
-
-
         }
-
-
     }
+}
 
-    saveTasksToStorage();
+
+
+function displayTasks() {
+    for (let i = 0; i < tasks.length; i++) {
+        displayNewTask(tasks[i]);
+    }
 }
 
 function makeNewTask(form) {
     let data = new FormData(form);
-    let newTask = getNewTask(data);
+    let newTask = getValuesFromTaskForm(data, null, 'addNew');
     displayNewTask(newTask);
     tasks.push(newTask);
     saveTasksToStorage();
@@ -163,16 +184,10 @@ function removeTaskFromView(event) {
         document.getElementById(parentId).remove();
         console.log('task is now removed from view');
     }, 900);
-
-    console.log("Task completed button clicked");
-
-
 }
 
 function removeTaskObjWhenComplete(event) {
-    console.log('tasks arrays length is ' + tasks.length + ' before removing obj');
     let element = event.target;
-    console.log('removing task from obj elements name is ' + element);
     let parentId = element.parentNode.id;
     if (tasks.length > 0) {
         for (let i = 0; i < tasks.length; i++) {
@@ -185,11 +200,9 @@ function removeTaskObjWhenComplete(event) {
     }
 }
 
-function displayTasks() {
-    for (let i = 0; i < tasks.length; i++) {
-        displayNewTask(tasks[i]);
-    }
-}
+
+
+
 
 
 function saveTasksToStorage() {
@@ -199,10 +212,8 @@ function saveTasksToStorage() {
 
 //pulls tasks from local storage when page is refreshed
 function readTasksFromStorage() {
-
     // gets information from local storage to use in displayBooks to create display
     let tasksJson = localStorage.getItem('tasks');
-
     if (tasksJson != null && tasksJson.length > 0) {
         //parses a JSON string to 'normal' value, number to integar yms.
         tasks = JSON.parse(tasksJson);
@@ -213,34 +224,7 @@ function readTasksFromStorage() {
     }*/
 }
 
-function getNewTask(data) {
-    let taskName;
-    let projectName;
-    let dueDate;
-    let dueTime;
-    let taskPriority;
 
-    for (const entry of data) {
-        switch (entry[0]) {
-            case 'task-name':
-                taskName = entry[1];
-                break;
-            case 'project':
-                projectName = entry[1];
-                break;
-            case 'dueDate':
-                dueDate = entry[1];
-                break;
-            case 'time':
-                dueTime = entry[1];
-                break;
-            case 'task-priority':
-                taskPriority = entry[1];
-                break;
-        }
-    }
-    return new TodoItem(taskName, dueDate, dueTime, projectName, taskPriority);
-}
 
 export {
     readTasksFromStorage,
@@ -250,4 +234,5 @@ export {
     removeTaskObjWhenComplete,
     openFormWithObjValues,
     editOldTask,
+    eraseTasksFromProject,
 }

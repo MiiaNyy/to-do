@@ -4,13 +4,13 @@ import {
     openNav,
     toggleFolderDisplay,
     toggleTaskFormDisplay,
+    createTaskEditForm,
 } from "./dom"
 
 import {
     makeNewProject,
     readProjectsFromStorage,
-    displayProjects, 
-    saveProjectsToStorage,
+    displayProjects,
 } from "./projects"
 
 import {
@@ -28,23 +28,18 @@ let openProjectFolder = document.querySelector(".open-project-folder");
 let filterFolderBtn = document.querySelector(".filter-btn");
 
 let taskForm = document.querySelector('.task-form');
-let openTaskFormBtn = document.querySelectorAll('.open-task-form-btn');
+let openNewTaskFormBtn = document.querySelectorAll('.open-task-form-btn');
 let taskContainer = document.querySelector('.tasks-container');
 
 let submitNewProject = document.querySelector('.add-project-form');
 
 let threeDotMenuBtn = document.querySelector('.dropbtn');
 
+let editOldTaskForm = document.querySelector('.edit-old-task-form');
+
 let navIsOpen = true;
-let addingNewTask = true;
 
 let taskObjId;
-
-
-
-
-
-
 
 
 
@@ -72,44 +67,55 @@ function threeDotDropMenuListeners() {
     })
 }
 
+function toggleNavDisplay() {
+    navIcon.classList.toggle("open");
+    if (navIsOpen) {
+        closeNav();
+        navIsOpen = false;
 
+    } else if (!navIsOpen) {
+        openNav();
+        navIsOpen = true;
+    }
+}
 
 
 function eventListeners() {
-    threeDotDropMenuListeners();
 
+
+    //Opens and closes sidebar nav
     navIcon.addEventListener('click', function () {
-        this.classList.toggle("open");
-        if (navIsOpen) {
-            closeNav();
-            navIsOpen = false;
-
-        } else if (!navIsOpen) {
-            openNav();
-            navIsOpen = true;
-        }
+        toggleNavDisplay();
     })
 
+    //Opens and closes sidebars project folder
     openProjectFolder.addEventListener('click', function (event) {
         toggleFolderDisplay(event);
     })
 
+    //Opens and closes sidebars filter priority folder
     filterFolderBtn.addEventListener('click', function (event) {
         toggleFolderDisplay(event);
     })
 
+    //User submits new task
     taskForm.addEventListener("submit", function (event) {
-        if (addingNewTask) {
-            makeNewTask(taskForm);
-            taskForm.reset();
-        } else {
-            editOldTask(taskForm, taskObjId);
-            
-        }
+        makeNewTask(taskForm);
+        taskForm.reset();
         event.preventDefault();
+        taskForm.style.display = 'none';
     }, false);
 
-    openTaskFormBtn.forEach(function (button) {
+    //When user wants to submit edited values from form
+    editOldTaskForm.addEventListener('submit', function (event) {
+        editOldTask(editOldTaskForm, taskObjId);
+        editOldTaskForm.reset();
+        editOldTaskForm.innerHTML = '';
+        event.preventDefault();
+    }, false)
+
+    //Opens and closes task form when user wants to add new tasks
+    openNewTaskFormBtn.forEach(function (button) {
         button.addEventListener('click', function () {
             toggleTaskFormDisplay();
         })
@@ -121,25 +127,29 @@ function eventListeners() {
             if (element[i] == 'task-completed') {
                 removeTaskFromView(event);
                 removeTaskObjWhenComplete(event);
+
+                //open task editing form
             } else if (element[i] == 'edit-task-btn') {
-                addingNewTask = false;
+                createTaskEditForm();
+                /*addingNewTask = false;*/
                 taskObjId = openFormWithObjValues(event);
+
             }
         }
     })
 
-    submitNewProject.addEventListener('submit', function (event) {
-        makeNewProject(submitNewProject);
-        submitNewProject.reset();
-        event.preventDefault();
+    //User adds new project
+    submitNewProject.addEventListener('click', function (event) {
+        if (event.target.className == 'add-project') {
+            makeNewProject(submitNewProject);
+            submitNewProject.reset();
+            event.preventDefault();
+            submitNewProject.style.opacity = 0;
+            submitNewProject.innerHTML = '';
+        }
     }, false);
 
 }
-
-
-
-
-
 
 
 function start() {

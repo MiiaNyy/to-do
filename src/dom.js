@@ -1,26 +1,78 @@
 let headAndFoot = document.querySelectorAll(".main");
 let taskContainer = document.querySelector('.tasks-container');
-let openProjectForm = document.querySelector('.add-project-btn');
-let projectForm = document.querySelector('.add-project-form');
+
 
 
 
 let projectsFolderIsOpen = false;
 let filterFolderIsOpen = false;
-let projectFormOpen = false;
+
 
 let formIsOpen = false;
+
+
+
+
+function createTaskEditForm() {
+    let editForm = document.querySelector('.edit-old-task-form');
+    editForm.innerHTML = `<span class="close-form-btn">&#10006;</span>
+    <h2>Edit Task</h2>
+    <hr class="divider"/>` +
+        `<label for="task-name" class="text-label">Task</label>
+        <br />` +
+        `<input class="input-field" required type="text" id="task-name" name="task-name"/><br/><br/>` +
+        `<label for="project">Select Project</label>` +
+        `<select id="project" name="project">` +
+        `   <option value="home">Home</option>` +
+        `   <option value="work">Work</option>` +
+        `   <option value="hobbies">Hobbies</option>` +
+        `   <option value="books">Books</option>` +
+        `   <option value="movies">Movies</option>  
+        </select>
+        <br/><br/>` +
+        `<label for="dueDate">Due date</label>` +
+        `<input type="date" id="dueDate" name="dueDate">` +
+        `<input type="time" name="time" id="time">
+        <br/><br/>` +
+        `<div class="select-priority-cont"><div class="priority-cont">` +
+        `   <input type="radio" name="task-priority" id="priority1" value="priority1"/>` +
+        `   <div id="" class="priority1 color-code"></div>` +
+        `   <label for="priority1"> Priority 1</label> 
+        </div>` +
+        `<div class="priority-cont">
+            <input type="radio" name="task-priority" id="priority2" value="priority2"/>
+            <div class="priority2 color-code"></div>
+            <label for="priority2"> Priority 2</label>                            
+        </div>` +
+        `<div class="priority-cont">
+            <input type="radio" name="task-priority" id="priority3" value="priority3"/>
+            <div class="priority3 color-code"></div>
+            <label for="priority3"> Priority 3</label>                            
+        </div>` +
+        `<div class="priority-cont">
+            <input type="radio" name="task-priority" id="priority4" value="priority4"/>
+            <div class="priority4 color-code"></div>
+            <label for="priority4"> Priority 4</label>                            
+        </div>` +
+        `<div class="priority-cont">
+            <input type="radio" name="task-priority" id="priority5" value="priority5"/>
+            <div class="priority5 color-code"></div>
+            <label for="priority5"> Priority 5</label>                            
+        </div>  ` +
+        `</div> 
+        <input type="submit" value="Edit" class="add-edited-task">                      
+        <input type="reset" value="Cancel"/>`
+}
 
 function toggleTaskFormDisplay() {
     let form = document.querySelector('.task-form');
     if (!formIsOpen) {
         form.style.display = 'block';
         formIsOpen = true;
-        console.log('Form is open? ' + formIsOpen);
     } else if (formIsOpen) {
         form.style.display = 'none';
         formIsOpen = false;
-        console.log('Form is open? ' + formIsOpen);
+
     }
 
 }
@@ -38,7 +90,6 @@ function closeNav() {
     document.getElementById("side-nav").style.width = "100px";
     headAndFoot.forEach(section => section.style.marginLeft = "-200px");
     document.querySelector('.content').style.marginLeft = "-100px";
-
     document.querySelectorAll('.menu-item').forEach(item => item.style.opacity = 0);
     document.querySelector('#side-btn').style.opacity = 0;
 }
@@ -101,46 +152,17 @@ function displayNewProject(obj) {
     let projectItem = document.createElement('div');
     projectItem.classList.add('project-item');
     projectItem.id = obj.id;
-    projectItem.innerHTML = `<div class="${obj.projectPriority} color-code"></div>` +
-        `<p>${obj.projectName}</p></div>`;
+    projectItem.innerHTML = `<div class="color-code ${obj.projectPriority}"></div>` +
+        `<p class="project-name">${obj.projectName}</p></div>` + 
+        `                         
+            <img class="settings-icon fade-effect" src="pics/settings.png">
+        `;
     projectFolder.appendChild(projectItem);
 }
 
 
 
-function toggleProjectFormDisplay() {
-    if (!projectFormOpen) {
-        displayProjectForm();
-        projectFormOpen = true;
-    } else {
-        removeProjectForm();
-        projectFormOpen = false;
-    }
-}
 
-function displayProjectForm() {
-    projectForm.innerHTML = `<span class="close-form-btn">&#10006;</span><h2>Add project</h2><hr class="divider"/>` +
-        `<label for="project-name" class="text-label">Project name</label> <br />` +
-        `<input class="input-field" maxlength="20" required type="text" id="project-name" name="project-name"/>` +
-        `<div class="select-priority-cont"><div class="priority-cont"> <input type="radio" name="task-priority" id=priority1"" value="priority1"/>` +
-        `<div class="priority1 color-code"></div><label for="priority1"> Priority 1</label> </div>` +
-        `<div class="priority-cont"><input type="radio" name="task-priority" id="priority2" value="priority2"/>` +
-        `<div class="priority2 color-code"></div><label for="priority2"> Priority 2</label></div>` +
-        `<div class="priority-cont"><input type="radio" name="task-priority" id="priority3" value="priority3"/><div class="priority3 color-code"></div>` +
-        `<label for="priority3"> Priority 3</label></div><div class="priority-cont"><input type="radio" name="task-priority" id="priority4" value="priority4"/>` +
-        `<div class="priority4 color-code"></div><label for="priority4"> Priority 4</label></div><div class="priority-cont">` +
-        `<input type="radio" name="task-priority" id="priority5" value="priority5"/><div class="priority5 color-code"></div>` +
-        `<label for="priority5"> Priority 5</label></div></div>` +
-        `<input type="submit" value="Add" class="add-project"/><input type="reset" value="Cancel"/>`;
-}
-
-function removeProjectForm() {
-    projectForm.innerHTML = '';
-}
-
-openProjectForm.addEventListener('click', function () {
-    toggleProjectFormDisplay();
-})
 
 
 export {
@@ -150,4 +172,5 @@ export {
     toggleTaskFormDisplay,
     displayNewTask,
     displayNewProject,
+    createTaskEditForm,
 };

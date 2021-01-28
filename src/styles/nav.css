@@ -186,14 +186,12 @@
     -ms-transform: rotate(270deg);
     -webkit-transform: rotate(270deg);
     transform: rotate(270deg);
-    
 }
 
 .rotate-span {
     -ms-transform: rotate(70deg);
     -webkit-transform: rotate(70deg);
     transform: rotate(70deg);
-
 }
 
 .collapse-menu {
@@ -207,10 +205,12 @@
 
 .project-item {
     display: grid;
-    grid-template-columns: 40px auto;
-    grid-template-rows: 30px;
+    grid-template-columns: 40px 100px 20px;
+    grid-template-rows: 40px;
     grid-column-gap: 5px;
+    transition: margin-bottom .2s;    
 }
+
 
 .project-item p {
     margin: 0;
@@ -218,15 +218,14 @@
     align-self: center;
     cursor: pointer;
     font-size: 18px;
-
 }
 
 
 
 .filter-btn {
     z-index: 2;
-
 }
+
 
 .filter-folder {
     margin-top: -20px;
@@ -239,9 +238,17 @@
 }
 
 .project-menu {
+    width: 200px;
     z-index: -1;
 }
 
 .on-top {
     z-index: 4;
+}
+
+.settings-icon {
+    align-self: center;
+    cursor: pointer;
+    width: 13px;
+    height: 13px;
 }
