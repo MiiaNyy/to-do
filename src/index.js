@@ -142,13 +142,10 @@ function eventListeners() {
     dateBtns.forEach(function (button) {
         button.addEventListener('click', function (e) {
             let elementId = e.target.id;
-            if(elementId == 'today-due') {
-                getTasksThatAreDue('today');
-            } else {
-                getTasksThatAreDue('tomorrow');
-
-            }
-            
+            if(elementId == 'today-due' || elementId == 'tomorrow-due') {
+                console.log(elementId);
+                getTasksThatAreDue(elementId);
+            }            
         })
     })
 

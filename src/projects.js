@@ -10,7 +10,7 @@ import {
     eraseTasksFromProject,
     displaySpecificTasks,
     displayTasksHeader,
-    
+
 } from "./tasks";
 
 
@@ -23,6 +23,9 @@ let priorityFolderItems = document.querySelectorAll('.filter-name');
 
 let projectFormOpen = false;
 
+//When user tries to add project that already exist. Same name.
+let duplicateNames = false;
+
 let projects = [];
 let priorityArr = ['priority1', 'priority2', 'priority3', 'priority4', 'priority5']
 
@@ -30,29 +33,36 @@ let projectId;
 
 //Return right obj, that is later used to generate task header
 function getProjectObjForHeader(id) {
-    console.log('id is ' + id);
+
     for (let i = 0; i < projects.length; i++) {
         let nameToLower = projects[i].projectName.toLowerCase();
         nameToLower = nameToLower.replace(/\s+/g, '');
+        console.log('id is ' + id + ' and name to lower case is ' + nameToLower);
         if (id == nameToLower) {
+            console.log(projects[i]);
             return projects[i];
+
         }
     }
-    for(let i=0; i < priorityArr.length; i++) {
+    for (let i = 0; i < priorityArr.length; i++) {
         if (id == priorityArr[i]) {
-            let priorityObj = {name: id};
+            let priorityObj = {
+                name: id
+            };
             return priorityObj
-        } 
+        }
     }
-        
-    
+
+
 }
 
 //depending on what button user clicks, project is edited or deleted
 function submitEditedProject(e) {
     if (e.target.className == 'edit-project') {
         editOldProject(projectForm, projectId);
-        projectForm.reset();
+        if(!duplicateNames) {
+            projectForm.reset();
+        }        
     } else if (e.target.className == 'delete-project') {
         eraseProject(e);
     }
@@ -67,6 +77,7 @@ function getProjectForm(e) {
 
 //When user clicks specific project, open right tasks in screen
 function displayProjectFolderTasks(elementId) {
+    console.log(elementId);
     let projectObj = getProjectObjForHeader(elementId);
     displayTasksHeader(projectObj, 'project');
     displaySpecificTasks(elementId);
@@ -94,6 +105,7 @@ function eventListeners() {
     //Edits already existing projects
     projectForm.addEventListener('click', function (e) {
         submitEditedProject(e);
+        
     }, false)
 
     //Listens project folder
@@ -181,6 +193,22 @@ function removeProjectFromView(id) {
     }, 900);
 }
 
+function checkForDuplicateNames(projectName) {
+    let nameToLower = projectName.toLowerCase();
+    nameToLower = nameToLower.replace(/\s+/g, '');
+
+
+    for (let i = 0; i < projects.length; i++) {
+        let project = projects[i].projectName.toLowerCase();
+        project = project.replace(/\s+/g, '');
+        if (project == nameToLower) {
+            alert('You are trying to add a project that already exist');
+            return false;
+        }
+    }
+    return true;
+}
+
 function editOldProject(form, id) {
     let data = new FormData(form);
     let obj = getNewProject(data, id, 'edit');
@@ -226,12 +254,16 @@ function getNewProject(data, id, submitType) {
             projectName = entry[1];
         }
     }
-    if (submitType == 'edit') {
-        return changeOldProjectObjValues(id, projectName, projectPriority)
-    } else if (submitType == 'addNew') {
-        return new TodoProject(projectName, projectPriority);
+    let checkDuplicates = checkForDuplicateNames(projectName);
+    if (checkDuplicates) {
+        if (submitType == 'edit') {
+            return changeOldProjectObjValues(id, projectName, projectPriority)
+        } else if (submitType == 'addNew') {
+            return new TodoProject(projectName, projectPriority);
+        }
+        duplicateNames = false;
     }
-
+    duplicateNames = true;
 }
 
 function changeOldProjectObjValues(id, name, priority) {
@@ -260,6 +292,7 @@ function openFormWithObjValues(event) {
     for (let i = 0; i < projects.length; i++) {
         let project = projects[i];
         if (project.id == parentId) {
+            console.log(parentId);
             projectId = project.id;
 
             for (let j = 0; j < formElements.length; j++) {

@@ -125,13 +125,14 @@ function displayNewTask(obj) {
     taskHtml.id = obj.id;
     taskHtml.innerHTML = `<input class="div1 task-completed" type="radio">` +
         `<div class="div2 color-code ${obj.priority}"></div>` +
-        `<div class = "div9 task-name" >${obj.name}</div>` +
+        `<div class = "div9 task-name" >${obj.name} #${obj.project}</div>` +
         `<div class="div4"><img src="pics/calendar2.png"></div>` +
         `<div class="div5 due-date">${obj.dueDate}</div>` +
         `<div class="div6"><img src="pics/alarm-clock.png"> </div>` +
         `<div class = "div7 due-time" >${obj.dueTime}</div>` +
         `<button class="div8 edit-task-btn">edit</button>` +
         `<div class="div3"> </div>`;
+        
     taskContainer.appendChild(taskHtml);
 }
 

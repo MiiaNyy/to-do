@@ -15,28 +15,25 @@ let taskContainer = document.querySelector('.tasks-container');
 let tasks = [];
 
 function getTasksThatAreDue(date) {
-
-    if (date == 'today') {
-        displayTasksHeader(null, 'today');
-    } else if (date == 'tomorrow') {
-        displayTasksHeader(null, 'tomorrow');
+    if (date == 'today-due' || date == 'tomorrow-due') {
+        displayTasksHeader(null, date);
     }
 
     let a = new Date();
-    let today = dueTodayTasks(a)
+    let today = dueTodayTasks(a);
     let tomorrow = dueTomorrowTasks(a);
 
     for (let i = 0; i < tasks.length; i++) {
         const element = tasks[i];
-
-        if (element.dueDate == today) {
+        if (element.dueDate == today && date == 'today-due') {
             displayNewTask(element);
-            console.log('element that is due today found');
-        } else if (element.dueDate == tomorrow) {
+        } else if (element.dueDate == tomorrow && date == 'tomorrow-due') {
             displayNewTask(element);
         }
     }
 }
+
+
 
 function dueTodayTasks(date) {
     let year = date.getFullYear();
@@ -47,7 +44,6 @@ function dueTodayTasks(date) {
     }
 
     let today = `${year}-${month}-${day}`
-    console.log(today);
     return today;
 }
 
@@ -63,7 +59,6 @@ function dueTomorrowTasks(date) {
     }
 
     let tomorrow = `${year}-${month}-${day}`
-    console.log(tomorrow);
     return tomorrow;
 }
 
@@ -77,10 +72,10 @@ function displayTasks() {
 
 function displaySpecificTasks(filter) {
     for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].project == filter) {            
+        if (tasks[i].project == filter) {
             displayNewTask(tasks[i]);
 
-        } else if (tasks[i].priority == filter) {            
+        } else if (tasks[i].priority == filter) {
             displayNewTask(tasks[i]);
         }
     }
@@ -101,10 +96,10 @@ function displayTasksHeader(obj, submitType) {
             html = `<div class="color-code ${obj.name}"></div>
             <h1>${obj.name}</h1>`;
             break;
-        case 'today':
+        case 'today-due':
             html = `<h1>Tasks that are due today</h1>`;
             break;
-        case 'tomorrow':
+        case 'tomorrow-due':
             html = `<h1>Tasks that are due tomorrow</h1>`;
             break;
         case 'home':
@@ -116,9 +111,10 @@ function displayTasksHeader(obj, submitType) {
 
 //When user deletes project, all of the tasks in that project also are erased 
 function eraseTasksFromProject(projectName) {
-    for (let i = 0; i < tasks.length; i++) {
+    for (let i = 0; i < tasks.length; i++) {        
         console.log('tasks project is ' + tasks[i].project + ' and removed projects name is ' + projectName);
-        if (tasks[i].project == projectName) {
+        let tasksProject = tasks[i].project.toLowerCase();
+        if (tasksProject == projectName) {
             let eleId = tasks[i].id;
             let element = document.getElementById(eleId);
             console.log(element);
@@ -178,11 +174,12 @@ function getValuesFromTaskForm(data, id, submitType) {
     let taskPriority;
 
     for (const entry of data) {
+        console.log(entry[0] + ' = ' + entry[1]);
         switch (entry[0]) {
             case 'task-name':
                 taskName = entry[1];
                 break;
-            case 'project':
+            case 'select-project':                
                 projectName = entry[1];
                 break;
             case 'dueDate':
