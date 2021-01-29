@@ -4,25 +4,128 @@ import {
 
 import {
     displayNewTask,
-    
 } from "./dom";
 
+import add from 'date-fns/add'
 
-let taskForm = document.querySelector('.task-form');
 let editOldTaskForm = document.querySelector('.edit-old-task-form');
+let taskContainer = document.querySelector('.tasks-container');
+
 
 let tasks = [];
 
+function getTasksThatAreDue(date) {
+
+    if (date == 'today') {
+        displayTasksHeader(null, 'today');
+    } else if (date == 'tomorrow') {
+        displayTasksHeader(null, 'tomorrow');
+    }
+
+    let a = new Date();
+    let today = dueTodayTasks(a)
+    let tomorrow = dueTomorrowTasks(a);
+
+    for (let i = 0; i < tasks.length; i++) {
+        const element = tasks[i];
+
+        if (element.dueDate == today) {
+            displayNewTask(element);
+            console.log('element that is due today found');
+        } else if (element.dueDate == tomorrow) {
+            displayNewTask(element);
+        }
+    }
+}
+
+function dueTodayTasks(date) {
+    let year = date.getFullYear();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    if (month < 10) {
+        month = '0' + month;
+    }
+
+    let today = `${year}-${month}-${day}`
+    console.log(today);
+    return today;
+}
+
+function dueTomorrowTasks(date) {
+    const t = add(date, {
+        days: 1
+    })
+    let year = t.getFullYear();
+    let day = t.getDate();
+    let month = t.getMonth() + 1;
+    if (month < 10) {
+        month = '0' + month;
+    }
+
+    let tomorrow = `${year}-${month}-${day}`
+    console.log(tomorrow);
+    return tomorrow;
+}
+
+
+function displayTasks() {
+    displayTasksHeader(null, 'home');
+    for (let i = 0; i < tasks.length; i++) {
+        displayNewTask(tasks[i]);
+    }
+}
+
+function displaySpecificTasks(filter) {
+    for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].project == filter) {            
+            displayNewTask(tasks[i]);
+
+        } else if (tasks[i].priority == filter) {            
+            displayNewTask(tasks[i]);
+        }
+    }
+}
+
+function displayTasksHeader(obj, submitType) {
+    taskContainer.innerHTML = '';
+
+    let header = document.querySelector('.task-cont-header');
+    let html;
+
+    switch (submitType) {
+        case 'project':
+            html = `<div class="color-code ${obj.projectPriority}"></div>
+            <h1>${obj.projectName}</h1>`
+            break;
+        case 'priority':
+            html = `<div class="color-code ${obj.name}"></div>
+            <h1>${obj.name}</h1>`;
+            break;
+        case 'today':
+            html = `<h1>Tasks that are due today</h1>`;
+            break;
+        case 'tomorrow':
+            html = `<h1>Tasks that are due tomorrow</h1>`;
+            break;
+        case 'home':
+            html = `<h1>Home</h1>`;
+            break;
+    }
+    header.innerHTML = html;
+}
+
 //When user deletes project, all of the tasks in that project also are erased 
 function eraseTasksFromProject(projectName) {
-    for(let i = 0; i < tasks.length; i++) {
+    for (let i = 0; i < tasks.length; i++) {
         console.log('tasks project is ' + tasks[i].project + ' and removed projects name is ' + projectName);
-        if(tasks[i].project == projectName) {         
+        if (tasks[i].project == projectName) {
             let eleId = tasks[i].id;
             let element = document.getElementById(eleId);
             console.log(element);
             element.remove();
             tasks.splice(i, 1);
+        } else {
+            return
         }
     }
     saveTasksToStorage();
@@ -67,7 +170,7 @@ function openFormWithObjValues(event) {
     return taskId;
 }
 
-function getValuesFromTaskForm(data, id, submitType) {    
+function getValuesFromTaskForm(data, id, submitType) {
     let taskName;
     let projectName;
     let dueDate;
@@ -92,16 +195,16 @@ function getValuesFromTaskForm(data, id, submitType) {
                 taskPriority = entry[1];
                 break;
         }
-    }    
-    if(submitType == 'edit') {
+    }
+    if (submitType == 'edit') {
         return changeOldTaskObjValues(id, taskName, projectName, dueDate, dueTime, taskPriority);
-    } else if(submitType == 'addNew') {
+    } else if (submitType == 'addNew') {
         return new TodoItem(taskName, dueDate, dueTime, projectName, taskPriority);
-    } 
+    }
 }
 
 //When user is ready to submit edited values to the task, this changes the right task obj
-function changeOldTaskObjValues(id, name, project, duedate, duetime, priority) {    
+function changeOldTaskObjValues(id, name, project, duedate, duetime, priority) {
     let obj;
     for (let i = 0; i < tasks.length; i++) {
         let element = tasks[i];
@@ -113,14 +216,14 @@ function changeOldTaskObjValues(id, name, project, duedate, duetime, priority) {
             element.dueDate = duedate;
             element.dueTime = duetime;
             element.priority = priority;
-        }        
+        }
     }
     return obj;
 }
 
 function editOldTask(form, id) {
     let data = new FormData(form);
-    let obj = getValuesFromTaskForm(data, id, 'edit');  
+    let obj = getValuesFromTaskForm(data, id, 'edit');
 
     displayNewTaskAfterEdit(id, obj);
     saveTasksToStorage();
@@ -135,7 +238,7 @@ function displayNewTaskAfterEdit(id, obj) {
         const e = childElements[i];
         //elements class name list
         const eClassNames = e.classList;
-        
+
         for (let j = 0; j < eClassNames.length; j++) {
             switch (eClassNames[j]) {
                 case 'task-name':
@@ -159,12 +262,6 @@ function displayNewTaskAfterEdit(id, obj) {
 }
 
 
-
-function displayTasks() {
-    for (let i = 0; i < tasks.length; i++) {
-        displayNewTask(tasks[i]);
-    }
-}
 
 function makeNewTask(form) {
     let data = new FormData(form);
@@ -209,7 +306,6 @@ function saveTasksToStorage() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-
 //pulls tasks from local storage when page is refreshed
 function readTasksFromStorage() {
     // gets information from local storage to use in displayBooks to create display
@@ -217,11 +313,19 @@ function readTasksFromStorage() {
     if (tasksJson != null && tasksJson.length > 0) {
         //parses a JSON string to 'normal' value, number to integar yms.
         tasks = JSON.parse(tasksJson);
+    } else {
+        //If storage is empty, generoi these tasks on the page
+        generateDefaultTasks()
     }
-    /*else {
-           //If storage is empty, generoi this book to the page
-            addNewBook('The Hobbit', 'J.R.R. Tolkien', 'Fantasy', 310, 'read', false);
-    }*/
+}
+
+function generateDefaultTasks() {
+    let clean = new TodoItem('Clean apartment #home', '2021-01-30', '21.00', 'home', 'priority5');
+    let workProject = new TodoItem('Do work project #work', '2021-02-06', '15.00', 'work', 'priority2');
+    let movie = new TodoItem('Star Wars Revenge of the Sith #movies', '2021-06-13', '20.00', 'movies to watch', 'priority3');
+    let sport = new TodoItem('Go outside #home', '2021-01-31', '18.00', 'home', 'priority1');
+
+    tasks.push(clean, workProject, movie, sport);
 }
 
 
@@ -235,4 +339,7 @@ export {
     openFormWithObjValues,
     editOldTask,
     eraseTasksFromProject,
+    displaySpecificTasks,
+    getTasksThatAreDue,
+    displayTasksHeader,
 }

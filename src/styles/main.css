@@ -2,7 +2,7 @@
 @import "header.css";
 @import "form.css";
 @import "content.css";
-@import "dotMenu.css";
+
 
 /* include border and padding in element width and height */
 * {

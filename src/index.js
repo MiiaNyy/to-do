@@ -11,6 +11,7 @@ import {
     makeNewProject,
     readProjectsFromStorage,
     displayProjects,
+    displayProjectsInTaskForm,
 } from "./projects"
 
 import {
@@ -21,7 +22,11 @@ import {
     removeTaskObjWhenComplete,
     openFormWithObjValues,
     editOldTask,
+    getTasksThatAreDue,
 } from "./tasks";
+
+let homeBtn = document.querySelector('.home-btn');
+let dateBtns = document.querySelectorAll('.due-btn');
 
 let navIcon = document.querySelector('#nav-icon');
 let openProjectFolder = document.querySelector(".open-project-folder");
@@ -43,29 +48,7 @@ let taskObjId;
 
 
 
-function showDropdown() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
 
-function threeDotDropMenuListeners() {
-    threeDotMenuBtn.addEventListener('click', function () {
-        showDropdown()
-    })
-
-    // Close the dropdown if the user clicks outside of it
-    window.addEventListener('click', function (event) {
-        if (!event.target.matches('.dropbtn')) {
-            let dropdowns = document.getElementsByClassName("dropdown-content");
-
-            for (let i = 0; i < dropdowns.length; i++) {
-                let openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        }
-    })
-}
 
 function toggleNavDisplay() {
     navIcon.classList.toggle("open");
@@ -117,6 +100,7 @@ function eventListeners() {
     //Opens and closes task form when user wants to add new tasks
     openNewTaskFormBtn.forEach(function (button) {
         button.addEventListener('click', function () {
+            displayProjectsInTaskForm('add new');
             toggleTaskFormDisplay();
         })
     })
@@ -130,7 +114,9 @@ function eventListeners() {
 
                 //open task editing form
             } else if (element[i] == 'edit-task-btn') {
+
                 createTaskEditForm();
+
                 /*addingNewTask = false;*/
                 taskObjId = openFormWithObjValues(event);
 
@@ -149,7 +135,26 @@ function eventListeners() {
         }
     }, false);
 
+    homeBtn.addEventListener('click', function (e) {
+        displayTasks();
+    })
+
+    dateBtns.forEach(function (button) {
+        button.addEventListener('click', function (e) {
+            let elementId = e.target.id;
+            if(elementId == 'today-due') {
+                getTasksThatAreDue('today');
+            } else {
+                getTasksThatAreDue('tomorrow');
+
+            }
+            
+        })
+    })
+
 }
+
+
 
 
 function start() {
@@ -161,6 +166,8 @@ function start() {
 }
 
 start();
+
+
 
 if (module.hot) {
     module.hot.accept()

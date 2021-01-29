@@ -21,22 +21,26 @@
             <span></span>
             </div>
             <div class="menu">
-            <div class="menu-item fade-effect">
-                <img src="pics/calendar.png" />
-                <p>Today</p>
-            </div>
-            <div class="menu-item fade-effect">
-                <img src="pics/calendar2.png" />
-                <p>Tomorrow</p>
-            </div>
-            <div class="menu-item fade-effect">
-                <img src="pics/folder.png" />
-                <p id="projects" class="open-project-folder">
-                <span class="project-span">v</span>
-                Project</p>
-                
+                <div class="menu-item fade-effect">
+                    <div></div>
+                    <p class="home-btn">Home</p>
+                </div>
+                <div class="menu-item fade-effect">
+                    <img src="pics/calendar.png" />
+                    <p id="today-due" class="due-btn">Today</p>
+                </div>
+                <div class="menu-item fade-effect">
+                    <img src="pics/calendar2.png" />
+                    <p id="tomorrow-due" class="due-btn">Tomorrow</p>
+                </div>
+                <div class="menu-item fade-effect">
+                    <img src="pics/folder.png" />
+                    <p id="projects" class="open-project-folder">
+                    <span class="project-span">v</span>
+                    Project</p>
+                    
 
-            </div>
+                </div>
             <div class="project-menu fade-effect collapse-menu">
                 <!--This is where different projects live-->
             </div>
@@ -51,23 +55,23 @@
             <div id="top" class="collapse-menu filter-menu fade-effect">
                 <div class="filter-item">
                     <div class="priority1 color-code"></div>
-                    <p class="on-top">Priority 1</p>
+                    <p id="priority1" class="filter-name on-top">Priority 1</p>
                 </div>
                 <div class="filter-item">
                     <div class="priority2 color-code"></div>
-                    <p class="on-top">Priority 2</p>
+                    <p id="priority2" class="filter-name on-top">Priority 2</p>
                 </div>
                 <div class="filter-item">
                     <div class="priority3 color-code"></div>
-                    <p class="on-top">Priority 3</p>
+                    <p id="priority3" class="filter-name on-top">Priority 3</p>
                 </div>
                 <div class="filter-item">
                     <div class="priority4 color-code"></div>
-                    <p class="on-top">Priority 4</p>
+                    <p id="priority4" class="filter-name on-top">Priority 4</p>
                 </div>
                 <div class="filter-item">
                     <div class="priority5 color-code"></div>
-                    <p class="on-top">Priority 5</p>
+                    <p id="priority5" class="filter-name on-top">Priority 5</p>
                 </div>
             </div>
             <button id="side-btn" class="open-task-form-btn fade-effect">
@@ -78,9 +82,7 @@
 
         <div class="content">
 
-            <div class="project-folder">
-                <div class="priority5 color-code"></div>
-                <h1>General</h1>
+            <div class="task-cont-header">
                 
             </div>
 
@@ -100,14 +102,12 @@
                     
                     <br/><br/>
 
-                    <label for="project">Select Project</label>
-                    <select id="project" name="project">
-                        <option value="home">Home</option>
-                        <option value="work">Work</option>
-                        <option value="hobbies">Hobbies</option>
-                        <option value="books">Books</option>
-                        <option value="movies">Movies</option>
-                    </select>
+                    <label for="select-project">Select Project</label>
+
+                    <div class="select-project"> 
+                        <!--Here will be selection of projects that user can add to tasks-->
+                    </div>
+
 
                     <br/><br/>
 
@@ -150,7 +150,8 @@
             </form>
 
             <form class="add-project-form fade-effect"></form>
-            <form class="edit-old-task-form"></form>
+            <form class="edit-old-task-form">
+            </form>
 
             <button class="add-project-btn"> +</button>
             

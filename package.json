@@ -6,6 +6,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
     "css-loader": "^5.0.1",
+    "date-fns": "^2.16.1",
     "style-loader": "^2.0.0",
     "uuid": "^8.3.2",
     "webpack": "^5.16.0",

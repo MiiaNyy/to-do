@@ -1,35 +1,24 @@
+import {displayProjectsInTaskForm} from "./projects";
+
 let headAndFoot = document.querySelectorAll(".main");
+
 let taskContainer = document.querySelector('.tasks-container');
-
-
-
 
 let projectsFolderIsOpen = false;
 let filterFolderIsOpen = false;
 
-
 let formIsOpen = false;
 
 
-
-
 function createTaskEditForm() {
-    let editForm = document.querySelector('.edit-old-task-form');
-    editForm.innerHTML = `<span class="close-form-btn">&#10006;</span>
+    editForm.innerHTML += `<span class="close-form-btn">&#10006;</span>
     <h2>Edit Task</h2>
     <hr class="divider"/>` +
         `<label for="task-name" class="text-label">Task</label>
         <br />` +
         `<input class="input-field" required type="text" id="task-name" name="task-name"/><br/><br/>` +
-        `<label for="project">Select Project</label>` +
-        `<select id="project" name="project">` +
-        `   <option value="home">Home</option>` +
-        `   <option value="work">Work</option>` +
-        `   <option value="hobbies">Hobbies</option>` +
-        `   <option value="books">Books</option>` +
-        `   <option value="movies">Movies</option>  
-        </select>
-        <br/><br/>` +
+        
+        `<br/><br/>` +
         `<label for="dueDate">Due date</label>` +
         `<input type="date" id="dueDate" name="dueDate">` +
         `<input type="time" name="time" id="time">
@@ -105,7 +94,6 @@ function toggleFolderDisplay(e) {
         document.querySelector(".filter-span").classList.toggle("rotate-span")
     }
     rotateProjectSpanArrow(targetId);
-    console.log('You clicked ' + targetId);
 }
 
 function rotateProjectSpanArrow(id) {
@@ -130,6 +118,7 @@ function rotateProjectSpanArrow(id) {
     }
 }
 
+
 function displayNewTask(obj) {
     let taskHtml = document.createElement('div');
     taskHtml.classList.add('task', 'fade-effect');
@@ -151,12 +140,16 @@ function displayNewProject(obj) {
 
     let projectItem = document.createElement('div');
     projectItem.classList.add('project-item');
+
     projectItem.id = obj.id;
-    projectItem.innerHTML = `<div class="color-code ${obj.projectPriority}"></div>` +
-        `<p class="project-name">${obj.projectName}</p></div>` + 
-        `                         
-            <img class="settings-icon fade-effect" src="pics/settings.png">
-        `;
+
+    //Modify projectName, so we can use it as a id, and later we can use the it to open tasks that are in that project. 
+    let nameToLower = obj.projectName.toLowerCase();
+    nameToLower = nameToLower.replace(/\s+/g, '');
+
+    projectItem.innerHTML = `<div class="color-code ${obj.projectPriority}"></div>
+        <p id="${nameToLower}" class="project-name">${obj.projectName}</p></div>                        
+            <img class="settings-icon fade-effect" src="pics/settings.png">`;
     projectFolder.appendChild(projectItem);
 }
 
@@ -173,4 +166,5 @@ export {
     displayNewTask,
     displayNewProject,
     createTaskEditForm,
+
 };

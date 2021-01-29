@@ -1,56 +1,154 @@
 import {
     TodoProject
 } from "./classes";
+
 import {
-    displayNewProject
+    displayNewProject,
 } from "./dom";
 
 import {
-    eraseTasksFromProject
+    eraseTasksFromProject,
+    displaySpecificTasks,
+    displayTasksHeader,
+    
 } from "./tasks";
 
-let openProjectForm = document.querySelector('.add-project-btn');
 
+
+let openProjectForm = document.querySelector('.add-project-btn');
 let projectForm = document.querySelector('.add-project-form');
+
+let projectsFolder = document.querySelector('.project-menu');
+let priorityFolderItems = document.querySelectorAll('.filter-name');
+
 let projectFormOpen = false;
 
 let projects = [];
+let priorityArr = ['priority1', 'priority2', 'priority3', 'priority4', 'priority5']
 
 let projectId;
 
-let projectsFolder = document.querySelector('.project-menu');
-
-projectsFolder.addEventListener('click', function (e) {
-    let element = e.target.classList;
-    for (let i = 0; i < element.length; i++) {
-        if (element[i] == 'settings-icon') {
-            projectForm.style.opacity = 1;
-            displayProjectForm('Edit project');
-            projectId = openFormWithObjValues(e);
+//Return right obj, that is later used to generate task header
+function getProjectObjForHeader(id) {
+    console.log('id is ' + id);
+    for (let i = 0; i < projects.length; i++) {
+        let nameToLower = projects[i].projectName.toLowerCase();
+        nameToLower = nameToLower.replace(/\s+/g, '');
+        if (id == nameToLower) {
+            return projects[i];
         }
     }
-})
+    for(let i=0; i < priorityArr.length; i++) {
+        if (id == priorityArr[i]) {
+            let priorityObj = {name: id};
+            return priorityObj
+        } 
+    }
+        
+    
+}
 
-projectForm.addEventListener('click', function (e) {
-    console.log('event target is ' + e.target.classList);
+//depending on what button user clicks, project is edited or deleted
+function submitEditedProject(e) {
     if (e.target.className == 'edit-project') {
         editOldProject(projectForm, projectId);
         projectForm.reset();
     } else if (e.target.className == 'delete-project') {
-        alert('You are ')
         eraseProject(e);
     }
-}, false)
+}
+
+//When project settings icon is clicked, open project form
+function getProjectForm(e) {
+    displayProjectForm('Edit project');
+    projectId = openFormWithObjValues(e);
+    projectForm.style.opacity = 1;
+}
+
+//When user clicks specific project, open right tasks in screen
+function displayProjectFolderTasks(elementId) {
+    let projectObj = getProjectObjForHeader(elementId);
+    displayTasksHeader(projectObj, 'project');
+    displaySpecificTasks(elementId);
+
+}
+
+// opens project form or project tasks to view depending what user clicks
+function listenProjectFolder(e) {
+    let elementClasses = e.target.classList;
+    let elementId = e.target.id;
+    for (let i = 0; i < elementClasses.length; i++) {
+        if (elementClasses[i] == 'settings-icon') {
+            getProjectForm(e);
+        }
+        if (elementClasses[i] == 'project-name') {
+            displayProjectFolderTasks(elementId);
+        }
+    }
+}
+
+function eventListeners() {
+
+
+
+    //Edits already existing projects
+    projectForm.addEventListener('click', function (e) {
+        submitEditedProject(e);
+    }, false)
+
+    //Listens project folder
+    projectsFolder.addEventListener('click', function (e) {
+        listenProjectFolder(e)
+    })
+
+    priorityFolderItems.forEach(item => {
+        item.addEventListener('click', function (e) {
+            let elementId = e.target.id;
+            console.log(elementId);
+            let projectObj = getProjectObjForHeader(elementId);
+            displayTasksHeader(projectObj, 'priority');
+            displaySpecificTasks(elementId);
+        })
+    })
+
+    openProjectForm.addEventListener('click', function () {
+        toggleProjectFormDisplay();
+    })
+}
+
+function displayProjectsInTaskForm(type) {
+    let selectCont = document.querySelector('.select-project');
+    let div = document.createElement('div');
+    let select = document.createElement('select');
+    select.id = "select-project";
+    select.name = "select-project";
+
+    for (let i = 0; i < projects.length; i++) {
+        let projectName = projects[i].projectName;
+        select.innerHTML += `<option value= ${projectName}>${projectName}`;
+    }
+
+    if (type == 'add new') {
+        selectCont.appendChild(select);
+    } else if (type == 'edit') {
+        div.appendChild(select);
+        return div
+    }
+}
+
+
+
 
 function eraseProject(e) {
-    let confirmation = confirm("You are about to delete a project and all of the tasks in that project.\n Are you sure?")
+    let confirmation = confirm("You are about to delete a project and all of the tasks in that project.\nAre you sure?")
     if (confirmation) {
         let objName = getProjectName(projectId);
         eraseTasksFromProject(objName);
         deleteProjectObj(projectId);
         removeProjectFromView(projectId);
         removeProjectForm();
-    }    
+    }
+    saveProjectsToStorage();
     e.preventDefault();
 }
 
@@ -198,9 +296,6 @@ function displayProjects() {
     }
 }
 
-
-
-
 function generateDefaultProjects() {
     let general = new TodoProject('General', 'priority2');
     let home = new TodoProject('Home', 'priority3');
@@ -287,12 +382,11 @@ function removeProjectForm() {
 
 }
 
-openProjectForm.addEventListener('click', function () {
-    toggleProjectFormDisplay();
-})
+eventListeners();
 
 export {
     makeNewProject,
     readProjectsFromStorage,
-    displayProjects
+    displayProjects,
+    displayProjectsInTaskForm,
 }

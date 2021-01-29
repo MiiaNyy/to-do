@@ -7,7 +7,7 @@
 }
 
 
-.project-folder {
+.task-cont-header {
     display: grid;
     grid-template-columns: 40px 200px;
     grid-column-gap: 10px;
