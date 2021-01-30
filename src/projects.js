@@ -33,12 +33,10 @@ let projectId;
 
 //Return right obj, that is later used to generate task header
 function getProjectObjForHeader(id) {
-
     for (let i = 0; i < projects.length; i++) {
-        let nameToLower = projects[i].projectName.toLowerCase();
-        nameToLower = nameToLower.replace(/\s+/g, '');
-        console.log('id is ' + id + ' and name to lower case is ' + nameToLower);
-        if (id == nameToLower) {
+        console.log('testing lowercase mode ' + projects[i].nameToLower);
+        
+        if (id == projects[i].nameToLower) {
             console.log(projects[i]);
             return projects[i];
 
@@ -77,7 +75,7 @@ function getProjectForm(e) {
 
 //When user clicks specific project, open right tasks in screen
 function displayProjectFolderTasks(elementId) {
-    console.log(elementId);
+    console.log('element id is ' +  elementId);
     let projectObj = getProjectObjForHeader(elementId);
     displayTasksHeader(projectObj, 'project');
     displaySpecificTasks(elementId);
@@ -116,7 +114,6 @@ function eventListeners() {
     priorityFolderItems.forEach(item => {
         item.addEventListener('click', function (e) {
             let elementId = e.target.id;
-            console.log(elementId);
             let projectObj = getProjectObjForHeader(elementId);
             displayTasksHeader(projectObj, 'priority');
             displaySpecificTasks(elementId);
@@ -130,6 +127,7 @@ function eventListeners() {
 
 function displayProjectsInTaskForm(type) {
     let selectCont = document.querySelector('.select-project');
+    selectCont.innerHTML = '';
     let div = document.createElement('div');
     let select = document.createElement('select');
     select.id = "select-project";
@@ -155,6 +153,7 @@ function eraseProject(e) {
     let confirmation = confirm("You are about to delete a project and all of the tasks in that project.\nAre you sure?")
     if (confirmation) {
         let objName = getProjectName(projectId);
+        console.log('obj name when erasing project is ' + objName);
         eraseTasksFromProject(objName);
         deleteProjectObj(projectId);
         removeProjectFromView(projectId);
@@ -323,18 +322,13 @@ function makeNewProject(form) {
 }
 
 function displayProjects() {
-    console.log('There is ' + projects.length + ' projects in the array');
     for (let i = 0; i < projects.length; i++) {
         displayNewProject(projects[i]);
     }
 }
 
 function generateDefaultProjects() {
-    let general = new TodoProject('General', 'priority2');
-    let home = new TodoProject('Home', 'priority3');
-    let work = new TodoProject('Work', 'priority1');
-    let movies = new TodoProject('Movies to watch', 'priority5')
-    projects.push(general, home, work, movies);
+    projects.push(new TodoProject('General', 'priority2'),new TodoProject('Home', 'priority3'),new TodoProject('Work', 'priority1'), new TodoProject('Movies', 'priority5'));
 }
 
 

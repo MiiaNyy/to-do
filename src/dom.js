@@ -11,6 +11,7 @@ let formIsOpen = false;
 
 
 function createTaskEditForm() {
+    let editForm = document.querySelector('.edit-old-task-form');
     editForm.innerHTML += `<span class="close-form-btn">&#10006;</span>
     <h2>Edit Task</h2>
     <hr class="divider"/>` +

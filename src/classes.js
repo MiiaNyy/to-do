@@ -5,6 +5,15 @@ class TodoProject {
         this.projectName = projectName;
         this.projectPriority = projectPriority;
         this.id = uuidv4();
+        this.nameToLower = projectName.toLowerCase();
+    }
+
+    get toLower() {
+        return this.nameToLower.replace(/\s+/g, '');
+    }
+
+    set toLower(value) {
+        this.nameToLower = value.toLowerCase();
     }
 
     get name() {
@@ -14,6 +23,7 @@ class TodoProject {
     set name(value) {
         this.projectName = value;
     }
+
 
     get priority() {
         return this.projectPriority;
@@ -33,8 +43,10 @@ class TodoItem {
         this.priority = priority;
         this.id = uuidv4();
     }
+
+
     get projectName() {
-        return this.project.name
+        return this.project.nameToLower
     }
     
     get projectPriority() {

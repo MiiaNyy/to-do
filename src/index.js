@@ -83,6 +83,7 @@ function eventListeners() {
 
     //User submits new task
     taskForm.addEventListener("submit", function (event) {
+        
         makeNewTask(taskForm);
         taskForm.reset();
         event.preventDefault();
@@ -114,7 +115,6 @@ function eventListeners() {
 
                 //open task editing form
             } else if (element[i] == 'edit-task-btn') {
-
                 createTaskEditForm();
 
                 /*addingNewTask = false;*/

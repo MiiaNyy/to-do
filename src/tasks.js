@@ -72,9 +72,10 @@ function displayTasks() {
 
 function displaySpecificTasks(filter) {
     for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].project == filter) {
+        let projectToLower = tasks[i].project.toLowerCase();
+        console.log('tasks project is ' + projectToLower + ' and filter is ' + filter)
+        if (projectToLower == filter) {
             displayNewTask(tasks[i]);
-
         } else if (tasks[i].priority == filter) {
             displayNewTask(tasks[i]);
         }
@@ -83,7 +84,7 @@ function displaySpecificTasks(filter) {
 
 function displayTasksHeader(obj, submitType) {
     taskContainer.innerHTML = '';
-
+    console.log(obj);
     let header = document.querySelector('.task-cont-header');
     let html;
 
@@ -111,17 +112,17 @@ function displayTasksHeader(obj, submitType) {
 
 //When user deletes project, all of the tasks in that project also are erased 
 function eraseTasksFromProject(projectName) {
-    for (let i = 0; i < tasks.length; i++) {        
-        console.log('tasks project is ' + tasks[i].project + ' and removed projects name is ' + projectName);
-        let tasksProject = tasks[i].project.toLowerCase();
-        if (tasksProject == projectName) {
-            let eleId = tasks[i].id;
-            let element = document.getElementById(eleId);
-            console.log(element);
-            element.remove();
+    for (let i = 0; i < tasks.length; i++) {
+        let projectToLower = tasks[i].project.toLowerCase();
+        let eleId = tasks[i].id;
+        let node = document.getElementById(eleId);
+
+        if(projectToLower == projectName) {
+            node.remove();
             tasks.splice(i, 1);
-        } else {
-            return
+            i--;
+            //arr is being re-indexed when using .splice(), which means iteration skips over an index when one is removed.
+            //To fix it, either decrement i after .splice()
         }
     }
     saveTasksToStorage();
@@ -141,6 +142,7 @@ function openFormWithObjValues(event) {
             taskId = task.id;
             for (let j = 0; j < formElements.length; j++) {
                 let eleName = formElements[j].name;
+                console.log(' elements name is ' + eleName);
                 switch (eleName) {
                     case 'task-name':
                         formElements[j].value = task.name;
@@ -174,12 +176,13 @@ function getValuesFromTaskForm(data, id, submitType) {
     let taskPriority;
 
     for (const entry of data) {
+
         console.log(entry[0] + ' = ' + entry[1]);
         switch (entry[0]) {
             case 'task-name':
                 taskName = entry[1];
                 break;
-            case 'select-project':                
+            case 'select-project':
                 projectName = entry[1];
                 break;
             case 'dueDate':
@@ -317,12 +320,10 @@ function readTasksFromStorage() {
 }
 
 function generateDefaultTasks() {
-    let clean = new TodoItem('Clean apartment #home', '2021-01-30', '21.00', 'home', 'priority5');
-    let workProject = new TodoItem('Do work project #work', '2021-02-06', '15.00', 'work', 'priority2');
-    let movie = new TodoItem('Star Wars Revenge of the Sith #movies', '2021-06-13', '20.00', 'movies to watch', 'priority3');
-    let sport = new TodoItem('Go outside #home', '2021-01-31', '18.00', 'home', 'priority1');
-
-    tasks.push(clean, workProject, movie, sport);
+    tasks.push(new TodoItem('Do work project', '2021-02-06', '15.00', 'Work', 'priority2'));
+    tasks.push(new TodoItem('Star Wars Revenge of the Sith', '2021-06-13', '20.00', 'Movies', 'priority3'));
+    tasks.push(new TodoItem('Go outside', '2021-01-31', '18.00', 'Home', 'priority1'));
+    tasks.push(new TodoItem('Clean apartment', '2021-01-30', '21.00', 'Home', 'priority5'));
 }
 
 
