@@ -18,11 +18,11 @@ import {
     readTasksFromStorage,
     displayTasks,
     makeNewTask,
-    removeTaskFromView,
-    removeTaskObjWhenComplete,
+    removeTaskFromDisplay,
+    removeTaskWhenComplete,
     openFormWithObjValues,
     editOldTask,
-    getTasksThatAreDue,
+    displayDueTasks,
 } from "./tasks";
 
 let homeBtn = document.querySelector('.home-btn');
@@ -110,8 +110,8 @@ function eventListeners() {
         let element = event.target.classList;
         for (let i = 0; i < element.length; i++) {
             if (element[i] == 'task-completed') {
-                removeTaskFromView(event);
-                removeTaskObjWhenComplete(event);
+                removeTaskFromDisplay(event);
+                removeTaskWhenComplete(event);
 
                 //open task editing form
             } else if (element[i] == 'edit-task-btn') {
@@ -144,7 +144,7 @@ function eventListeners() {
             let elementId = e.target.id;
             if(elementId == 'today-due' || elementId == 'tomorrow-due') {
                 console.log(elementId);
-                getTasksThatAreDue(elementId);
+                displayDueTasks(elementId);
             }            
         })
     })

@@ -4,12 +4,15 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>My To-Do</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"/>
     </head>
     <body>
     <div class="content-container">
         <div class="header main">
             <h1>My To-Dos</h1>
+            
             <button id="header-btn" class="open-task-form-btn">
             <img src="pics/whiteplus.png" alt="" />
             </button>
@@ -22,7 +25,7 @@
             </div>
             <div class="menu">
                 <div class="menu-item fade-effect">
-                    <div></div>
+                    <img src="pics/house.png">
                     <p class="home-btn">Home</p>
                 </div>
                 <div class="menu-item fade-effect">
@@ -33,13 +36,14 @@
                     <img src="pics/calendar2.png" />
                     <p id="tomorrow-due" class="due-btn">Tomorrow</p>
                 </div>
-                <div class="menu-item fade-effect">
+                <div id="project-folder" class="menu-item fade-effect ">
                     <img src="pics/folder.png" />
                     <p id="projects" class="open-project-folder">
-                    <span class="project-span">v</span>
-                    Project</p>
-                    
+                    <span class="project-span"><img src="pics/arrow.png" alt=""></span>Project</p>                   
+                </div>
 
+                <div class="collapse-menu fade-effect project-button-cont">
+                    <button class="open-project-form">Add project</button>
                 </div>
             <div class="project-menu fade-effect collapse-menu">
                 <!--This is where different projects live-->
@@ -48,7 +52,7 @@
             <div class="menu-item filter-folder">
                 <img src="pics/folder.png" />
                 <p id="filter" class="filter-btn">
-                <span class="filter-span">v</span>
+                    <span class="filter-span"><img src="pics/arrow.png" alt=""></span>
                 Filter
                 </p>
             </div>
@@ -81,9 +85,7 @@
         </div>
 
         <div class="content">
-
-            <div class="task-cont-header">
-                
+            <div class="task-cont-header">                
             </div>
 
             <div class="tasks-container">
@@ -108,6 +110,8 @@
                         <!--Here will be selection of projects that user can add to tasks-->
                     </div>
 
+                    
+                    <div class=""></div>
 
                     <br/><br/>
 
@@ -153,7 +157,7 @@
             <form class="edit-old-task-form">
             </form>
 
-            <button class="add-project-btn"> +</button>
+            
             
             </div>
 

@@ -1,14 +1,57 @@
-import {displayProjectsInTaskForm} from "./projects";
+
 
 let headAndFoot = document.querySelectorAll(".main");
 
 let taskContainer = document.querySelector('.tasks-container');
+let projectForm = document.querySelector('.add-project-form');
 
 let projectsFolderIsOpen = false;
 let filterFolderIsOpen = false;
 
 let formIsOpen = false;
 
+function displayProjectForm(task) {
+    projectForm.innerHTML = `<span class="close-form-btn">&#10006;</span>
+    <h2>${task}</h2><hr class="divider"/>` +
+        `<label for="project-name" class="text-label">Project name</label> 
+        <br />` +
+        `<input class="input-field" maxlength="20" required type="text" id="project-name" name="project-name"/>` +
+        `<div class="select-priority-cont">
+        <div class="priority-cont"> 
+            <input type="radio" name="task-priority" id="priority1" value="priority1"/>` +
+        `   <div class="color-code priority1"></div>
+            <label for="priority1"> Priority 1</label> 
+        </div>` +
+        `<div class="priority-cont">
+            <input type="radio" name="task-priority" id="priority2" value="priority2"/>` +
+        `   <div class="color-code priority2"></div>
+            <label for="priority2"> Priority 2</label>
+        </div>` +
+        `<div class="priority-cont">
+            <input type="radio" name="task-priority" id="priority3" value="priority3"/>
+            <div class="color-code priority3"></div>` +
+        `   <label for="priority3"> Priority 3</label>
+        </div>
+        <div class="priority-cont">
+            <input type="radio" name="task-priority" id="priority4" value="priority4"/>` +
+        `   <div class="color-code priority4"></div>
+            <label for="priority4"> Priority 4</label>
+        </div>
+        <div class="priority-cont">` +
+        `   <input type="radio" name="task-priority" id="priority5" value="priority5"/>
+            <div class="color-code priority5"></div>` +
+        `   <label for="priority5"> Priority 5</label>
+        </div>
+        </div>`;
+
+    if (task == 'Edit project') {
+        projectForm.innerHTML += `<input type="submit" value="Edit" class="edit-project"/>
+        <button class="delete-project" >Delete project</button>`;
+    } else if (task == 'Add project') {
+        projectForm.innerHTML += `<input type="submit" value="Add" class="add-project"/>
+        <input type="reset" value="Cancel"/>`;
+    }
+}
 
 function createTaskEditForm() {
     let editForm = document.querySelector('.edit-old-task-form');
@@ -87,6 +130,7 @@ function closeNav() {
 function toggleFolderDisplay(e) {
     let targetId = e.target.id;
     if (targetId == 'projects') {
+        document.querySelector('.project-button-cont').classList.toggle("menu-visible");
         document.querySelector(".project-menu").classList.toggle("menu-visible");
         document.querySelector(".filter-folder").classList.toggle('filter-margin-top');
 
@@ -101,19 +145,19 @@ function rotateProjectSpanArrow(id) {
     if (id == 'projects') {
         let targetElement = document.querySelector(".project-span");
         if (!projectsFolderIsOpen) {
-            targetElement.style.transform = 'rotate(360deg)';
+            targetElement.style.transform = 'rotate(-90deg)';
             projectsFolderIsOpen = true;
         } else {
-            targetElement.style.transform = 'rotate(270deg)';
+            targetElement.style.transform = 'rotate(0deg)';
             projectsFolderIsOpen = false;
         }
     } else if (id == 'filter') {
         let targetElement = document.querySelector(".filter-span");
         if (!filterFolderIsOpen) {
-            targetElement.style.transform = 'rotate(360deg)';
+            targetElement.style.transform = 'rotate(-90deg)';
             filterFolderIsOpen = true;
         } else {
-            targetElement.style.transform = 'rotate(270deg)';
+            targetElement.style.transform = 'rotate(0deg)';
             filterFolderIsOpen = false;
         }
     }
@@ -131,7 +175,7 @@ function displayNewTask(obj) {
         `<div class="div5 due-date">${obj.dueDate}</div>` +
         `<div class="div6"><img src="pics/alarm-clock.png"> </div>` +
         `<div class = "div7 due-time" >${obj.dueTime}</div>` +
-        `<button class="div8 edit-task-btn">edit</button>` +
+        `<img class="settings-icon fade-effect" src="pics/settings.png">` +
         `<div class="div3"> </div>`;
         
     taskContainer.appendChild(taskHtml);
@@ -168,5 +212,5 @@ export {
     displayNewTask,
     displayNewProject,
     createTaskEditForm,
-
+    displayProjectForm,
 };

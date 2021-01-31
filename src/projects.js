@@ -4,19 +4,22 @@ import {
 
 import {
     displayNewProject,
+    displayProjectForm
 } from "./dom";
 
 import {
     eraseTasksFromProject,
-    displaySpecificTasks,
-    displayTasksHeader,
+    displayFilteredTasks,
+    displayProjectHeader,
 
 } from "./tasks";
 
 
 
-let openProjectForm = document.querySelector('.add-project-btn');
+let openProjectForm = document.querySelector('.open-project-form');
 let projectForm = document.querySelector('.add-project-form');
+
+
 
 let projectsFolder = document.querySelector('.project-menu');
 let priorityFolderItems = document.querySelectorAll('.filter-name');
@@ -32,16 +35,14 @@ let priorityArr = ['priority1', 'priority2', 'priority3', 'priority4', 'priority
 let projectId;
 
 //Return right obj, that is later used to generate task header
-function getProjectObjForHeader(id) {
+function getObjForHeader(id) {
     for (let i = 0; i < projects.length; i++) {
-        console.log('testing lowercase mode ' + projects[i].nameToLower);
-        
         if (id == projects[i].nameToLower) {
             console.log(projects[i]);
             return projects[i];
-
         }
     }
+
     for (let i = 0; i < priorityArr.length; i++) {
         if (id == priorityArr[i]) {
             let priorityObj = {
@@ -50,35 +51,33 @@ function getProjectObjForHeader(id) {
             return priorityObj
         }
     }
-
-
 }
 
 //depending on what button user clicks, project is edited or deleted
 function submitEditedProject(e) {
     if (e.target.className == 'edit-project') {
-        editOldProject(projectForm, projectId);
-        if(!duplicateNames) {
+        editProject(projectForm, projectId);
+        if (!duplicateNames) {
             projectForm.reset();
-        }        
+        }
     } else if (e.target.className == 'delete-project') {
         eraseProject(e);
     }
 }
 
 //When project settings icon is clicked, open project form
-function getProjectForm(e) {
+function openProjectFormForEditing(e) {
     displayProjectForm('Edit project');
     projectId = openFormWithObjValues(e);
     projectForm.style.opacity = 1;
 }
 
 //When user clicks specific project, open right tasks in screen
-function displayProjectFolderTasks(elementId) {
-    console.log('element id is ' +  elementId);
-    let projectObj = getProjectObjForHeader(elementId);
-    displayTasksHeader(projectObj, 'project');
-    displaySpecificTasks(elementId);
+function displayProjectsTasks(elementId) {
+    console.log('element id is ' + elementId);
+    let projectObj = getObjForHeader(elementId);
+    displayProjectHeader(projectObj, 'project');
+    displayFilteredTasks(elementId);
 
 }
 
@@ -88,10 +87,10 @@ function listenProjectFolder(e) {
     let elementId = e.target.id;
     for (let i = 0; i < elementClasses.length; i++) {
         if (elementClasses[i] == 'settings-icon') {
-            getProjectForm(e);
+            openProjectFormForEditing(e);
         }
         if (elementClasses[i] == 'project-name') {
-            displayProjectFolderTasks(elementId);
+            displayProjectsTasks(elementId);
         }
     }
 }
@@ -103,7 +102,7 @@ function eventListeners() {
     //Edits already existing projects
     projectForm.addEventListener('click', function (e) {
         submitEditedProject(e);
-        
+
     }, false)
 
     //Listens project folder
@@ -114,9 +113,9 @@ function eventListeners() {
     priorityFolderItems.forEach(item => {
         item.addEventListener('click', function (e) {
             let elementId = e.target.id;
-            let projectObj = getProjectObjForHeader(elementId);
-            displayTasksHeader(projectObj, 'priority');
-            displaySpecificTasks(elementId);
+            let projectObj = getObjForHeader(elementId);
+            displayProjectHeader(projectObj, 'priority');
+            displayFilteredTasks(elementId);
         })
     })
 
@@ -128,7 +127,7 @@ function eventListeners() {
 function displayProjectsInTaskForm(type) {
     let selectCont = document.querySelector('.select-project');
     selectCont.innerHTML = '';
-    let div = document.createElement('div');
+
     let select = document.createElement('select');
     select.id = "select-project";
     select.name = "select-project";
@@ -140,9 +139,6 @@ function displayProjectsInTaskForm(type) {
 
     if (type == 'add new') {
         selectCont.appendChild(select);
-    } else if (type == 'edit') {
-        div.appendChild(select);
-        return div
     }
 }
 
@@ -153,10 +149,9 @@ function eraseProject(e) {
     let confirmation = confirm("You are about to delete a project and all of the tasks in that project.\nAre you sure?")
     if (confirmation) {
         let objName = getProjectName(projectId);
-        console.log('obj name when erasing project is ' + objName);
         eraseTasksFromProject(objName);
         deleteProjectObj(projectId);
-        removeProjectFromView(projectId);
+        removeProjectFromDisplay(projectId);
         removeProjectForm();
     }
     saveProjectsToStorage();
@@ -173,7 +168,7 @@ function getProjectName(id) {
 }
 
 function deleteProjectObj(id) {
-    for (let i = 0; i < projects.length; i++) {
+    for (let i = projects.length - 1; i >= 0; i--) {
         if (projects[i].id == id) {
             console.log('project ' + projects[i].projectName + ' is being removed');
             projects.splice(i, 1);
@@ -182,7 +177,7 @@ function deleteProjectObj(id) {
     }
 }
 
-function removeProjectFromView(id) {
+function removeProjectFromDisplay(id) {
     let element = document.getElementById(id);
     element.style.opacity = 0;
     element.style.marginBottom = '-40px';
@@ -196,7 +191,6 @@ function checkForDuplicateNames(projectName) {
     let nameToLower = projectName.toLowerCase();
     nameToLower = nameToLower.replace(/\s+/g, '');
 
-
     for (let i = 0; i < projects.length; i++) {
         let project = projects[i].projectName.toLowerCase();
         project = project.replace(/\s+/g, '');
@@ -208,7 +202,7 @@ function checkForDuplicateNames(projectName) {
     return true;
 }
 
-function editOldProject(form, id) {
+function editProject(form, id) {
     let data = new FormData(form);
     let obj = getNewProject(data, id, 'edit');
     displayEditedProject(obj, id);
@@ -218,7 +212,6 @@ function editOldProject(form, id) {
 function displayEditedProject(obj, id) {
     let element = document.getElementById(id);
     let childElements = element.children;
-
 
     for (let i = 0; i < childElements.length; i++) {
         const e = childElements[i];
@@ -242,30 +235,30 @@ function displayEditedProject(obj, id) {
 }
 
 function getNewProject(data, id, submitType) {
-    let projectName;
-    let projectPriority;
+    let obj = {};
 
     for (const entry of data) {
         console.log(entry[0] + ' = ' + entry[1]);
         if (entry[0] == 'task-priority') {
-            projectPriority = entry[1];
+            obj.priority = entry[1];
         } else if (entry[0] == 'project-name') {
-            projectName = entry[1];
+            obj.name = entry[1];
         }
     }
-    let checkDuplicates = checkForDuplicateNames(projectName);
+    let checkDuplicates = checkForDuplicateNames(obj.name);
     if (checkDuplicates) {
         if (submitType == 'edit') {
-            return changeOldProjectObjValues(id, projectName, projectPriority)
+            return changeProjectValuesAfterEdit(id, obj.name, obj.priority)
         } else if (submitType == 'addNew') {
-            return new TodoProject(projectName, projectPriority);
+            return new TodoProject(obj.name, obj.priority);
         }
         duplicateNames = false;
     }
     duplicateNames = true;
 }
 
-function changeOldProjectObjValues(id, name, priority) {
+
+function changeProjectValuesAfterEdit(id, name, priority) {
     let obj;
     for (let i = 0; i < projects.length; i++) {
         let element = projects[i];
@@ -328,7 +321,7 @@ function displayProjects() {
 }
 
 function generateDefaultProjects() {
-    projects.push(new TodoProject('General', 'priority2'),new TodoProject('Home', 'priority3'),new TodoProject('Work', 'priority1'), new TodoProject('Movies', 'priority5'));
+    projects.push(new TodoProject('General', 'priority2'), new TodoProject('Home', 'priority3'), new TodoProject('Work', 'priority1'), new TodoProject('Movies', 'priority5'));
 }
 
 
@@ -358,48 +351,7 @@ function toggleProjectFormDisplay() {
     }
 }
 
-function displayProjectForm(task) {
-    projectForm.innerHTML = `<span class="close-form-btn">&#10006;</span>
-    <h2>${task}</h2><hr class="divider"/>` +
-        `<label for="project-name" class="text-label">Project name</label> 
-        <br />` +
-        `<input class="input-field" maxlength="20" required type="text" id="project-name" name="project-name"/>` +
-        `<div class="select-priority-cont">
-        <div class="priority-cont"> 
-            <input type="radio" name="task-priority" id="priority1" value="priority1"/>` +
-        `   <div class="color-code priority1"></div>
-            <label for="priority1"> Priority 1</label> 
-        </div>` +
-        `<div class="priority-cont">
-            <input type="radio" name="task-priority" id="priority2" value="priority2"/>` +
-        `   <div class="color-code priority2"></div>
-            <label for="priority2"> Priority 2</label>
-        </div>` +
-        `<div class="priority-cont">
-            <input type="radio" name="task-priority" id="priority3" value="priority3"/>
-            <div class="color-code priority3"></div>` +
-        `   <label for="priority3"> Priority 3</label>
-        </div>
-        <div class="priority-cont">
-            <input type="radio" name="task-priority" id="priority4" value="priority4"/>` +
-        `   <div class="color-code priority4"></div>
-            <label for="priority4"> Priority 4</label>
-        </div>
-        <div class="priority-cont">` +
-        `   <input type="radio" name="task-priority" id="priority5" value="priority5"/>
-            <div class="color-code priority5"></div>` +
-        `   <label for="priority5"> Priority 5</label>
-        </div>
-        </div>`;
 
-    if (task == 'Edit project') {
-        projectForm.innerHTML += `<input type="submit" value="Edit" class="edit-project"/>
-        <button class="delete-project" >Delete project</button>`;
-    } else if (task == 'Add project') {
-        projectForm.innerHTML += `<input type="submit" value="Add" class="add-project"/>
-        <input type="reset" value="Cancel"/>`;
-    }
-}
 
 function removeProjectForm() {
     projectForm.style.opacity = 0;

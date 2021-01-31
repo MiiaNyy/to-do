@@ -7,6 +7,7 @@ import {
 } from "./dom";
 
 import add from 'date-fns/add'
+import format from 'date-fns/format'
 
 let editOldTaskForm = document.querySelector('.edit-old-task-form');
 let taskContainer = document.querySelector('.tasks-container');
@@ -14,14 +15,34 @@ let taskContainer = document.querySelector('.tasks-container');
 
 let tasks = [];
 
-function getTasksThatAreDue(date) {
-    if (date == 'today-due' || date == 'tomorrow-due') {
-        displayTasksHeader(null, date);
+function getFormatedDate(day) {
+    
+} 
+
+function displayDueHeaders(today, tomorrow, date) {
+
+    let formatToday = today.split('-');
+    
+    let formatTom = tomorrow.split('-');
+    
+    formatToday =  formatToday[2] + '.' + formatToday[1] + '.' + formatToday[0];
+    formatTom = formatTom[2] + '.' + formatTom[1] + '.' + formatTom[0];
+
+
+    if (date == 'today-due') {
+        displayProjectHeader(formatToday, date);
+    } else if (date == 'tomorrow-due') {
+        displayProjectHeader(formatTom, date);
     }
+}
+
+function displayDueTasks(date) {   
 
     let a = new Date();
-    let today = dueTodayTasks(a);
-    let tomorrow = dueTomorrowTasks(a);
+    let today = getToday(a);
+    let tomorrow = getTomorrow(a);
+
+    displayDueHeaders(today, tomorrow, date);
 
     for (let i = 0; i < tasks.length; i++) {
         const element = tasks[i];
@@ -33,29 +54,35 @@ function getTasksThatAreDue(date) {
     }
 }
 
-
-
-function dueTodayTasks(date) {
+function getToday(date) {
     let year = date.getFullYear();
     let day = date.getDate();
     let month = date.getMonth() + 1;
     if (month < 10) {
         month = '0' + month;
     }
+    if (day < 10) {
+        day = '0' + day;
+    }
 
     let today = `${year}-${month}-${day}`
     return today;
 }
 
-function dueTomorrowTasks(date) {
+function getTomorrow(date) {
     const t = add(date, {
         days: 1
     })
+
     let year = t.getFullYear();
     let day = t.getDate();
     let month = t.getMonth() + 1;
+
     if (month < 10) {
         month = '0' + month;
+    }
+    if (day < 10) {
+        day = '0' + day;
     }
 
     let tomorrow = `${year}-${month}-${day}`
@@ -63,17 +90,18 @@ function dueTomorrowTasks(date) {
 }
 
 
+
 function displayTasks() {
-    displayTasksHeader(null, 'home');
+    displayProjectHeader(null, 'home');
     for (let i = 0; i < tasks.length; i++) {
         displayNewTask(tasks[i]);
     }
 }
 
-function displaySpecificTasks(filter) {
+//Depending on the filter (specific project or priority), show only those tasks
+function displayFilteredTasks(filter) {
     for (let i = 0; i < tasks.length; i++) {
         let projectToLower = tasks[i].project.toLowerCase();
-        console.log('tasks project is ' + projectToLower + ' and filter is ' + filter)
         if (projectToLower == filter) {
             displayNewTask(tasks[i]);
         } else if (tasks[i].priority == filter) {
@@ -82,9 +110,9 @@ function displaySpecificTasks(filter) {
     }
 }
 
-function displayTasksHeader(obj, submitType) {
+
+function displayProjectHeader(obj, submitType) {
     taskContainer.innerHTML = '';
-    console.log(obj);
     let header = document.querySelector('.task-cont-header');
     let html;
 
@@ -98,13 +126,13 @@ function displayTasksHeader(obj, submitType) {
             <h1>${obj.name}</h1>`;
             break;
         case 'today-due':
-            html = `<h1>Tasks that are due today</h1>`;
+            html = `<div></div><h1>Tasks that are due today</h1><h2>${obj}</h2>`;
             break;
         case 'tomorrow-due':
-            html = `<h1>Tasks that are due tomorrow</h1>`;
+            html = `<div></div><h1>Tasks that are due tomorrow </h1> <h2>${obj}</h2>`;
             break;
         case 'home':
-            html = `<h1>Home</h1>`;
+            html = `<img class="home-icon" src="pics/house.png"> <h1>Home</h1>`;
             break;
     }
     header.innerHTML = html;
@@ -112,21 +140,22 @@ function displayTasksHeader(obj, submitType) {
 
 //When user deletes project, all of the tasks in that project also are erased 
 function eraseTasksFromProject(projectName) {
-    for (let i = 0; i < tasks.length; i++) {
+    //arr is being re-indexed when using .splice(), which means iteration skips over an index when one is removed.
+    //To fix it, loop arr backwards
+    for (let i = tasks.length - 1; i >= 0; i--) {
         let projectToLower = tasks[i].project.toLowerCase();
         let eleId = tasks[i].id;
         let node = document.getElementById(eleId);
 
-        if(projectToLower == projectName) {
+        if (projectToLower == projectName) {
             node.remove();
             tasks.splice(i, 1);
-            i--;
-            //arr is being re-indexed when using .splice(), which means iteration skips over an index when one is removed.
-            //To fix it, either decrement i after .splice()
         }
     }
     saveTasksToStorage();
 }
+
+
 
 //When user wants to edit already existing task. Open obj values in the form.
 function openFormWithObjValues(event) {
@@ -168,6 +197,7 @@ function openFormWithObjValues(event) {
     return taskId;
 }
 
+//When user has inputed info about the task, or has edited old task, make return taks obj
 function getValuesFromTaskForm(data, id, submitType) {
     let taskName;
     let projectName;
@@ -197,14 +227,14 @@ function getValuesFromTaskForm(data, id, submitType) {
         }
     }
     if (submitType == 'edit') {
-        return changeOldTaskObjValues(id, taskName, projectName, dueDate, dueTime, taskPriority);
+        return changeTaskObjValues(id, taskName, projectName, dueDate, dueTime, taskPriority);
     } else if (submitType == 'addNew') {
         return new TodoItem(taskName, dueDate, dueTime, projectName, taskPriority);
     }
 }
 
 //When user is ready to submit edited values to the task, this changes the right task obj
-function changeOldTaskObjValues(id, name, project, duedate, duetime, priority) {
+function changeTaskObjValues(id, name, project, duedate, duetime, priority) {
     let obj;
     for (let i = 0; i < tasks.length; i++) {
         let element = tasks[i];
@@ -224,13 +254,20 @@ function changeOldTaskObjValues(id, name, project, duedate, duetime, priority) {
 function editOldTask(form, id) {
     let data = new FormData(form);
     let obj = getValuesFromTaskForm(data, id, 'edit');
+    displayEditedTask(id, obj);
+    saveTasksToStorage();
+}
 
-    displayNewTaskAfterEdit(id, obj);
+function makeNewTask(form) {
+    let data = new FormData(form);
+    let newTask = getValuesFromTaskForm(data, null, 'addNew');
+    displayNewTask(newTask);
+    tasks.push(newTask);
     saveTasksToStorage();
 }
 
 //Changes the screen view, that edited task values show
-function displayNewTaskAfterEdit(id, obj) {
+function displayEditedTask(id, obj) {
     let element = document.getElementById(id)
     let childElements = element.children;
 
@@ -263,18 +300,10 @@ function displayNewTaskAfterEdit(id, obj) {
 
 
 
-function makeNewTask(form) {
-    let data = new FormData(form);
-    let newTask = getValuesFromTaskForm(data, null, 'addNew');
-    displayNewTask(newTask);
-    tasks.push(newTask);
-    saveTasksToStorage();
-    console.log('There are ' + tasks.length + ' tasks in the tasks array');
-}
 
-function removeTaskFromView(event) {
+
+function removeTaskFromDisplay(event) {
     let element = event.target;
-
     let parentId = element.parentNode.id;
     document.getElementById(parentId).style.opacity = 0;
     setTimeout(function () {
@@ -283,11 +312,11 @@ function removeTaskFromView(event) {
     }, 900);
 }
 
-function removeTaskObjWhenComplete(event) {
+function removeTaskWhenComplete(event) {
     let element = event.target;
     let parentId = element.parentNode.id;
     if (tasks.length > 0) {
-        for (let i = 0; i < tasks.length; i++) {
+        for (let i = tasks.length - 1; i >= 0; i--) {
             if (tasks[i].id == parentId) {
                 tasks.splice(i, 1);
                 saveTasksToStorage();
@@ -332,12 +361,12 @@ export {
     readTasksFromStorage,
     displayTasks,
     makeNewTask,
-    removeTaskFromView,
-    removeTaskObjWhenComplete,
+    removeTaskFromDisplay,
+    removeTaskWhenComplete,
     openFormWithObjValues,
     editOldTask,
     eraseTasksFromProject,
-    displaySpecificTasks,
-    getTasksThatAreDue,
-    displayTasksHeader,
+    displayFilteredTasks,
+    displayDueTasks,
+    displayProjectHeader,
 }
