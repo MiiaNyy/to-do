@@ -15,14 +15,11 @@ let taskContainer = document.querySelector('.tasks-container');
 
 let tasks = [];
 
-function getFormatedDate(day) {
-    
-} 
+
 
 function displayDueHeaders(today, tomorrow, date) {
 
-    let formatToday = today.split('-');
-    
+    let formatToday = today.split('-');    
     let formatTom = tomorrow.split('-');
     
     formatToday =  formatToday[2] + '.' + formatToday[1] + '.' + formatToday[0];
@@ -303,21 +300,26 @@ function displayEditedTask(id, obj) {
 
 
 function removeTaskFromDisplay(event) {
+    //to get the task container id we need to go to levels up (target elements grand parent element)
     let element = event.target;
-    let parentId = element.parentNode.id;
-    document.getElementById(parentId).style.opacity = 0;
+    let elementsParent = element.parentNode;
+    let grandParentId = elementsParent.parentNode.id;
+    
+    document.getElementById(grandParentId).style.opacity = 0;
     setTimeout(function () {
-        document.getElementById(parentId).remove();
+        document.getElementById(grandParentId).remove();
         console.log('task is now removed from view');
     }, 900);
 }
 
 function removeTaskWhenComplete(event) {
     let element = event.target;
-    let parentId = element.parentNode.id;
+    let elementsParent = element.parentNode;
+    let grandParentId = elementsParent.parentNode.id;
+
     if (tasks.length > 0) {
         for (let i = tasks.length - 1; i >= 0; i--) {
-            if (tasks[i].id == parentId) {
+            if (tasks[i].id == grandParentId) {
                 tasks.splice(i, 1);
                 saveTasksToStorage();
                 console.log('Removed task named ' + tasks[i].name + '. tasks length is now ' + tasks.length);

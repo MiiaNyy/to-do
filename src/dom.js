@@ -1,5 +1,3 @@
-
-
 let headAndFoot = document.querySelectorAll(".main");
 
 let taskContainer = document.querySelector('.tasks-container');
@@ -8,7 +6,9 @@ let projectForm = document.querySelector('.add-project-form');
 let projectsFolderIsOpen = false;
 let filterFolderIsOpen = false;
 
-let formIsOpen = false;
+
+
+
 
 function displayProjectForm(task) {
     projectForm.innerHTML = `<span class="close-form-btn">&#10006;</span>
@@ -61,7 +61,7 @@ function createTaskEditForm() {
         `<label for="task-name" class="text-label">Task</label>
         <br />` +
         `<input class="input-field" required type="text" id="task-name" name="task-name"/><br/><br/>` +
-        
+
         `<br/><br/>` +
         `<label for="dueDate">Due date</label>` +
         `<input type="date" id="dueDate" name="dueDate">` +
@@ -97,18 +97,16 @@ function createTaskEditForm() {
         <input type="reset" value="Cancel"/>`
 }
 
-function toggleTaskFormDisplay() {
-    let form = document.querySelector('.task-form');
-    if (!formIsOpen) {
-        form.style.display = 'block';
-        formIsOpen = true;
-    } else if (formIsOpen) {
-        form.style.display = 'none';
-        formIsOpen = false;
 
-    }
 
+
+function toggleFormBackgroundFilter() {
+    document.querySelector('.header').classList.toggle('filter-on');
+    document.querySelector('.side-bar').classList.toggle('filter-on');
+    document.querySelector('.task-cont-header').classList.toggle('filter-on');
+    document.querySelector('.tasks-container').classList.toggle('filter-on');
 }
+
 
 function openNav() {
     document.getElementById("side-nav").style.width = "300px";
@@ -116,6 +114,13 @@ function openNav() {
     document.querySelector('.content').style.marginLeft = "100px";
     document.querySelectorAll('.menu-item').forEach(item => item.style.opacity = 1);
     document.querySelector('#side-btn').style.opacity = 1;
+    if (projectsFolderIsOpen) {
+        document.querySelector(".project-menu").classList.toggle("menu-visible");
+        document.querySelector('.project-button-cont').classList.toggle("menu-visible");
+    }
+    if (filterFolderIsOpen) {
+        document.querySelector(".filter-menu").classList.toggle("menu-visible");
+    }
 
 }
 
@@ -125,20 +130,56 @@ function closeNav() {
     document.querySelector('.content').style.marginLeft = "-100px";
     document.querySelectorAll('.menu-item').forEach(item => item.style.opacity = 0);
     document.querySelector('#side-btn').style.opacity = 0;
+    if (projectsFolderIsOpen) {
+        document.querySelector(".project-menu").classList.toggle("menu-visible");
+        document.querySelector('.project-button-cont').classList.toggle("menu-visible");
+    }
+    if (filterFolderIsOpen) {
+        document.querySelector(".filter-menu").classList.toggle("menu-visible");
+    }
 }
+
 
 function toggleFolderDisplay(e) {
     let targetId = e.target.id;
+    console.log(targetId);
     if (targetId == 'projects') {
-        document.querySelector('.project-button-cont').classList.toggle("menu-visible");
-        document.querySelector(".project-menu").classList.toggle("menu-visible");
-        document.querySelector(".filter-folder").classList.toggle('filter-margin-top');
-
+        toggleProjectFolderZindex();
+        toggleProjectDisplay();
     } else if (targetId == 'filter') {
-        document.querySelector(".filter-menu").classList.toggle("menu-visible");
-        document.querySelector(".filter-span").classList.toggle("rotate-span")
+        togglePriorityDisplay();
+        toggleOpenTaskBtnZindex();
     }
     rotateProjectSpanArrow(targetId);
+}
+
+function togglePriorityDisplay() {
+    document.querySelector(".filter-menu").classList.toggle("menu-visible");
+    document.querySelector(".filter-span").classList.toggle("rotate-span");
+}
+
+function toggleProjectDisplay() {
+    document.querySelector('.project-button-cont').classList.toggle("menu-visible");
+    document.querySelector(".project-menu").classList.toggle("menu-visible");
+    document.querySelector(".filter-folder").classList.toggle('filter-margin-top');
+}
+
+function toggleProjectFolderZindex() {
+    if (!projectsFolderIsOpen) {
+        document.querySelector(".project-menu").style.zIndex = 'auto';
+        document.querySelector('.project-button-cont').style.zIndex = 'auto';
+    } else if (projectsFolderIsOpen) {
+        document.querySelector(".project-menu").style.zIndex = '-1';
+        document.querySelector('.project-button-cont').style.zIndex = '-1';
+    }
+}
+
+function toggleOpenTaskBtnZindex() {
+    if(!filterFolderIsOpen) {
+        document.querySelector(".filter-menu").style.zIndex = 'auto';
+    } else if(filterFolderIsOpen) {
+        document.querySelector(".filter-menu").style.zIndex = '-1';
+    }
 }
 
 function rotateProjectSpanArrow(id) {
@@ -163,21 +204,30 @@ function rotateProjectSpanArrow(id) {
     }
 }
 
+function getFormatedDueDate(dueDate) {
+    let newDate = dueDate.split('-');
+    return `${newDate[2]}.${newDate[1]}.${newDate[0]}`;   
+}
+
 
 function displayNewTask(obj) {
+    let date = getFormatedDueDate(obj.dueDate);
+
     let taskHtml = document.createElement('div');
     taskHtml.classList.add('task', 'fade-effect');
     taskHtml.id = obj.id;
-    taskHtml.innerHTML = `<input class="div1 task-completed" type="radio">` +
-        `<div class="div2 color-code ${obj.priority}"></div>` +
-        `<div class = "div9 task-name" >${obj.name} #${obj.project}</div>` +
-        `<div class="div4"><img src="pics/calendar2.png"></div>` +
-        `<div class="div5 due-date">${obj.dueDate}</div>` +
-        `<div class="div6"><img src="pics/alarm-clock.png"> </div>` +
-        `<div class = "div7 due-time" >${obj.dueTime}</div>` +
-        `<img class="settings-icon fade-effect" src="pics/settings.png">` +
-        `<div class="div3"> </div>`;
-        
+    taskHtml.innerHTML = `<label class="div1 checkbox-container">
+    <input type="checkbox">
+    <span class="task-completed checkmark"></span>
+    </label>  
+    <div class="div2 ${obj.priority} color-code "></div>
+    <div class = "div3 task-name" >${obj.name}</div>
+    <div class="div4 tasks-project"><p>#${obj.project}</p></div>
+    <div class="div5"><img src="pics/calendar2.png"></div>
+    <div class="div6 due-date">${date}</div>
+    <div class="div7"><img src="pics/alarm-clock.png"> </div>
+    <div class = "div8 due-time" >${obj.dueTime}</div>
+    <div class="div9"><span class=""> <img src="pics/arrow.png" alt=""></span></div>`
     taskContainer.appendChild(taskHtml);
 }
 
@@ -208,9 +258,9 @@ export {
     openNav,
     closeNav,
     toggleFolderDisplay,
-    toggleTaskFormDisplay,
     displayNewTask,
     displayNewProject,
     createTaskEditForm,
     displayProjectForm,
+    toggleFormBackgroundFilter,
 };

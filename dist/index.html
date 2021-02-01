@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>My To-Do</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+            rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"/>
     </head>
     <body>
@@ -56,7 +56,7 @@
                 Filter
                 </p>
             </div>
-            <div id="top" class="collapse-menu filter-menu fade-effect">
+            <div class="collapse-menu filter-menu fade-effect">
                 <div class="filter-item">
                     <div class="priority1 color-code"></div>
                     <p id="priority1" class="filter-name on-top">Priority 1</p>
@@ -88,74 +88,82 @@
             <div class="task-cont-header">                
             </div>
 
-            <div class="tasks-container">
+            <div class="tasks-container">    
                 <!--This is where tasks live when they are created-->  
             </div>
 
-
-            <form class="task-form">
-                <span class="close-form-btn">&#10006;</span>
-                <h2>Add Task</h2>
-                <hr class="divider"/>
-
-                    <label for="task-name" class="text-label">Task</label>
-                    <br />
-                    <input class="input-field" required type="text" id="task-name" name="task-name"/>
+                <form class="task-form fade-effect">
+                    <span class="close-task-form close-form-btn">&#10006;</span>
+                    <h2>Add Task</h2>
                     
-                    <br/><br/>
+                    <hr class="divider">
+                    <div class="form-content-container">
+                        <div class="task-name-cont">
+                            <label for="task-name" class="text-label">Name</label>
+                            <br />
+                            <input class="input-field" required type="text" id="task-name" name="task-name"/>
+                        </div>
 
-                    <label for="select-project">Select Project</label>
+                        <div class="select-project-cont">                    
+                            <label for="select-project">Select Project</label>
+                            <div class="select-project"> 
+                                <!--Here will be selection of projects that user can add to tasks-->
+                            </div>
+                        </div>
+                        
 
-                    <div class="select-project"> 
-                        <!--Here will be selection of projects that user can add to tasks-->
+                        <div class="due-date-cont">
+                            <div class="dates-label-cont" >
+                                <label for="dueDate">Due date and time</label>
+                            </div>                               
+                                <input type="date" id="dueDate" name="dueDate">
+                                <input type="time" name="time" id="time">                            
+                        </div>
+
+                        <div class="select-priority-cont">
+                            <div class="priority-cont">
+                                <input type="radio" name="task-priority" id="priority1" value="priority1"/>
+                                <div class="priority1 color-code"></div>
+                                <label for="priority1"> Priority 1</label>                            
+                            </div>
+                            <div class="priority-cont">
+                                <input type="radio" name="task-priority" id="priority2" value="priority2"/>
+                                <div class="priority2 color-code"></div>
+                                <label for="priority2"> Priority 2</label>                            
+                            </div>
+                            <div class="priority-cont">
+                                <input type="radio" name="task-priority" id="priority3" value="priority3"/>
+                                <div class="priority3 color-code"></div>
+                                <label for="priority3"> Priority 3</label>                            
+                            </div>
+                            <div class="priority-cont">
+                                <input type="radio" name="task-priority" id="priority4" value="priority4"/>
+                                <div class="priority4 color-code"></div>
+                                <label for="priority4"> Priority 4</label>                            
+                            </div>
+                            <div class="priority-cont">
+                                <input type="radio" name="task-priority" id="priority5" value="priority5"/>
+                                <div class="priority5 color-code"></div>
+                                <label for="priority5"> Priority 5</label>                            
+                            </div>           
+                        </div>
+
+                        <div class="notes-cont">
+                            <label for="task-notes" class="text-label">Notes</label>
+                            <br />
+                            <textarea rows="4" cols="34" name="task-notes"></textarea>
+                        </div>
+
+                        <div class="form-button-cont">
+                            <input class="form-button-add" type="submit" value="Add" class="add-task-btn"/>
+                            <input class="form-button-cancel" type="reset" value="Cancel"/>
+                        </div>
                     </div>
+                
+                </form>
 
-                    
-                    <div class=""></div>
-
-                    <br/><br/>
-
-                    <label for="dueDate">Due date</label>
-                    <input type="date" id="dueDate" name="dueDate">
-                    <input type="time" name="time" id="time">
-
-                    <br/><br/>
-
-                    <div class="select-priority-cont">
-
-                        <div class="priority-cont">
-                            <input type="radio" name="task-priority" id="priority1" value="priority1"/>
-                            <div id="" class="priority1 color-code"></div>
-                            <label for="priority1"> Priority 1</label>                            
-                        </div>
-                        <div class="priority-cont">
-                            <input type="radio" name="task-priority" id="priority2" value="priority2"/>
-                            <div class="priority2 color-code"></div>
-                            <label for="priority2"> Priority 2</label>                            
-                        </div>
-                        <div class="priority-cont">
-                            <input type="radio" name="task-priority" id="priority3" value="priority3"/>
-                            <div class="priority3 color-code"></div>
-                            <label for="priority3"> Priority 3</label>                            
-                        </div>
-                        <div class="priority-cont">
-                            <input type="radio" name="task-priority" id="priority4" value="priority4"/>
-                            <div class="priority4 color-code"></div>
-                            <label for="priority4"> Priority 4</label>                            
-                        </div>
-                        <div class="priority-cont">
-                            <input type="radio" name="task-priority" id="priority5" value="priority5"/>
-                            <div class="priority5 color-code"></div>
-                            <label for="priority5"> Priority 5</label>                            
-                        </div>           
-                    </div>                       
-                <input type="submit" value="Add" class="add-task-btn"/>
-                <input type="reset" value="Cancel"/>
-            </form>
-
-            <form class="add-project-form fade-effect"></form>
-            <form class="edit-old-task-form">
-            </form>
+                <form class="add-project-form fade-effect"></form>
+                <form class="edit-old-task-form"></form>
 
             
             

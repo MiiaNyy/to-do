@@ -3,8 +3,8 @@ import {
     closeNav,
     openNav,
     toggleFolderDisplay,
-    toggleTaskFormDisplay,
     createTaskEditForm,
+    toggleFormBackgroundFilter,
 } from "./dom"
 
 import {
@@ -38,16 +38,29 @@ let taskContainer = document.querySelector('.tasks-container');
 
 let submitNewProject = document.querySelector('.add-project-form');
 
-let threeDotMenuBtn = document.querySelector('.dropbtn');
+let cancelTaskForm = document.querySelector('.form-button-cancel');
+let closeTaskForm = document.querySelector('.close-task-form');
 
 let editOldTaskForm = document.querySelector('.edit-old-task-form');
 
 let navIsOpen = true;
+let formIsOpen = false;
 
 let taskObjId;
 
 
 
+function toggleTaskFormDisplay() {
+    toggleFormBackgroundFilter();
+    let form = document.querySelector('.task-form');
+    if (!formIsOpen) {
+        form.style.display = 'block';
+        formIsOpen = true;
+    } else if (formIsOpen) {
+        form.style.display = 'none';
+        formIsOpen = false;
+    }
+}
 
 
 function toggleNavDisplay() {
@@ -64,7 +77,15 @@ function toggleNavDisplay() {
 
 
 function eventListeners() {
+    closeTaskForm.addEventListener('click', function () {
+        taskForm.reset();
+        toggleTaskFormDisplay();
+    })
 
+    cancelTaskForm.addEventListener('click', function () {
+        taskForm.reset();
+        toggleTaskFormDisplay();
+    })
 
     //Opens and closes sidebar nav
     navIcon.addEventListener('click', function () {
@@ -82,8 +103,9 @@ function eventListeners() {
     })
 
     //User submits new task
-    taskForm.addEventListener("submit", function (event) {
-        
+    taskForm.addEventListener("submit", function (event) {  
+        toggleFormBackgroundFilter();
+        formIsOpen = false;      
         makeNewTask(taskForm);
         taskForm.reset();
         event.preventDefault();

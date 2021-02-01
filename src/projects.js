@@ -314,6 +314,25 @@ function makeNewProject(form) {
     saveProjectsToStorage();
 }
 
+function changeFilterFolderMargin() {
+    let filterFolder = document.querySelector('.filter-folder');
+    let size;
+    if(projects.length >= 5) {
+        size = '-250px';
+    } else if(projects.length == 4) {
+        size = '-200px';
+    } else if(projects.length == 3) {
+        size = '-150px';
+    } else if(projects.length == 2) {
+        size = '-100px';
+    } else if(projects.length == 1) {
+        size = '-50px';
+    } else {
+        size = '0px'
+    }
+    filterFolder.style.marginTop = size;
+}
+
 function displayProjects() {
     for (let i = 0; i < projects.length; i++) {
         displayNewProject(projects[i]);

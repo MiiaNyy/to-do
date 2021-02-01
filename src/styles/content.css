@@ -1,13 +1,14 @@
-.tasks-container {
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
-}
+
+.tasks-container {}
 
 .content {
     grid-area: 2 / 2 / 5 / 5;
-    background-color: #FAFAFA ;
+    background-color: #FAFAFA;
     transition: margin-left .5s;
     padding: 16px;
-    margin-left: 100px ;
+    margin-left: 100px;
 }
 
 
@@ -25,37 +26,146 @@
 }
 
 .task {
-    max-width: 60%;
+    width: 500px;
     display: grid;
-    grid-template-columns: repeat(2, 30px) 100px 30px auto 30px;
+    grid-template-columns: 40px repeat(2, 30px) 90px repeat(2, 30px) auto;
     grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
     padding: 16px;
-    border-bottom: 1px solid #55555549;
-    opacity: 1;    
+    opacity: 1;
     margin: 20px;
-    font-size: 14px;
+    font-size: 10px;
+    font-family: 'Montserrat', sans-serif;
+    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    box-shadow: 3px 3px 12px 0px rgba(189, 189, 189, 0.45);
+    align-items: center;
 }
 
-.div1 { grid-area: 1 / 1 / 2 / 2; }
-.div2 { grid-area: 1 / 2 / 2 / 3; }
-.div3 { grid-area: 2 / 1 / 3 / 2; }
-.div4 { grid-area: 2 / 2 / 3 / 3; }
-.div5 { grid-area: 2 / 3 / 3 / 4; }
-.div6 { grid-area: 2 / 4 / 3 / 5; }
-.div7 { grid-area: 2 / 5 / 3 / 6; }
-.div8 { grid-area: 2 / 6 / 3 / 7; }
-.div9 { grid-area: 1 / 3 / 2 / 7; }
+.div1 {
+    grid-area: 1 / 1 / 2 / 2;
+    justify-self: end;
+    align-self: flex-start
+}
 
+.div2 {
+    grid-area: 1 / 2 / 2 / 3;
+    justify-self: center;
+
+}
+
+.div3 {
+    grid-area: 1 / 3 / 2 / 8;
+    font-size: 13px;
+}
+
+.div4 {
+    grid-area: 2 / 1 / 3 / 3;
+    font-size: 10px;
+    text-align: center;
+}
+
+.div5 {
+    grid-area: 2 / 3 / 3 / 4;
+    justify-self: center;
+}
+
+.div6 {
+    grid-area: 2 / 4 / 3 / 5;
+}
+
+.div7 {
+    grid-area: 2 / 5 / 3 / 6;
+    justify-self: center;
+}
+
+.div8 {
+    grid-area: 2 / 6 / 3 / 7;
+}
+
+.div9 {
+    grid-area: 2 / 7 / 3 / 8;
+    justify-self: end;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+}
 
 
 .task img {
     width: 15px;
     height: 15px;
-    
+
 }
 
-.div6, .div4 {
-    justify-self: end;
+
+
+
+/* Customize the label (the container) */
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input~.checkmark {
+    background-color: #b6cbf8;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked~.checkmark {
+    background-color: #2164f3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
