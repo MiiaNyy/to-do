@@ -35,13 +35,15 @@ class TodoProject {
 }
 
 class TodoItem {
-    constructor(name, dueDate, dueTime, project, priority) {
+    constructor(name, dueDate, dueTime, project, priority, notes) {
         this.name = name;
         this.dueDate = dueDate;
         this.dueTime = dueTime;
         this.project = project;
         this.priority = priority;
+        this.notes = notes;
         this.id = uuidv4();
+        this.containerOpen = false;
     }
 
 

@@ -4,19 +4,19 @@ import {
 
 import {
     displayNewProject,
-    displayProjectForm
+
 } from "./dom";
 
 import {
     eraseTasksFromProject,
     displayFilteredTasks,
     displayProjectHeader,
-
+    closeTaskContainer,
 } from "./tasks";
 
 
 
-let openProjectForm = document.querySelector('.open-project-form');
+
 let projectForm = document.querySelector('.add-project-form');
 
 
@@ -24,7 +24,7 @@ let projectForm = document.querySelector('.add-project-form');
 let projectsFolder = document.querySelector('.project-menu');
 let priorityFolderItems = document.querySelectorAll('.filter-name');
 
-let projectFormOpen = false;
+
 
 //When user tries to add project that already exist. Same name.
 let duplicateNames = false;
@@ -87,9 +87,11 @@ function listenProjectFolder(e) {
     let elementId = e.target.id;
     for (let i = 0; i < elementClasses.length; i++) {
         if (elementClasses[i] == 'settings-icon') {
+            closeTaskContainer();
             openProjectFormForEditing(e);
         }
         if (elementClasses[i] == 'project-name') {
+            closeTaskContainer();
             displayProjectsTasks(elementId);
         }
     }
@@ -119,12 +121,10 @@ function eventListeners() {
         })
     })
 
-    openProjectForm.addEventListener('click', function () {
-        toggleProjectFormDisplay();
-    })
+
 }
 
-function displayProjectsInTaskForm(type) {
+function displayProjectsInTaskForm() {
     let selectCont = document.querySelector('.select-project');
     selectCont.innerHTML = '';
 
@@ -134,12 +134,9 @@ function displayProjectsInTaskForm(type) {
 
     for (let i = 0; i < projects.length; i++) {
         let projectName = projects[i].projectName;
-        select.innerHTML += `<option value= ${projectName}>${projectName}`;
+        select.innerHTML += `<option value= ${projectName.toLowerCase()}>${projectName}`;
     }
-
-    if (type == 'add new') {
-        selectCont.appendChild(select);
-    }
+    selectCont.appendChild(select);
 }
 
 
@@ -245,17 +242,15 @@ function getNewProject(data, id, submitType) {
             obj.name = entry[1];
         }
     }
-    let checkDuplicates = checkForDuplicateNames(obj.name);
-    if (checkDuplicates) {
-        if (submitType == 'edit') {
-            return changeProjectValuesAfterEdit(id, obj.name, obj.priority)
-        } else if (submitType == 'addNew') {
-            return new TodoProject(obj.name, obj.priority);
-        }
-        duplicateNames = false;
+
+    if (submitType == 'edit') {
+        return changeProjectValuesAfterEdit(id, obj.name, obj.priority)
+    } else if (submitType == 'addNew') {
+        return new TodoProject(obj.name, obj.priority);
     }
-    duplicateNames = true;
+
 }
+
 
 
 function changeProjectValuesAfterEdit(id, name, priority) {
@@ -306,6 +301,7 @@ function openFormWithObjValues(event) {
     return projectId;
 }
 
+
 function makeNewProject(form) {
     let data = new FormData(form);
     let newProject = getNewProject(data, null, 'addNew');
@@ -314,24 +310,6 @@ function makeNewProject(form) {
     saveProjectsToStorage();
 }
 
-function changeFilterFolderMargin() {
-    let filterFolder = document.querySelector('.filter-folder');
-    let size;
-    if(projects.length >= 5) {
-        size = '-250px';
-    } else if(projects.length == 4) {
-        size = '-200px';
-    } else if(projects.length == 3) {
-        size = '-150px';
-    } else if(projects.length == 2) {
-        size = '-100px';
-    } else if(projects.length == 1) {
-        size = '-50px';
-    } else {
-        size = '0px'
-    }
-    filterFolder.style.marginTop = size;
-}
 
 function displayProjects() {
     for (let i = 0; i < projects.length; i++) {
@@ -359,16 +337,7 @@ function readProjectsFromStorage() {
 }
 
 
-function toggleProjectFormDisplay() {
-    if (!projectFormOpen) {
-        projectForm.style.opacity = 1;
-        displayProjectForm('Add project');
-        projectFormOpen = true;
-    } else {
-        removeProjectForm();
-        projectFormOpen = false;
-    }
-}
+
 
 
 
@@ -387,4 +356,5 @@ export {
     readProjectsFromStorage,
     displayProjects,
     displayProjectsInTaskForm,
+    removeProjectForm,
 }

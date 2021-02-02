@@ -16,24 +16,62 @@ select {
     margin-top: 5px;
 }
 
-/*---------------Add task form---------------*/
+.add-project-form,
 .task-form {
-    display: none;
+    transition: all 0.2s linear;
     background-color: #fbfbfb;
     padding: 5px;
     font-size: 14px;
     border: none;
-    box-shadow: 6px 3px 28px 21px rgba(176,176,176,0.92);
-    -webkit-box-shadow: 6px 3px 28px 21px rgba(176,176,176,0.92);
-    -moz-box-shadow: 6px 3px 28px 21px rgba(176,176,176,0.92);
+    box-shadow: 6px 3px 28px 21px rgba(176, 176, 176, 0.92);
+    -webkit-box-shadow: 6px 3px 28px 21px rgba(176, 176, 176, 0.92);
+    -moz-box-shadow: 6px 3px 28px 21px rgba(176, 176, 176, 0.92);
 }
 
-.task-form h2 {
+.form-button-add,
+.form-button-cancel,
+.add-project,
+.cancel-project-form {
+    margin: 0px 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    padding: 5px;
+    width: 120px;
+    box-shadow: 9px 8px 7px -4px rgba(161, 156, 156, 1);
+    -webkit-box-shadow: 9px 8px 7px -4px rgba(161, 156, 156, 1);
+    -moz-box-shadow: 9px 8px 7px -4px rgba(161, 156, 156, 1);
+    transition: transform 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.form-button-add,
+.add-project
+{
+    background-color: #E63946;
+    color: white;
+}
+
+.form-button-cancel,
+.cancel-project-form
+{
+    background-color: #585858;
+    color: white;
+}
+
+.form-button-add:hover,
+.form-button-cancel:hover,
+.cancel-project-form:hover,
+.add-project:hover,
+.edit-task-btn:hover {
+    transform: scale(1.02);
+}
+
+.task-form h2,
+.add-project-form h2 {
     text-align: center;
     margin-top: 0;
     margin-bottom: 0;
-    font-size: 30px;
-    text-shadow: 2px 2px 2px rgba(150, 150, 150, 0.692);
 }
 
 .divider {
@@ -41,6 +79,50 @@ select {
     width: 50%;
     background-color: #585858;
     border: none;
+}
+
+/*-----------------Project-form--------------------------*/
+
+
+.add-project-form {
+    opacity: 0;
+    padding: 15px;
+}
+
+.add-project-form h2 {
+    font-size: 25px;
+    text-shadow: 2px 2px 2px rgba(179, 179, 179, 0.692);
+}
+
+.add-project-form .divider {
+    margin-bottom: 20px;
+}
+
+.add-project,
+.cancel-project-form {
+    width: 90px;
+    height: 30px;
+}
+
+.add-project-form .input-field {
+    width: 300px;
+    height: 28px;
+    font-family: 'Montserrat', sans-serif;
+    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    border: none;
+}
+
+
+/*---------------Add task form---------------*/
+.task-form {
+    display: none;
+}
+
+.task-form h2 {
+    font-size: 30px;
+    text-shadow: 2px 2px 2px rgba(150, 150, 150, 0.692);
 }
 
 .form-content-container {
@@ -150,46 +232,4 @@ textarea,
 .form-button-cancel {
     width: 100px;
     height: 30px;
-    margin: 0px 30px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
-    padding: 5px;
-    width: 120px;
-    box-shadow: 9px 8px 7px -4px rgba(161, 156, 156, 1);
-    -webkit-box-shadow: 9px 8px 7px -4px rgba(161, 156, 156, 1);
-    -moz-box-shadow: 9px 8px 7px -4px rgba(161, 156, 156, 1);
-    transition: transform 0.2s;
-    border: none;
-    cursor: pointer;
-}
-
-.form-button-add {
-    background-color: #E63946;
-    color: white;
-}
-
-.form-button-cancel {
-    background-color: #585858;
-    color: white;
-}
-
-.form-button-add:hover,
-.form-button-cancel:hover {
-    transform: scale(1.02);
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-.add-project-form {
-    opacity: 0;
 }

@@ -4,25 +4,88 @@ import {
 
 import {
     displayNewTask,
+    getFormatedDate,
 } from "./dom";
 
 import add from 'date-fns/add'
-import format from 'date-fns/format'
 
-let editOldTaskForm = document.querySelector('.edit-old-task-form');
+
+let taskForm = document.querySelector('.task-form');
 let taskContainer = document.querySelector('.tasks-container');
 
 
+
 let tasks = [];
+
+function closeTaskContainer() {
+    for (let i = 0; i < tasks.length; i++) {
+        let task = tasks[i];
+        task.containerOpen = false;
+        console.log('task container is open? ' + task.containerOpen);
+    }
+}
+
+function toggleTaskElementsDisplay(e) {
+    let elementId = getTaskElementsId(e);
+    toggleElementsSize(elementId);
+    toggleElementsOpacity(elementId);
+    rotateArrowBtn(e);
+}
+
+function toggleElementsOpacity(elementId) {
+    let element = document.getElementById(elementId);
+    let eleChildren = element.children;
+    for (let i = 0; i < eleChildren.length; i++) {
+        let child = eleChildren[i];
+        let childClasses = child.classList;
+        for (let j = 0; j < childClasses.length; j++) {
+            let cc = childClasses[j];
+            if (cc == 'extra-ele') {
+                child.classList.toggle('hide-elements');
+            }
+        }
+    }
+}
+
+function toggleElementsSize(id) {
+    let taskElement = document.getElementById(id);
+    for (let i = 0; i < tasks.length; i++) {
+        let task = tasks[i];
+
+        if (task.id == id) {
+            if (!task.containerOpen) {
+                taskElement.style.gridTemplateRows = "1fr 2fr 1fr";
+                task.containerOpen = true;
+            } else if (task.containerOpen) {
+                taskElement.style.gridTemplateRows = "1fr 0px 1fr";
+                task.containerOpen = false;
+            }
+        }
+    }
+}
+
+function getTaskElementsId(e) {
+    let eleGrandParent = e.target.parentNode.parentNode;
+    let targetElementId = eleGrandParent.parentNode.id;
+    return targetElementId;
+}
+
+function rotateArrowBtn(e) {
+    let element = e.target;
+    element.classList.toggle('rotate-arrow')
+}
+
+
+
 
 
 
 function displayDueHeaders(today, tomorrow, date) {
 
-    let formatToday = today.split('-');    
+    let formatToday = today.split('-');
     let formatTom = tomorrow.split('-');
-    
-    formatToday =  formatToday[2] + '.' + formatToday[1] + '.' + formatToday[0];
+
+    formatToday = formatToday[2] + '.' + formatToday[1] + '.' + formatToday[0];
     formatTom = formatTom[2] + '.' + formatTom[1] + '.' + formatTom[0];
 
 
@@ -33,7 +96,7 @@ function displayDueHeaders(today, tomorrow, date) {
     }
 }
 
-function displayDueTasks(date) {   
+function displayDueTasks(date) {
 
     let a = new Date();
     let today = getToday(a);
@@ -156,25 +219,25 @@ function eraseTasksFromProject(projectName) {
 
 //When user wants to edit already existing task. Open obj values in the form.
 function openFormWithObjValues(event) {
-    let element = event.target;
-    let parentId = element.parentNode.id;
-    let formElements = editOldTaskForm.elements;
-
+    let eleParent = event.target.parentNode;
+    let targetElementId = eleParent.parentNode.id;
+    let formElements = taskForm.elements;
     let taskId;
 
     for (let i = 0; i < tasks.length; i++) {
         let task = tasks[i];
-        if (task.id == parentId) {
+        if (task.id == targetElementId) {
+
             taskId = task.id;
             for (let j = 0; j < formElements.length; j++) {
                 let eleName = formElements[j].name;
-                console.log(' elements name is ' + eleName);
                 switch (eleName) {
                     case 'task-name':
                         formElements[j].value = task.name;
                         break;
-                    case 'project':
-                        formElements[j].value = task.project;
+                    case 'select-project':
+                        console.log('tasks project is ' + task.project );
+                        formElements[j].value = task.project.toLowerCase();
                         break;
                     case 'dueDate':
                         formElements[j].value = task.dueDate;
@@ -187,6 +250,9 @@ function openFormWithObjValues(event) {
                             formElements[j].checked = true;
                         }
                         break;
+                    case 'task-notes':
+                        formElements[j].value = task.notes;
+                        break;
                 }
             }
         }
@@ -196,53 +262,52 @@ function openFormWithObjValues(event) {
 
 //When user has inputed info about the task, or has edited old task, make return taks obj
 function getValuesFromTaskForm(data, id, submitType) {
-    let taskName;
-    let projectName;
-    let dueDate;
-    let dueTime;
-    let taskPriority;
+    let obj = {}
 
     for (const entry of data) {
 
-        console.log(entry[0] + ' = ' + entry[1]);
         switch (entry[0]) {
             case 'task-name':
-                taskName = entry[1];
+                obj.name = entry[1];
                 break;
             case 'select-project':
-                projectName = entry[1];
+                obj.project = entry[1];
                 break;
             case 'dueDate':
-                dueDate = entry[1];
+                obj.dueDate = entry[1];
                 break;
             case 'time':
-                dueTime = entry[1];
+                obj.dueTime = entry[1];
                 break;
             case 'task-priority':
-                taskPriority = entry[1];
+                obj.priority = entry[1];
+                break;
+            case 'task-notes':
+                obj.notes = entry[1];
                 break;
         }
     }
     if (submitType == 'edit') {
-        return changeTaskObjValues(id, taskName, projectName, dueDate, dueTime, taskPriority);
+        return changeTaskObjValues(id, obj.name, obj.project, obj.dueDate, obj.dueTime, obj.priority, obj.notes);
     } else if (submitType == 'addNew') {
-        return new TodoItem(taskName, dueDate, dueTime, projectName, taskPriority);
+        return new TodoItem(obj.name, obj.dueDate, obj.dueTime, obj.project, obj.priority, obj.notes);
     }
 }
 
 //When user is ready to submit edited values to the task, this changes the right task obj
-function changeTaskObjValues(id, name, project, duedate, duetime, priority) {
+function changeTaskObjValues(id, name, project, duedate, duetime, priority, notes) {
     let obj;
     for (let i = 0; i < tasks.length; i++) {
-        let element = tasks[i];
+        let task = tasks[i];
         //By comparing elements id to the obj.id we find the right obj
-        if (element.id == id) {
-            obj = tasks[i];
-            element.name = name;
-            element.project = project;
-            element.dueDate = duedate;
-            element.dueTime = duetime;
-            element.priority = priority;
+        if (task.id == id) {
+            obj = task;
+            task.name = name;
+            task.project = project;
+            task.dueDate = duedate;
+            task.dueTime = duetime;
+            task.priority = priority;
+            task.notes = notes;
         }
     }
     return obj;
@@ -265,8 +330,9 @@ function makeNewTask(form) {
 
 //Changes the screen view, that edited task values show
 function displayEditedTask(id, obj) {
-    let element = document.getElementById(id)
+    let element = document.getElementById(id);
     let childElements = element.children;
+    let date = getFormatedDate(obj.dueDate)
 
     for (let i = 0; i < childElements.length; i++) {
         const e = childElements[i];
@@ -276,13 +342,13 @@ function displayEditedTask(id, obj) {
         for (let j = 0; j < eClassNames.length; j++) {
             switch (eClassNames[j]) {
                 case 'task-name':
-                    e.innerHTML = obj.name;
+                    e.innerHTML = `<p>${obj.name}</p>`; 
                     break;
                 case 'due-date':
-                    e.innerHTML = obj.dueDate;
+                    e.innerHTML = `<p>${date}</p>`;
                     break;
                 case 'due-time':
-                    e.innerHTML = obj.dueTime;
+                    e.innerHTML = `<p>${obj.dueTime}</p>`;
                     break;
                 case 'color-code':
                     //Because class name priority is always on the last item on the divs classlist
@@ -290,6 +356,12 @@ function displayEditedTask(id, obj) {
                     e.classList.remove(elementsPriority);
                     e.classList.add(obj.priority);
                     break;
+                case 'tasks-project':
+                    e.innerHTML = `<p>#${obj.project}</p>`;
+                    break;
+                case 'task-notes':
+                    e.innerHTML = `${obj.notes}`;
+                    break;                
             }
         }
     }
@@ -304,7 +376,7 @@ function removeTaskFromDisplay(event) {
     let element = event.target;
     let elementsParent = element.parentNode;
     let grandParentId = elementsParent.parentNode.id;
-    
+
     document.getElementById(grandParentId).style.opacity = 0;
     setTimeout(function () {
         document.getElementById(grandParentId).remove();
@@ -351,10 +423,10 @@ function readTasksFromStorage() {
 }
 
 function generateDefaultTasks() {
-    tasks.push(new TodoItem('Do work project', '2021-02-06', '15.00', 'Work', 'priority2'));
-    tasks.push(new TodoItem('Star Wars Revenge of the Sith', '2021-06-13', '20.00', 'Movies', 'priority3'));
-    tasks.push(new TodoItem('Go outside', '2021-01-31', '18.00', 'Home', 'priority1'));
-    tasks.push(new TodoItem('Clean apartment', '2021-01-30', '21.00', 'Home', 'priority5'));
+    tasks.push(new TodoItem('Do work project', '2021-02-06', '15.00', 'Work', 'priority2', 'Add more styles to form container'));
+    tasks.push(new TodoItem('Star Wars Revenge of the Sith', '2021-06-13', '20.00', 'Movies', 'priority3', 'Buy more popcorn'));
+    tasks.push(new TodoItem('Go outside', '2021-01-31', '18.00', 'Home', 'priority1', 'Put warmer gloves on'));
+    tasks.push(new TodoItem('Clean apartment', '2021-01-30', '21.00', 'Home', 'priority5', 'Vacuum, dust shelves, do dishes'));
 }
 
 
@@ -366,9 +438,11 @@ export {
     removeTaskFromDisplay,
     removeTaskWhenComplete,
     openFormWithObjValues,
-    editOldTask,
     eraseTasksFromProject,
     displayFilteredTasks,
     displayDueTasks,
     displayProjectHeader,
+    toggleTaskElementsDisplay,
+    closeTaskContainer,
+    editOldTask,
 }
