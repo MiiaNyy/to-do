@@ -4,14 +4,17 @@ import {
 
 import {
     displayNewProject,
-
+    displayProjectForm,
+    toggleFormBackgroundFilter,
 } from "./dom";
 
 import {
     eraseTasksFromProject,
-    displayFilteredTasks,
-    displayProjectHeader,
     closeTaskContainer,
+    closeAllTaskElements,
+    displayProjectHeader,
+    displayFilteredTasks,
+    displayTasks,
 } from "./tasks";
 
 
@@ -21,18 +24,44 @@ let projectForm = document.querySelector('.add-project-form');
 
 
 
-let projectsFolder = document.querySelector('.project-menu');
-let priorityFolderItems = document.querySelectorAll('.filter-name');
 
 
 
-//When user tries to add project that already exist. Same name.
-let duplicateNames = false;
+
+
 
 let projects = [];
-let priorityArr = ['priority1', 'priority2', 'priority3', 'priority4', 'priority5']
+let priorityArr = ['Priority 1', 'Priority 2', 'Priority 3', 'Priority 4', 'Priority 5']
 
 let projectId;
+
+
+function openProjectEditingForm(e) {
+    //Background changes to home screen
+    displayTasks();
+    closeAllTaskElements(e);    
+    projectId = openFormWithObjValues(e);
+    projectForm.style.opacity = 1;
+}
+
+function submitEditedProject() {
+    editProject(projectForm, projectId);
+    projectForm.reset();    
+}
+
+//Checks that project form input field is not empty
+function checkEmptyInput(form) {
+    let data = new FormData(form);
+    for (const entry of data) {
+        console.log(entry[0] + ' = ' + entry[1]);
+        if (entry[0] == 'project-name' && entry[1].length <= 0) {
+            console.log('empty input found');
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
 
 //Return right obj, that is later used to generate task header
 function getObjForHeader(id) {
@@ -44,32 +73,26 @@ function getObjForHeader(id) {
     }
 
     for (let i = 0; i < priorityArr.length; i++) {
-        if (id == priorityArr[i]) {
+        let toLower = priorityArr[i].toLowerCase();
+        let priority = toLower.replace(/\s+/g, '');
+        if (id == priority) {
             let priorityObj = {
-                name: id
+                name: priorityArr[i],
+                priority: id
             };
             return priorityObj
         }
     }
 }
 
-//depending on what button user clicks, project is edited or deleted
-function submitEditedProject(e) {
-    if (e.target.className == 'edit-project') {
-        editProject(projectForm, projectId);
-        if (!duplicateNames) {
-            projectForm.reset();
-        }
-    } else if (e.target.className == 'delete-project') {
-        eraseProject(e);
-    }
-}
 
-//When project settings icon is clicked, open project form
-function openProjectFormForEditing(e) {
-    displayProjectForm('Edit project');
-    projectId = openFormWithObjValues(e);
-    projectForm.style.opacity = 1;
+
+function removeProjectForm() {
+    projectForm.style.opacity = 0;
+    setTimeout(function () {
+        projectForm.innerHTML = '';
+    }, 1000);
+
 }
 
 //When user clicks specific project, open right tasks in screen
@@ -81,48 +104,7 @@ function displayProjectsTasks(elementId) {
 
 }
 
-// opens project form or project tasks to view depending what user clicks
-function listenProjectFolder(e) {
-    let elementClasses = e.target.classList;
-    let elementId = e.target.id;
-    for (let i = 0; i < elementClasses.length; i++) {
-        if (elementClasses[i] == 'settings-icon') {
-            closeTaskContainer();
-            openProjectFormForEditing(e);
-        }
-        if (elementClasses[i] == 'project-name') {
-            closeTaskContainer();
-            displayProjectsTasks(elementId);
-        }
-    }
-}
 
-function eventListeners() {
-
-
-
-    //Edits already existing projects
-    projectForm.addEventListener('click', function (e) {
-        submitEditedProject(e);
-
-    }, false)
-
-    //Listens project folder
-    projectsFolder.addEventListener('click', function (e) {
-        listenProjectFolder(e)
-    })
-
-    priorityFolderItems.forEach(item => {
-        item.addEventListener('click', function (e) {
-            let elementId = e.target.id;
-            let projectObj = getObjForHeader(elementId);
-            displayProjectHeader(projectObj, 'priority');
-            displayFilteredTasks(elementId);
-        })
-    })
-
-
-}
 
 function displayProjectsInTaskForm() {
     let selectCont = document.querySelector('.select-project');
@@ -149,7 +131,6 @@ function eraseProject(e) {
         eraseTasksFromProject(objName);
         deleteProjectObj(projectId);
         removeProjectFromDisplay(projectId);
-        removeProjectForm();
     }
     saveProjectsToStorage();
     e.preventDefault();
@@ -339,22 +320,16 @@ function readProjectsFromStorage() {
 
 
 
-
-
-function removeProjectForm() {
-    projectForm.style.opacity = 0;
-    setTimeout(function () {
-        projectForm.innerHTML = '';
-    }, 1000);
-
-}
-
-eventListeners();
-
 export {
     makeNewProject,
     readProjectsFromStorage,
     displayProjects,
     displayProjectsInTaskForm,
     removeProjectForm,
+    checkEmptyInput,
+    getObjForHeader,
+    submitEditedProject,
+    eraseProject,
+    openProjectEditingForm,
+    displayProjectsTasks,
 }

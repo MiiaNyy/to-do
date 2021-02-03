@@ -12,6 +12,14 @@
     transition: 0.2s;
     width: 300px;
     overflow: hidden;
+    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    box-shadow: 3px 3px 12px 0px rgba(189, 189, 189, 0.45);
+}
+
+.material-icons.nav-icon {
+    color: #0707079b;
+    justify-self: end;
 }
 
 .menu {
@@ -87,11 +95,6 @@
 }
 
 
-.menu-item img {
-    justify-self: end;
-    width: 20px;
-    height: 20px;
-}
 
 .menu-item span {
     transition: all 0.2s ease-in-out;

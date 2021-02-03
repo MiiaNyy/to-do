@@ -3,6 +3,23 @@
 
 .tasks-container {}
 
+
+.empty-greeting {
+    margin: 100px auto;
+    font-family: 'Montserrat', sans-serif;
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+    color: #5858585e;
+    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    box-shadow: 3px 3px 12px 0px rgba(189, 189, 189, 0.45);
+}
+
+.empty-greeting h2 p {
+
+}
+
 .content {
     grid-area: 2 / 2 / 5 / 5;
     background-color: #FAFAFA;
@@ -16,6 +33,14 @@
     display: grid;
     grid-template-columns: 40px 1fr;
     grid-column-gap: 10px;
+    border-bottom: 1px solid #5858581e;
+    max-width: 1200px;
+}
+
+
+.task-cont-header h2 {
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.555);
 }
 
 .task-cont-header img {
@@ -139,11 +164,10 @@
     font-size: 13px;
 }
 
-.task img {
-    width: 15px;
-    height: 15px;
+.material-icons.calender-icon {
+    color: rgba(0, 0, 0, 0.26);
+    cursor: default;
 }
-
 
 
 .task-arrow-button {

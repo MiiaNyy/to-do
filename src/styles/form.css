@@ -31,7 +31,9 @@ select {
 .form-button-add,
 .form-button-cancel,
 .add-project,
-.cancel-project-form {
+.cancel-project-form,
+.edit-project,
+.delete-project {
     margin: 0px 30px;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
@@ -46,14 +48,16 @@ select {
 }
 
 .form-button-add,
-.add-project
+.add-project,
+.edit-project
 {
     background-color: #E63946;
     color: white;
 }
 
 .form-button-cancel,
-.cancel-project-form
+.cancel-project-form,
+.delete-project
 {
     background-color: #585858;
     color: white;
@@ -63,7 +67,9 @@ select {
 .form-button-cancel:hover,
 .cancel-project-form:hover,
 .add-project:hover,
-.edit-task-btn:hover {
+.edit-task-btn:hover,
+.edit-project:hover,
+.delete-project:hover  {
     transform: scale(1.02);
 }
 
@@ -99,7 +105,9 @@ select {
 }
 
 .add-project,
-.cancel-project-form {
+.cancel-project-form,
+.edit-project,
+.delete-project {
     width: 90px;
     height: 30px;
 }

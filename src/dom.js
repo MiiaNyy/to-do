@@ -11,7 +11,7 @@ let filterFolderIsOpen = false;
 
 
 function displayProjectForm(task) {
-    projectForm.innerHTML = `<span class="close-form-btn">&#10006;</span>
+    projectForm.innerHTML = `<span class="close-project-form">&#10006;</span>
     <h2>${task}</h2><hr class="divider"/>` +
         `<label for="project-name" class="text-label">Project name</label> 
         <br />` +
@@ -46,7 +46,7 @@ function displayProjectForm(task) {
 
     if (task == 'Edit project') {
         projectForm.innerHTML += `<input type="button" value="Edit" class="edit-project"/>
-        <button class="delete-project" >Delete project</button>`;
+        <button class="delete-project" >Delete</button>`;
     } else if (task == 'Add project') {
         projectForm.innerHTML += `<input type="button" value="Add" class="add-project"/>
         <input type="reset" value="Cancel" class="cancel-project-form"/>`;
@@ -163,6 +163,9 @@ function rotateProjectSpanArrow(id) {
 }
 
 function getFormatedDate(date) {
+    if(date == '') {
+        return 'No due date'
+    }
     let newDate = date.split('-');
     return `${newDate[2]}.${newDate[1]}.${newDate[0]}`;   
 }
@@ -170,6 +173,9 @@ function getFormatedDate(date) {
 
 function displayNewTask(obj) {
     let date = getFormatedDate(obj.dueDate);
+    if(obj.dueTime == '') {
+        obj.dueTime = 'No schedule'
+    }
 
     let taskHtml = document.createElement('div');
     taskHtml.classList.add('task', 'fade-effect');
@@ -181,11 +187,13 @@ function displayNewTask(obj) {
     <div class="div2 color-code ${obj.priority}"></div>
     <div class = "div3 task-name" >${obj.name}</div>
     <div class="div4 fade-effect hide-elements extra-ele tasks-project"><p>#${obj.project}</p></div>
-    <div class="div5"><img src="pics/calendar2.png"></div>
+    <div class="div5"><span class="material-icons calender-icon md-18 ">today</span></div>
     <div class="div6 due-date">${date}</div>
-    <div class="div7"><img src="pics/alarm-clock.png"> </div>
+    <div class="div7"><span class="material-icons calender-icon md-18 ">timer</span> </div>
     <div class = "div8 due-time" >${obj.dueTime}</div>
-    <div class="div9"><span ><img class="task-arrow-button fade-effect" src="pics/arrow.png"></span></div>
+    <div class="div9">
+        <span class="arrow-container"><img class="task-arrow-button fade-effect" src="pics/arrow.png"></span>
+    </div>
     <div class="div10 fade-effect hide-elements extra-ele"><button class="edit-task-btn">Edit</button></div>
     <div class="div11 fade-effect hide-elements extra-ele">Notes:</div>
     <div class="div12 task-notes fade-effect hide-elements extra-ele">${obj.notes}</div>`
@@ -205,11 +213,12 @@ function displayNewProject(obj) {
     nameToLower = nameToLower.replace(/\s+/g, '');
 
     projectItem.innerHTML = `<div class="color-code ${obj.projectPriority}"></div>
-        <p id="${nameToLower}" class="project-name">${obj.projectName}</p></div>                        
-            <img class="settings-icon fade-effect" src="pics/settings.png">`;
+        <p id="${nameToLower}" class="project-name">${obj.projectName}</p></div>
+        <span class="settings-icon material-icons md-18 md-dark md-inactive">more_vert</span>`;
     projectFolder.appendChild(projectItem);
 }
 
+//<img class="settings-icon fade-effect" src="pics/settings.png">
 function addIdentifyersToTaskForm(submitType) {
     let formHeader = document.querySelector('.task-form-header');
     let taskFormBtnContainer = document.querySelector('.form-button-cont');

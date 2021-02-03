@@ -14,19 +14,27 @@ import {
     displayProjects,
     displayProjectsInTaskForm,
     removeProjectForm,
+    checkEmptyInput,
+    getObjForHeader,
+    submitEditedProject,
+    eraseProject,
+    openProjectEditingForm,
+    displayProjectsTasks,
 } from "./projects"
 
 import {
     readTasksFromStorage,
     displayTasks,
     makeNewTask,
-    removeTaskFromDisplay,
     removeTaskWhenComplete,
     openFormWithObjValues,
     displayDueTasks,
     toggleTaskElementsDisplay,
     closeTaskContainer,
     editOldTask,
+    closeAllTaskElements,
+    displayProjectHeader,
+    displayFilteredTasks,
 } from "./tasks";
 
 let homeBtn = document.querySelector('.home-btn');
@@ -40,13 +48,13 @@ let taskForm = document.querySelector('.task-form');
 let openNewTaskFormBtn = document.querySelectorAll('.open-task-form-btn');
 let taskContainer = document.querySelector('.tasks-container');
 
-let submitNewProject = document.querySelector('.add-project-form');
+let projectForm = document.querySelector('.add-project-form');
 
-let cancelTaskForm = document.querySelector('.form-button-cancel');
 let closeTaskForm = document.querySelector('.close-task-form');
 
-let editOldTaskForm = document.querySelector('.edit-old-task-form');
 
+let projectsFolder = document.querySelector('.project-menu');
+let priorityFolderItems = document.querySelectorAll('.filter-name');
 
 let openProjectForm = document.querySelector('.open-project-form');
 
@@ -55,7 +63,7 @@ let taskFormBtnContainer = document.querySelector('.form-button-cont');
 
 
 let navIsOpen = true;
-let formIsOpen = false;
+let taskFormIsOpen = false;
 
 let projectFormOpen = false;
 
@@ -64,21 +72,37 @@ let projectFormOpen = false;
 let taskObjId;
 
 
+//Toggles project form into and off from display
+function toggleProjectFormDisplay(type) {
+    toggleFormBackgroundFilter();
+    if (!projectFormOpen) {
+        if (type == 'add') {
+            displayProjectForm('Add project');
+            projectForm.style.opacity = 1;
+        } else if (type == 'edit') {
+            displayProjectForm('Edit project')
+        }
+        projectFormOpen = true;
+        
+    } else if (type == 'remove' || projectFormOpen) {
+        removeProjectForm();
+        projectFormOpen = false;
+    }
+    console.log('projectForm is now open? ' + projectFormOpen + ' and type of toggling was ' + type);
+}
 
-
-
+//Toggles task form into and off from display
 function toggleTaskFormDisplay() {
     toggleFormBackgroundFilter();
     let form = document.querySelector('.task-form');
-    if (!formIsOpen) {
+    if (!taskFormIsOpen) {
         form.style.display = 'block';
-        formIsOpen = true;
-    } else if (formIsOpen) {
+        taskFormIsOpen = true;
+    } else if (taskFormIsOpen) {
         form.style.display = 'none';
-        formIsOpen = false;
+        taskFormIsOpen = false;
     }
 }
-
 
 function toggleNavDisplay() {
     navIcon.classList.toggle("open");
@@ -92,44 +116,42 @@ function toggleNavDisplay() {
     }
 }
 
-function toggleProjectFormDisplay() {
-    if (!projectFormOpen) {
-        submitNewProject.style.opacity = 1;
-        displayProjectForm('Add project');
-        projectFormOpen = true;
-    } else {
-        removeProjectForm();
-        projectFormOpen = false;
-    }
+
+function openTaskEditingForm(event) {
+    closeAllTaskElements(event);
+    addIdentifyersToTaskForm('edit');
+    displayProjectsInTaskForm();
+    taskObjId = openFormWithObjValues(event);
+    toggleTaskFormDisplay();
 }
 
-
 function taskListeners() {
+    //User clicks cross in a task form and closes form
     closeTaskForm.addEventListener('click', function () {
         taskForm.reset();
         toggleTaskFormDisplay();
     })
 
-    //User submits new task
+
     taskFormBtnContainer.addEventListener("click", function (event) {
         let element = event.target.classList;
         for (let i = 0; i < element.length; i++) {
+            //User submits new task
             if (element[i] == 'form-button-add') {
-                toggleTaskFormDisplay();
-                //toggleFormBackgroundFilter();
                 makeNewTask(taskForm);
+                toggleTaskFormDisplay();
                 taskForm.reset();
                 event.preventDefault();
             }
+            //User clicks cancel button and form closes
             if (element[i] == 'form-button-cancel') {
                 taskForm.reset();
                 toggleTaskFormDisplay();
             }
-        //Edited task is submited
-            if(element[i] == 'form-button-edit') {
+            //Edited task is submited
+            if (element[i] == 'form-button-edit') {
                 editOldTask(taskForm, taskObjId);
                 toggleTaskFormDisplay();
-                console.log('task form is open? ' + formIsOpen);
                 taskForm.reset();
                 event.preventDefault();
             }
@@ -141,33 +163,27 @@ function taskListeners() {
 
     //Opens and closes task form when user wants to add new tasks
     openNewTaskFormBtn.forEach(function (button) {
-        button.addEventListener('click', function () {
-            closeTaskContainer();
+        button.addEventListener('click', function (event) {
+            closeAllTaskElements(event);
             addIdentifyersToTaskForm('add new');
             displayProjectsInTaskForm();
             toggleTaskFormDisplay();
+            displayTasks();
         })
     })
 
     taskContainer.addEventListener('click', function (event) {
         let element = event.target.classList;
         for (let i = 0; i < element.length; i++) {
+            //User clicks checkmark indicating that task is done. Task can be removed from view and tasks obj
             if (element[i] == 'task-completed') {
-                removeTaskFromDisplay(event);
                 removeTaskWhenComplete(event);
-            
-        //open task editing form
+
+                //open task editing form
             } else if (element[i] == 'edit-task-btn') {
-                console.log('edit task button pressed');
-                closeTaskContainer();
-                //Kun painetaan edit task, task container ei pienene vaikka sen pitäisi!Korjaa huomenna!!
-                //toggleTaskElementsDisplay(event);
-                addIdentifyersToTaskForm('edit');
-                displayProjectsInTaskForm();               
-                taskObjId = openFormWithObjValues(event);
-                toggleTaskFormDisplay();
-                console.log('task form is open? ' + formIsOpen);
-                
+                openTaskEditingForm(event);
+                displayTasks();
+
             } else if (element[i] == 'task-arrow-button') {
                 toggleTaskElementsDisplay(event);
             }
@@ -175,38 +191,76 @@ function taskListeners() {
     })
 }
 
+
+
 function projectListeners() {
 
+    //Edits already existing projects
+    projectForm.addEventListener('click', function (e) {
+        if (e.target.className == 'edit-project') {
+            submitEditedProject();
+            toggleProjectFormDisplay('remove');
+
+        } else if (e.target.className == 'delete-project') {
+            eraseProject(e);
+            toggleProjectFormDisplay('remove');
+        }
+    }, false)
+
     //User adds new project
-    submitNewProject.addEventListener('click', function (event) {
-        if (event.target.className == 'add-project') {
-            let inputIsFilled = checkData(submitNewProject);
+    projectForm.addEventListener('click', function (event) {
+        let targetName = event.target.className;
+        if (targetName == 'add-project') {
+            let inputIsFilled = checkEmptyInput(projectForm);
             if (inputIsFilled) {
-                makeNewProject(submitNewProject);
-                toggleFormBackgroundFilter();
-                submitNewProject.style.opacity = 0;
-                submitNewProject.innerHTML = '';
-                projectFormOpen = false;
+                makeNewProject(projectForm);
+                toggleProjectFormDisplay('add')
             }
-
-
-        } else if (event.target.className == 'cancel-project-form') {
-            toggleFormBackgroundFilter();
-            submitNewProject.reset();
-            submitNewProject.style.opacity = 0;
-            submitNewProject.innerHTML = '';
-            projectFormOpen = false;
+        } else if (targetName == 'cancel-project-form' || targetName == 'close-project-form') {
+            projectForm.reset();
+            toggleProjectFormDisplay('remove');
         }
     }, false);
 
-    openProjectForm.addEventListener('click', function () {
-        closeTaskContainer()
-        toggleFormBackgroundFilter()
-        toggleProjectFormDisplay();
+    //Listens project folder
+    projectsFolder.addEventListener('click', function (e) {
+        let elementClasses = e.target.classList;
+        let elementId = e.target.id;
+
+        for (let i = 0; i < elementClasses.length; i++) {
+            if (elementClasses[i] == 'settings-icon') {
+                toggleProjectFormDisplay('edit');
+                openProjectEditingForm(e);
+                displayTasks();
+                
+            }
+            if (elementClasses[i] == 'project-name') {
+                closeTaskContainer();
+                displayProjectsTasks(elementId);
+            }
+        }
+    })
+
+
+
+    openProjectForm.addEventListener('click', function (e) {
+        displayTasks();
+        closeAllTaskElements(e);
+        toggleProjectFormDisplay('add');
     })
 }
 
 function sideBarListeners() {
+
+
+    priorityFolderItems.forEach(item => {
+        item.addEventListener('click', function (e) {
+            let elementId = e.target.id;
+            let projectObj = getObjForHeader(elementId);
+            displayProjectHeader(projectObj, 'priority');
+            displayFilteredTasks(elementId);
+        })
+    })
 
     //Opens and closes sidebars project folder
     openProjectFolder.addEventListener('click', function (event) {
@@ -255,19 +309,6 @@ function eventListeners() {
 
 
 
-function checkData(form) {
-    let data = new FormData(form);
-    for (const entry of data) {
-        console.log(entry[0] + ' = ' + entry[1]);
-        if (entry[0] == 'project-name' && entry[1].length <= 0) {
-
-            console.log('empty input found');
-            return false;
-        } else {
-            return true;
-        }
-    }
-}
 
 
 function start() {

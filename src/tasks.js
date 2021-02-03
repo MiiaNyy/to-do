@@ -25,12 +25,27 @@ function closeTaskContainer() {
     }
 }
 
+function closeAllTaskElements(e) {
+    for (let i = 0; i < tasks.length; i++) {
+        let task = tasks[i];
+        let taskElement = document.getElementById(task.id);
+        if (task.containerOpen) {
+            taskElement.style.gridTemplateRows = "1fr 0px 1fr";
+            toggleElementsOpacity(task.id)
+            task.containerOpen = false;
+
+        }
+    }
+}
+
 function toggleTaskElementsDisplay(e) {
     let elementId = getTaskElementsId(e);
     toggleElementsSize(elementId);
     toggleElementsOpacity(elementId);
     rotateArrowBtn(e);
 }
+
+
 
 function toggleElementsOpacity(elementId) {
     let element = document.getElementById(elementId);
@@ -97,7 +112,7 @@ function displayDueHeaders(today, tomorrow, date) {
 }
 
 function displayDueTasks(date) {
-
+    let taskCounter = 0;
     let a = new Date();
     let today = getToday(a);
     let tomorrow = getTomorrow(a);
@@ -108,11 +123,18 @@ function displayDueTasks(date) {
         const element = tasks[i];
         if (element.dueDate == today && date == 'today-due') {
             displayNewTask(element);
+            taskCounter++
         } else if (element.dueDate == tomorrow && date == 'tomorrow-due') {
             displayNewTask(element);
+            taskCounter++
         }
     }
+    if (taskCounter <= 0) {
+        displayEmptyProjectGreeting('date');
+    }
 }
+
+
 
 function getToday(date) {
     let year = date.getFullYear();
@@ -160,16 +182,37 @@ function displayTasks() {
 
 //Depending on the filter (specific project or priority), show only those tasks
 function displayFilteredTasks(filter) {
+    let taskCounter = 0;
     for (let i = 0; i < tasks.length; i++) {
         let projectToLower = tasks[i].project.toLowerCase();
         if (projectToLower == filter) {
             displayNewTask(tasks[i]);
+            taskCounter++
         } else if (tasks[i].priority == filter) {
             displayNewTask(tasks[i]);
+            taskCounter++;
         }
+    }
+    if (taskCounter <= 0) {
+        displayEmptyProjectGreeting('project');
     }
 }
 
+function displayEmptyProjectGreeting(type) {
+    let greeting = document.createElement('div');
+    greeting.classList.add('empty-greeting');
+    if (type == 'project') {
+        greeting.innerHTML = `<h2>This folder seems to be empty</h2> <p>Keep your tasks organized in your projects. <br><br>
+    Group tasks according to your goal or area of life or
+    create custom task views to filter by priority.</p>`;
+    } else if(type == 'date') {
+        greeting.innerHTML = `<h2>No tasks that are due</h2><p> Group tasks according to your goal or area of life or
+    create custom task views to filter by priority.</p>`;
+    }
+
+    taskContainer.appendChild(greeting);
+
+}
 
 function displayProjectHeader(obj, submitType) {
     taskContainer.innerHTML = '';
@@ -182,7 +225,7 @@ function displayProjectHeader(obj, submitType) {
             <h1>${obj.projectName}</h1>`
             break;
         case 'priority':
-            html = `<div class="color-code ${obj.name}"></div>
+            html = `<div class="color-code ${obj.priority}"></div>
             <h1>${obj.name}</h1>`;
             break;
         case 'today-due':
@@ -236,7 +279,7 @@ function openFormWithObjValues(event) {
                         formElements[j].value = task.name;
                         break;
                     case 'select-project':
-                        console.log('tasks project is ' + task.project );
+                        console.log('tasks project is ' + task.project);
                         formElements[j].value = task.project.toLowerCase();
                         break;
                     case 'dueDate':
@@ -342,13 +385,13 @@ function displayEditedTask(id, obj) {
         for (let j = 0; j < eClassNames.length; j++) {
             switch (eClassNames[j]) {
                 case 'task-name':
-                    e.innerHTML = `<p>${obj.name}</p>`; 
+                    e.innerHTML = obj.name;
                     break;
                 case 'due-date':
-                    e.innerHTML = `<p>${date}</p>`;
+                    e.innerHTML = date;
                     break;
                 case 'due-time':
-                    e.innerHTML = `<p>${obj.dueTime}</p>`;
+                    e.innerHTML = obj.dueTime;
                     break;
                 case 'color-code':
                     //Because class name priority is always on the last item on the divs classlist
@@ -357,11 +400,11 @@ function displayEditedTask(id, obj) {
                     e.classList.add(obj.priority);
                     break;
                 case 'tasks-project':
-                    e.innerHTML = `<p>#${obj.project}</p>`;
+                    e.innerHTML = `#${obj.project}`;
                     break;
                 case 'task-notes':
-                    e.innerHTML = `${obj.notes}`;
-                    break;                
+                    e.innerHTML = obj.notes;
+                    break;
             }
         }
     }
@@ -371,33 +414,35 @@ function displayEditedTask(id, obj) {
 
 
 
-function removeTaskFromDisplay(event) {
+function removeTaskFromDisplay(elementId) {
+    document.getElementById(elementId).style.opacity = 0;
+    setTimeout(function () {
+        document.getElementById(elementId).remove();
+        console.log('task is now removed from view');
+    }, 900);
+}
+
+function removeTaskObj(elementId) {
+    if (tasks.length >= 0) {
+        for (let i = tasks.length - 1; i >= 0; i--) {
+            if (tasks[i].id == elementId) {
+                console.log('Removed task named ' + tasks[i].name);
+                tasks.splice(i, 1);
+                saveTasksToStorage();
+                console.log('tasks length is now ' + tasks.length);
+            }
+        }
+    }
+}
+
+function removeTaskWhenComplete(event) {
     //to get the task container id we need to go to levels up (target elements grand parent element)
     let element = event.target;
     let elementsParent = element.parentNode;
     let grandParentId = elementsParent.parentNode.id;
 
-    document.getElementById(grandParentId).style.opacity = 0;
-    setTimeout(function () {
-        document.getElementById(grandParentId).remove();
-        console.log('task is now removed from view');
-    }, 900);
-}
-
-function removeTaskWhenComplete(event) {
-    let element = event.target;
-    let elementsParent = element.parentNode;
-    let grandParentId = elementsParent.parentNode.id;
-
-    if (tasks.length > 0) {
-        for (let i = tasks.length - 1; i >= 0; i--) {
-            if (tasks[i].id == grandParentId) {
-                tasks.splice(i, 1);
-                saveTasksToStorage();
-                console.log('Removed task named ' + tasks[i].name + '. tasks length is now ' + tasks.length);
-            }
-        }
-    }
+    removeTaskFromDisplay(grandParentId);
+    removeTaskObj(grandParentId);
 }
 
 
@@ -435,7 +480,6 @@ export {
     readTasksFromStorage,
     displayTasks,
     makeNewTask,
-    removeTaskFromDisplay,
     removeTaskWhenComplete,
     openFormWithObjValues,
     eraseTasksFromProject,
@@ -445,4 +489,5 @@ export {
     toggleTaskElementsDisplay,
     closeTaskContainer,
     editOldTask,
+    closeAllTaskElements,
 }
