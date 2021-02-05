@@ -1,4 +1,5 @@
 import "./styles/main.css"
+
 import {
     closeNav,
     openNav,
@@ -6,6 +7,11 @@ import {
     toggleFormBackgroundFilter,
     displayProjectForm,
     addIdentifyersToTaskForm,
+    toggleDarkMode,
+    readDarkmodeFromStorage,
+    saveDarkModeToStorage,
+    newTaskIdentifyers,
+    editTaskIdentifyers
 } from "./dom"
 
 import {
@@ -40,6 +46,8 @@ import {
 let homeBtn = document.querySelector('.home-btn');
 let dateBtns = document.querySelectorAll('.due-btn');
 
+let darkModeSlider = document.querySelector('.slider');
+
 let navIcon = document.querySelector('#nav-icon');
 let openProjectFolder = document.querySelector(".open-project-folder");
 let filterFolderBtn = document.querySelector(".filter-btn");
@@ -50,13 +58,13 @@ let taskContainer = document.querySelector('.tasks-container');
 
 let projectForm = document.querySelector('.add-project-form');
 
-let closeTaskForm = document.querySelector('.close-task-form');
+let closeTaskFormBtn = document.querySelector('.close-task-form');
 
 
 let projectsFolder = document.querySelector('.project-menu');
 let priorityFolderItems = document.querySelectorAll('.filter-name');
 
-let openProjectForm = document.querySelector('.open-project-form');
+let openProjectFormBtn = document.querySelector('.open-project-form');
 
 
 let taskFormBtnContainer = document.querySelector('.form-button-cont');
@@ -73,36 +81,40 @@ let taskObjId;
 
 
 //Toggles project form into and off from display
-function toggleProjectFormDisplay(type) {
+function toggleProjectFormDisplay(callback) {
     toggleFormBackgroundFilter();
-    if (!projectFormOpen) {
-        if (type == 'add') {
-            displayProjectForm('Add project');
-            projectForm.style.opacity = 1;
-        } else if (type == 'edit') {
-            displayProjectForm('Edit project')
-        }
-        projectFormOpen = true;
-        
-    } else if (type == 'remove' || projectFormOpen) {
-        removeProjectForm();
-        projectFormOpen = false;
-    }
-    console.log('projectForm is now open? ' + projectFormOpen + ' and type of toggling was ' + type);
+    callback();
+}
+
+function closeProjectForm() {
+    removeProjectForm();
+    projectFormOpen = false;
+}
+
+function openProjectForm() {
+    projectFormOpen = true;
+    projectForm.style.display = 'block';
+    displayProjectForm('Edit project');
 }
 
 //Toggles task form into and off from display
-function toggleTaskFormDisplay() {
+function toggleTaskFormDisplay(callback) {
     toggleFormBackgroundFilter();
     let form = document.querySelector('.task-form');
-    if (!taskFormIsOpen) {
-        form.style.display = 'block';
-        taskFormIsOpen = true;
-    } else if (taskFormIsOpen) {
-        form.style.display = 'none';
-        taskFormIsOpen = false;
-    }
+    callback(form);
 }
+
+function openTaskForm(form) {
+    form.style.display = 'block';
+    taskFormIsOpen = true;
+}
+
+function closeTaskForm(form) {
+    form.style.display = 'none';
+    taskFormIsOpen = false;
+}
+
+
 
 function toggleNavDisplay() {
     navIcon.classList.toggle("open");
@@ -117,141 +129,154 @@ function toggleNavDisplay() {
 }
 
 
+
+
 function openTaskEditingForm(event) {
     closeAllTaskElements(event);
-    addIdentifyersToTaskForm('edit');
+    addIdentifyersToTaskForm(editTaskIdentifyers);
     displayProjectsInTaskForm();
     taskObjId = openFormWithObjValues(event);
-    toggleTaskFormDisplay();
+    toggleTaskFormDisplay(openTaskForm);
 }
 
 function taskListeners() {
     //User clicks cross in a task form and closes form
-    closeTaskForm.addEventListener('click', function () {
+    closeTaskFormBtn.addEventListener('click', function () {
         taskForm.reset();
-        toggleTaskFormDisplay();
+        toggleTaskFormDisplay(closeTaskForm);
     })
 
 
     taskFormBtnContainer.addEventListener("click", function (event) {
-        let element = event.target.classList;
-        for (let i = 0; i < element.length; i++) {
-            //User submits new task
-            if (element[i] == 'form-button-add') {
-                makeNewTask(taskForm);
-                toggleTaskFormDisplay();
-                taskForm.reset();
-                event.preventDefault();
-            }
-            //User clicks cancel button and form closes
-            if (element[i] == 'form-button-cancel') {
-                taskForm.reset();
-                toggleTaskFormDisplay();
-            }
-            //Edited task is submited
-            if (element[i] == 'form-button-edit') {
-                editOldTask(taskForm, taskObjId);
-                toggleTaskFormDisplay();
-                taskForm.reset();
-                event.preventDefault();
-            }
+        let targetClassList = event.target.classList;
+
+        if (targetClassList.contains('form-button-add')) {
+            makeNewTask(taskForm);
+            toggleTaskFormDisplay(closeTaskForm);
+            taskForm.reset();
+            event.preventDefault();
+        }
+        //User clicks cancel button and form closes
+        if (targetClassList.contains('form-button-cancel')) {
+            taskForm.reset();
+            toggleTaskFormDisplay(closeTaskForm);
+        }
+        //Edited task is submited
+        if (targetClassList.contains('form-button-edit')) {
+            editOldTask(taskForm, taskObjId);
+            toggleTaskFormDisplay(closeTaskForm);
+            taskForm.reset();
+            event.preventDefault();
         }
     }, false);
-
-
-
 
     //Opens and closes task form when user wants to add new tasks
     openNewTaskFormBtn.forEach(function (button) {
         button.addEventListener('click', function (event) {
             closeAllTaskElements(event);
-            addIdentifyersToTaskForm('add new');
+            addIdentifyersToTaskForm(newTaskIdentifyers);
             displayProjectsInTaskForm();
-            toggleTaskFormDisplay();
+            if (!taskFormIsOpen) {
+                toggleTaskFormDisplay(openTaskForm);
+            }
             displayTasks();
         })
     })
 
     taskContainer.addEventListener('click', function (event) {
-        let element = event.target.classList;
-        for (let i = 0; i < element.length; i++) {
-            //User clicks checkmark indicating that task is done. Task can be removed from view and tasks obj
-            if (element[i] == 'task-completed') {
-                removeTaskWhenComplete(event);
+        let targetClassList = event.target.classList;
+        //User clicks checkmark indicating that task is done. Task can be removed from view and tasks obj
+        if (targetClassList.contains('task-completed')) {
+            removeTaskWhenComplete(event);
+            document.querySelector('.task-completed-message').style.opacity = 1;
+            document.querySelector('.task-completed-message').style.transform = 'translateY(-100px)';
+            setTimeout(function () {
+                document.querySelector('.task-completed-message').style.transform = 'translateY(0px)';
+            }, 3000);
+            setTimeout(function () {
+                document.querySelector('.task-completed-message').style.opacity = 0;
+            }, 3700);
 
-                //open task editing form
-            } else if (element[i] == 'edit-task-btn') {
-                openTaskEditingForm(event);
-                displayTasks();
+            
+            //open task editing form
+        } else if (targetClassList.contains('edit-task-btn')) {
+            openTaskEditingForm(event);
+            displayTasks();
 
-            } else if (element[i] == 'task-arrow-button') {
-                toggleTaskElementsDisplay(event);
-            }
+        } else if (targetClassList.contains('task-arrow-button')) {
+            toggleTaskElementsDisplay(event);
         }
     })
 }
+
 
 
 
 function projectListeners() {
 
     //Edits already existing projects
-    projectForm.addEventListener('click', function (e) {
-        if (e.target.className == 'edit-project') {
+    projectForm.addEventListener('click', function (event) {
+        let targetClassList = event.target.classList;
+        if (targetClassList.contains('edit-project')) {
             submitEditedProject();
-            toggleProjectFormDisplay('remove');
-
-        } else if (e.target.className == 'delete-project') {
-            eraseProject(e);
-            toggleProjectFormDisplay('remove');
+            toggleProjectFormDisplay(closeProjectForm);
+        } else if (targetClassList.contains('delete-project')) {
+            eraseProject(event);
+            toggleProjectFormDisplay(closeProjectForm);
         }
     }, false)
 
     //User adds new project
     projectForm.addEventListener('click', function (event) {
-        let targetName = event.target.className;
-        if (targetName == 'add-project') {
+        let targetClassList = event.target.classList;
+        if (targetClassList.contains('add-project')) {
             let inputIsFilled = checkEmptyInput(projectForm);
             if (inputIsFilled) {
                 makeNewProject(projectForm);
-                toggleProjectFormDisplay('add')
+                toggleProjectFormDisplay(closeProjectForm)
             }
-        } else if (targetName == 'cancel-project-form' || targetName == 'close-project-form') {
+        } else if (targetClassList.contains('cancel-project-form') || targetClassList.contains('close-project-form')) {
+            toggleProjectFormDisplay(closeProjectForm);
             projectForm.reset();
-            toggleProjectFormDisplay('remove');
         }
     }, false);
 
     //Listens project folder
-    projectsFolder.addEventListener('click', function (e) {
-        let elementClasses = e.target.classList;
-        let elementId = e.target.id;
-
-        for (let i = 0; i < elementClasses.length; i++) {
-            if (elementClasses[i] == 'settings-icon') {
-                toggleProjectFormDisplay('edit');
-                openProjectEditingForm(e);
-                displayTasks();
-                
-            }
-            if (elementClasses[i] == 'project-name') {
-                closeTaskContainer();
-                displayProjectsTasks(elementId);
-            }
+    projectsFolder.addEventListener('click', function (event) {
+        let elementId = event.target.id;
+        let targetClassList = event.target.classList;
+        if (targetClassList.contains('settings-icon')) {
+            toggleProjectFormDisplay(() => {
+                projectFormOpen = true;
+                projectForm.style.display = 'block';
+                displayProjectForm('Edit project');
+            })
+            openProjectEditingForm(event);
+            displayTasks();
+        }
+        if (targetClassList.contains('project-name')) {
+            closeTaskContainer();
+            displayProjectsTasks(elementId);
         }
     })
 
-
-
-    openProjectForm.addEventListener('click', function (e) {
+    openProjectFormBtn.addEventListener('click', function (event) {
         displayTasks();
-        closeAllTaskElements(e);
-        toggleProjectFormDisplay('add');
+        closeAllTaskElements(event);
+        toggleProjectFormDisplay(() => {
+            projectFormOpen = true;
+            projectForm.style.display = 'block';
+            displayProjectForm('Add project');
+        })
     })
 }
 
 function sideBarListeners() {
 
+    darkModeSlider.addEventListener('click', function (e) {
+        saveDarkModeToStorage();
+        toggleDarkMode();
+    })
 
     priorityFolderItems.forEach(item => {
         item.addEventListener('click', function (e) {
@@ -281,9 +306,6 @@ function sideBarListeners() {
         toggleFolderDisplay(event);
     })
 
-
-
-
     homeBtn.addEventListener('click', function (e) {
         closeTaskContainer()
         displayTasks();
@@ -294,7 +316,6 @@ function sideBarListeners() {
             closeTaskContainer();
             let elementId = e.target.id;
             if (elementId == 'today-due' || elementId == 'tomorrow-due') {
-                console.log(elementId);
                 displayDueTasks(elementId);
             }
         })
@@ -309,14 +330,13 @@ function eventListeners() {
 
 
 
-
-
 function start() {
     eventListeners();
     readTasksFromStorage();
     readProjectsFromStorage();
     displayTasks();
     displayProjects();
+    readDarkmodeFromStorage();
 }
 
 start();

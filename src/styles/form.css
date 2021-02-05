@@ -20,20 +20,16 @@ select {
 .task-form {
     transition: all 0.2s linear;
     background-color: #fbfbfb;
-    padding: 5px;
     font-size: 14px;
     border: none;
-    box-shadow: 6px 3px 28px 21px rgba(176, 176, 176, 0.92);
-    -webkit-box-shadow: 6px 3px 28px 21px rgba(176, 176, 176, 0.92);
-    -moz-box-shadow: 6px 3px 28px 21px rgba(176, 176, 176, 0.92);
+    -webkit-box-shadow: 3px 3px 12px 0px rgba(98, 98, 98, 0.555);
+    -moz-box-shadow: 3px 3px 12px 0px rgba(98, 98, 98, 0.555);
+    box-shadow: 3px 3px 12px 0px rgba(98, 98, 98, 0.555);
 }
 
-.form-button-add,
-.form-button-cancel,
-.add-project,
-.cancel-project-form,
-.edit-project,
-.delete-project {
+
+.form-add,
+.form-cancel {
     margin: 0px 30px;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
@@ -47,31 +43,32 @@ select {
     cursor: pointer;
 }
 
-.form-button-add,
-.add-project,
-.edit-project
-{
+.form-add {
     background-color: #E63946;
     color: white;
 }
 
-.form-button-cancel,
-.cancel-project-form,
-.delete-project
-{
-    background-color: #585858;
-    color: white;
-}
-
-.form-button-add:hover,
-.form-button-cancel:hover,
-.cancel-project-form:hover,
-.add-project:hover,
-.edit-task-btn:hover,
-.edit-project:hover,
-.delete-project:hover  {
+.form-add:hover  {
     transform: scale(1.02);
 }
+.form-cancel{
+    background-color: #58585867;
+    color: white;
+    transition: background-color 0.4s;
+}
+
+.form-cancel:hover {
+    transform: scale(1.02);
+    background-color: #585858ce;
+}
+
+
+.close-form-btn {
+    padding: 0px 5px;
+    font-size: 14px;
+}
+
+
 
 .task-form h2,
 .add-project-form h2 {
@@ -82,8 +79,8 @@ select {
 
 .divider {
     height: 1px;
-    width: 50%;
-    background-color: #585858;
+    width: 70%;
+    background-color: #58585886;
     border: none;
 }
 
@@ -91,8 +88,15 @@ select {
 
 
 .add-project-form {
-    opacity: 0;
-    padding: 15px;
+    padding-top: 3px;
+    padding-bottom:15px;
+    width: 350px;
+    height: 350px;
+    display: none;
+}
+
+.add-project-form .text-label {
+    margin-left: 22px;
 }
 
 .add-project-form h2 {
@@ -110,6 +114,7 @@ select {
 .delete-project {
     width: 90px;
     height: 30px;
+    margin: 5px 40px;
 }
 
 .add-project-form .input-field {
@@ -120,12 +125,19 @@ select {
     -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
     box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
     border: none;
+    margin-left: 22px;
+}
+
+.close-project-form {
+    padding-left: 5px ;
+    font-size: 14px;
 }
 
 
 /*---------------Add task form---------------*/
 .task-form {
     display: none;
+    padding: 7px;
 }
 
 .task-form h2 {
@@ -160,6 +172,7 @@ select {
 #task-name {
     height: 25px;
 }
+
 
 #task-name,
 textarea,

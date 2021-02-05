@@ -86,14 +86,14 @@ function getObjForHeader(id) {
 }
 
 
-
 function removeProjectForm() {
-    projectForm.style.opacity = 0;
+    projectForm.style.display = 'none';
     setTimeout(function () {
         projectForm.innerHTML = '';
     }, 1000);
 
 }
+
 
 //When user clicks specific project, open right tasks in screen
 function displayProjectsTasks(elementId) {

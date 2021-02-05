@@ -3,6 +3,10 @@
 @import "form.css";
 @import "content.css";
 @import "navIcon.css";
+@import "toggleBtn.css";
+@import "darkMode.css";
+@import "media.css";
+
 
 
 /* include border and padding in element width and height */
@@ -35,9 +39,7 @@ body {
     grid-row-gap: 0px;
     height: 100%;
     width: 100%;
-
 }
-
 
 .color-code {
     justify-self: end;
@@ -81,11 +83,11 @@ body {
 
 .filter-on {
     transform: scale(0.99);
-    filter: blur(4px);
-    -webkit-filter: blur(4px);
-    -moz-filter: blur(4px);
-    -o-filter: blur(4px);
-    -ms-filter: blur(4px);
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
 }
 
 .close-form-btn,
@@ -98,18 +100,59 @@ body {
     color: rgb(177, 177, 177);
 }
 
+.empty-greeting {
+    margin: 100px auto;
+    font-family: 'Montserrat', sans-serif;
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+    color: #5858585e;
+    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    box-shadow: 3px 3px 12px 0px rgba(189, 189, 189, 0.45);
+}
+
+.task-completed-message {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-column-gap: 5px ;
+    position: absolute;
+    left: 50%;
+    bottom: 0%;
+    padding: 1px;
+    width: 180px;
+    background-color: #f3f3f3;
+    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    transition: all 0.8s ease-in-out;
+    opacity: 0;
+}
 
 
-.material-icons.md-dark.md-inactive {
+.material-icons.task-complete {
+    color: #06d6a0;
+    justify-self: end;
+    align-self: center;
+}
+
+.material-icons.settings-icon {
     color: rgba(0, 0, 0, 0.26);
     align-self: center;
     cursor: pointer;
+    font-size: 18px;
 }
 
-.material-icons.md-dark.md-inactive:hover {
+.material-icons.settings-icon:hover {
     color: rgba(0, 0, 0, 0.54);
 }
 
-.material-icons.md-18 {
-    font-size: 18px;
+
+.material-icons.header-icon {
+    color: rgba(0, 0, 0, 0.842);
+    font-size: 30px;
+    align-self: center;
+    justify-self: end;
 }
+
+

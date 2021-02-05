@@ -1,0 +1,209 @@
+
+.dark-mode.content-container {
+    background-color: #222222;
+}
+
+.dark-mode .past-due-date {
+    border: 1px #CF6679 solid;
+    
+}
+
+.dark-mode .header {
+    background-color: #2e2e2e;
+}
+
+.dark-mode .header h1 {
+    color: #b6b6b6f3;
+}
+
+.dark-mode .header #header-btn {
+    background-color: #666666f3;
+}
+
+
+/*-----------------Side bar dark styles--------------*/
+.dark-mode .side-bar {
+    background-color: #313131 !important;
+    box-shadow: none !important;
+    color: rgb(195, 195, 195);
+}
+
+.dark-mode .side-bar .nav-display-icon span {
+    background: #b9b5b5 !important;
+}
+
+.dark-mode .side-bar .menu .menu-item {
+    border-bottom: 1px rgb(80, 80, 80) solid;
+}
+
+.material-icons.dark-mode-icons {
+    color: rgba(110, 110, 110, 0.746) !important;
+}
+
+.material-icons.dark-mode-icons.settings-icon:hover {
+    color: rgba(218, 218, 218, 0.746) !important;
+} 
+
+.dark-mode .side-bar .menu .collapse-menu .open-project-form {
+    background-color: #6d6c6c96;
+    box-shadow: 9px 8px 7px -4px rgb(58, 58, 58);
+    -webkit-box-shadow: 9px 8px 7px -4px rgb(58, 58, 58);
+    -moz-box-shadow: 9px 8px 7px -4px rgb(58, 58, 58);
+    transition: background-color 0.2s;
+}
+
+.dark-mode .side-bar .menu .collapse-menu .open-project-form:hover {
+    background-color: #85858596;
+}
+
+.dark-mode .priority1 {
+    background-color: #fb6389;
+}
+
+.dark-mode .priority2 {
+    background-color: #7238fa;
+}
+
+.dark-mode .priority3 {
+    background-color: #BB86FC;
+}
+
+.dark-mode .priority4 {
+    background-color: #03DAC5;
+}
+
+.dark-mode .priority5 {
+    background-color: #fbca57;
+}
+
+.dark-mode .side-bar .menu #side-btn {
+    background-color: #BB86FC;
+}
+
+.dark-mode .side-bar .menu #side-btn:hover {
+    background-color: #c494ff;
+    box-shadow: none;
+}
+
+/*--------------------Task container dark styles-------------------*/
+.dark-mode .content {
+    background-color: #222222 !important;
+}
+
+.dark-mode .content .task-cont-header {
+    color: #d8d8d8 !important;
+    border-bottom: 1px rgb(80, 80, 80) solid;
+}
+
+.dark-mode .content .task-cont-header h2 {
+    color: #c3c3c3 !important
+}
+
+.dark-mode .content .tasks-container .empty-greeting {
+    background-color: #2a2a2a;
+    color: #8080805e;
+    box-shadow: none;
+}
+
+.dark-mode .content .task {
+    color: #bdbdbd !important;
+    background-color: #363636;
+    box-shadow: none;
+}
+
+.dark-mode .content .task .div3 {
+    border-bottom: 1px rgb(80, 80, 80) solid;
+}
+
+.dark-mode .content .task .checkmark {
+    background-color: #222222;
+    transition: all 0.2s;
+}
+
+.dark-mode .content .task .checkmark:hover {
+    background-color: #252525af;
+}
+
+.dark-mode .content .task .edit-task-btn {
+    background-color: #5d5d5db2;
+    box-shadow:none;
+    transition: background-color 0.2s !important;
+}
+
+.dark-mode .content .task .edit-task-btn:hover {
+    background-color: #BB86FC;
+    color: #1b1b1b;
+}
+
+.dark-mode .content .task-completed-message {
+    background-color: #424242;
+    color: #c3c3c3;
+}
+
+/*--------------Forms--------------------*/
+
+.dark-mode .task-form,
+.dark-mode .add-project-form {
+    background-color: #464646;
+    color: #cac9c9;
+    box-shadow: none;
+}
+
+
+
+.dark-mode .task-form h2,
+.dark-mode .add-project-form h2 {
+    color: #e0e0e0;
+    text-shadow: none;
+}
+
+.dark-mode .task-form .divider,
+.dark-mode .add-project-form .divider {
+    background-color: rgb(136, 135, 135)
+}
+
+
+.dark-mode .add-project-form .input-field,
+.dark-mode .task-form .input-field,
+.dark-mode .task-form textarea,
+.dark-mode .task-form select,
+.dark-mode .task-form #dueDate,
+.dark-mode .task-form #time {
+    background-color: #e0e0e0;
+}
+
+.dark-mode .add-project-form .form-add,
+.dark-mode .add-project-form .form-cancel,
+.dark-mode .task-form .form-add,
+.dark-mode .task-form .form-cancel {
+    box-shadow: 9px 8px 7px -4px rgb(44, 44, 44);
+    -webkit-box-shadow: 9px 8px 7px -4px rgb(44, 44, 44);
+    -moz-box-shadow: 9px 8px 7px -4px rgb(44, 44, 44);
+    transition: all 0.2s;
+}
+
+.dark-mode .add-project-form .form-add,
+.dark-mode .task-form .form-add {
+    background-color: #BB86FC;
+    color: #000000;
+}
+
+.dark-mode .add-project-form .form-add:hover,
+.dark-mode .task-form .form-add:hover {
+    background-color: #cfa9fd;
+}
+
+.dark-mode .add-project-form .form-cancel,
+.dark-mode .task-form .form-cancel {
+    background-color: #585858;
+}
+
+.dark-mode .add-project-form .form-cancel:hover,
+.dark-mode .task-form .form-cancel:hover {
+    background-color: #666666;
+}
+
+/*-----------Footer----------------*/
+.dark-mode .footer {
+    background-color: #222222;
+}

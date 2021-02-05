@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
 
+
+
 .side-bar {
     grid-area: 1 / 1 / 6 / 2;
     background-color: rgb(245, 243, 243);

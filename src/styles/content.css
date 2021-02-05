@@ -1,31 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 
-.tasks-container {}
 
 
-.empty-greeting {
-    margin: 100px auto;
-    font-family: 'Montserrat', sans-serif;
-    padding: 20px;
-    width: 400px;
-    text-align: center;
-    color: #5858585e;
-    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    box-shadow: 3px 3px 12px 0px rgba(189, 189, 189, 0.45);
-}
-
-.empty-greeting h2 p {
-
-}
 
 .content {
     grid-area: 2 / 2 / 5 / 5;
     background-color: #FAFAFA;
     transition: margin-left .5s;
     padding: 16px;
-    margin-left: 100px;
+    padding-left: 100px;
+
+}
+
+.tasks-container {
+
 }
 
 
@@ -50,10 +39,13 @@
     height: 25px;
 }
 
-
+.tasks-container {
+    max-width: 70%;
+}
 
 .task {
-    width: 500px;
+    max-width: 700px;
+    min-width: 500px;
     display: grid;
     grid-template-columns: 40px repeat(2, 30px) 90px repeat(2, 30px) auto auto;
     grid-template-rows: 1fr 0px 1fr;
@@ -66,8 +58,12 @@
     font-family: 'Montserrat', sans-serif;
     -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
     -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    box-shadow: 3px 3px 12px 0px rgba(189, 189, 189, 0.45);
+    box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
     align-items: center;
+}
+
+.past-due-date {
+    border: 1px rgba(255, 0, 0, 0.431) solid;
 }
 
 .task-element-bigger {
@@ -209,7 +205,7 @@
 
 /* On mouse-over, add a grey background color */
 .checkbox-container:hover input~.checkmark {
-    background-color: #b6cbf8;
+    background-color: #a2b5df;
 }
 
 /* When the checkbox is checked, add a blue background */

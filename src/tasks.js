@@ -9,19 +9,16 @@ import {
 
 import add from 'date-fns/add'
 
-
 let taskForm = document.querySelector('.task-form');
 let taskContainer = document.querySelector('.tasks-container');
 
-
-
 let tasks = [];
+
 
 function closeTaskContainer() {
     for (let i = 0; i < tasks.length; i++) {
         let task = tasks[i];
         task.containerOpen = false;
-        console.log('task container is open? ' + task.containerOpen);
     }
 }
 
@@ -33,10 +30,11 @@ function closeAllTaskElements(e) {
             taskElement.style.gridTemplateRows = "1fr 0px 1fr";
             toggleElementsOpacity(task.id)
             task.containerOpen = false;
-
         }
     }
 }
+
+
 
 function toggleTaskElementsDisplay(e) {
     let elementId = getTaskElementsId(e);
@@ -44,8 +42,6 @@ function toggleTaskElementsDisplay(e) {
     toggleElementsOpacity(elementId);
     rotateArrowBtn(e);
 }
-
-
 
 function toggleElementsOpacity(elementId) {
     let element = document.getElementById(elementId);
@@ -93,22 +89,31 @@ function rotateArrowBtn(e) {
 
 
 
-
-
 function displayDueHeaders(today, tomorrow, date) {
-
     let formatToday = today.split('-');
     let formatTom = tomorrow.split('-');
 
     formatToday = formatToday[2] + '.' + formatToday[1] + '.' + formatToday[0];
     formatTom = formatTom[2] + '.' + formatTom[1] + '.' + formatTom[0];
 
-
     if (date == 'today-due') {
         displayProjectHeader(formatToday, date);
     } else if (date == 'tomorrow-due') {
         displayProjectHeader(formatTom, date);
     }
+}
+
+function checkPassedDates(date) {
+    let a = new Date();
+    let today = getToday(a);
+    today = new Date(today);
+    let comparedDate = new Date(date);
+    console.log('today is ' + today + ' and compared date is ' + comparedDate);
+    if (comparedDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+        return true;
+    } 
+    
+    return false;   
 }
 
 function displayDueTasks(date) {
@@ -205,7 +210,7 @@ function displayEmptyProjectGreeting(type) {
         greeting.innerHTML = `<h2>This folder seems to be empty</h2> <p>Keep your tasks organized in your projects. <br><br>
     Group tasks according to your goal or area of life or
     create custom task views to filter by priority.</p>`;
-    } else if(type == 'date') {
+    } else if (type == 'date') {
         greeting.innerHTML = `<h2>No tasks that are due</h2><p> Group tasks according to your goal or area of life or
     create custom task views to filter by priority.</p>`;
     }
@@ -235,7 +240,7 @@ function displayProjectHeader(obj, submitType) {
             html = `<div></div><h1>Tasks that are due tomorrow </h1> <h2>${obj}</h2>`;
             break;
         case 'home':
-            html = `<img class="home-icon" src="pics/house.png"> <h1>Home</h1>`;
+            html = `<span class="material-icons header-icon">home</span> <h1>Home</h1>`;
             break;
     }
     header.innerHTML = html;
@@ -469,9 +474,9 @@ function readTasksFromStorage() {
 
 function generateDefaultTasks() {
     tasks.push(new TodoItem('Do work project', '2021-02-06', '15.00', 'Work', 'priority2', 'Add more styles to form container'));
-    tasks.push(new TodoItem('Star Wars Revenge of the Sith', '2021-06-13', '20.00', 'Movies', 'priority3', 'Buy more popcorn'));
-    tasks.push(new TodoItem('Go outside', '2021-01-31', '18.00', 'Home', 'priority1', 'Put warmer gloves on'));
-    tasks.push(new TodoItem('Clean apartment', '2021-01-30', '21.00', 'Home', 'priority5', 'Vacuum, dust shelves, do dishes'));
+    tasks.push(new TodoItem('Star Wars Revenge of the Sith', '2021-02-13', '20.00', 'Movies', 'priority3', 'Buy more popcorn'));
+    tasks.push(new TodoItem('Go outside', '2021-06-31', '18.00', 'Home', 'priority1', 'Put warmer gloves on'));
+    tasks.push(new TodoItem('Clean apartment', '2021-04-30', '21.00', 'Home', 'priority5', 'Vacuum, dust shelves, do dishes'));
 }
 
 
@@ -490,4 +495,5 @@ export {
     closeTaskContainer,
     editOldTask,
     closeAllTaskElements,
+    checkPassedDates,
 }
