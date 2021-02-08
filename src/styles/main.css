@@ -1,7 +1,9 @@
+
 @import "nav.css";
 @import "header.css";
 @import "form.css";
 @import "content.css";
+@import "checkmark.css";
 @import "navIcon.css";
 @import "toggleBtn.css";
 @import "darkMode.css";
@@ -18,7 +20,6 @@ html,
 body {
     margin: 0;
     padding: 0;
-
 }
 
 /* use viewport-relative units to cover page fully */
@@ -29,7 +30,6 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
     background-color: #FAFAFA;
 }
-
 
 .content-container {
     display: grid;
@@ -67,12 +67,6 @@ body {
 
 .priority5 {
     background-color: #ffd166;
-}
-
-
-.footer {
-    grid-area: 5 / 2 / 6 / 5;
-    background-color: #FAFAFA;
 }
 
 .main,
@@ -116,7 +110,7 @@ body {
     display: grid;
     grid-template-columns: 40px 1fr;
     grid-column-gap: 5px ;
-    position: absolute;
+    position: fixed;
     left: 50%;
     bottom: 0%;
     padding: 1px;
@@ -129,6 +123,9 @@ body {
     opacity: 0;
 }
 
+.material-icons.calender-icon.hide-elements {
+    opacity: 0;
+}
 
 .material-icons.task-complete {
     color: #06d6a0;

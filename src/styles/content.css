@@ -1,23 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
-
-
-
-
 .content {
     grid-area: 2 / 2 / 5 / 5;
     background-color: #FAFAFA;
     transition: margin-left .5s;
     padding: 16px;
     padding-left: 100px;
-
+    height: fit-content;
+    margin-bottom: 100px;
+    overflow: visible;
 }
 
-.tasks-container {
 
-}
-
-
+/*-----------------Header-------------------*/
 .task-cont-header {
     display: grid;
     grid-template-columns: 40px 1fr;
@@ -25,7 +20,6 @@
     border-bottom: 1px solid #5858581e;
     max-width: 1200px;
 }
-
 
 .task-cont-header h2 {
     font-size: 20px;
@@ -39,16 +33,21 @@
     height: 25px;
 }
 
+
+/*------------------Task container-------------------*/
 .tasks-container {
     max-width: 70%;
+    margin-bottom: 100px;
+    height: fit-content;
 }
 
+/*task element*/
 .task {
     max-width: 700px;
-    min-width: 500px;
+    min-width: 450px;
     display: grid;
     grid-template-columns: 40px repeat(2, 30px) 90px repeat(2, 30px) auto auto;
-    grid-template-rows: 1fr 0px 1fr;
+    grid-template-rows: 1fr 0px 20px;
     grid-column-gap: 5px;
     grid-row-gap: 5px;
     padding: 16px;
@@ -62,37 +61,7 @@
     align-items: center;
 }
 
-.past-due-date {
-    border: 1px rgba(255, 0, 0, 0.431) solid;
-}
-
-.task-element-bigger {
-    grid-template-rows: 1fr 2fr 1fr;
-}
-
-.task button {
-    width: 50px;
-    height: 25px;
-    font-size: 13px;
-    font-family: 'Montserrat', sans-serif;
-    transition: all 0.2s;
-    border: none;
-    cursor: pointer;
-    background-color: #dddddd;
-    color: white;
-    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    box-shadow: 3px 3px 12px 0px rgba(189, 189, 189, 0.45);
-}
-
-.task button:hover {
-    background-color: #E63946;
-    color: white;
-}
-
-
-
-
+/*task elements different grid items*/
 .div1 {
     grid-area: 1 / 1 / 2 / 2;
     justify-self: end;
@@ -102,7 +71,6 @@
 .div2 {
     grid-area: 1 / 2 / 2 / 3;
     justify-self: center;
-
 }
 
 .div3 {
@@ -160,82 +128,52 @@
     font-size: 13px;
 }
 
-.material-icons.calender-icon {
-    color: rgba(0, 0, 0, 0.26);
-    cursor: default;
+
+.task button {
+    width: 50px;
+    height: 25px;
+    font-size: 13px;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    background-color: #dddddd;
+    color: white;
+    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    box-shadow: 3px 3px 12px 0px rgba(189, 189, 189, 0.45);
 }
+
+.task button:hover {
+    background-color: #E63946;
+    color: white;
+}
+
 
 
 .task-arrow-button {
     cursor: pointer;
+    transition: all 0.4s ease-in-out;
 }
 
-/* Customize the label (the container) */
-.checkbox-container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.rotate-arrow {
+    transform: rotate(-180deg);
+    transition: all 0.4s ease-in-out;
 }
 
-/* Hide the browser's default checkbox */
-.checkbox-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+.past-due-date {
+    border: 1px rgba(255, 0, 0, 0.431) solid;
 }
 
-/* Create a custom checkbox */
-.checkmark {
-    position: absolute;
-    top: 4px;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #eee;
+.task-element-bigger {
+    grid-template-rows: 1fr 2fr 1fr;
 }
 
-/* On mouse-over, add a grey background color */
-.checkbox-container:hover input~.checkmark {
-    background-color: #a2b5df;
-}
-
-/* When the checkbox is checked, add a blue background */
-.checkbox-container input:checked~.checkmark {
-    background-color: #2164f3;
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-/* Show the checkmark when checked */
-.checkbox-container input:checked~.checkmark:after {
-    display: block;
-}
-
-/* Style the checkmark/indicator */
-.checkbox-container .checkmark:after {
-    left: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
+.material-icons.calender-icon {
+    color: rgba(0, 0, 0, 0.26);
+    cursor: default;
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
 }
 
 .hide-elements {
@@ -246,7 +184,5 @@
     opacity: 1;
 }
 
-.rotate-arrow {
-    transform: rotate(-180deg);
-}
+
 

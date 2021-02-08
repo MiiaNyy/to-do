@@ -1,5 +1,94 @@
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 400px) {
+    .content-container {
+        width: 110vw;
+    }
+    .content {
+        width: 110vw;
+    }
+
+    .header {
+        width: 110vw;
+    }
+
+    .side-bar {
+        height: 100vh;
+        position: fixed;
+    }
     .tasks-container {
-        display: block;
+        width: 110%;
+    }
+    .task {
+        grid-template-columns: 40px repeat(2, 20px) 60px repeat(2, 30px) 50px 30px!important;
+        min-width: 280px !important;
+        padding: 10px;
+        margin-right: 20px;
+    }
+
+    .div12,
+    .div3 {
+        font-size: 9px;
+    }
+
+    .div6,
+    .div8 {
+        font-size: 8px;
+
+    }
+}
+
+
+@media only screen and (max-width: 550px) {
+    #header-btn {
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
+
+    #header-btn img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .content {
+        padding-left: 5px !important;
+    }
+
+    .task {
+        grid-template-columns: 40px repeat(2, 20px) 60px repeat(2, 30px) auto auto;
+        min-width: 360px !important;
+    }
+
+    .div12,
+    .div3 {
+        font-size: 11px;
+    }
+
+    .div6,
+    .div8 {
+        font-size: 9px;
+    }
+
+    .task button {
+        font-size: 11px;
+        width: 35px;
+        height: 20px;
+        justify-self: center;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .tasks-container {
+        max-width: 100%;
+    }
+
+    .task {
+        min-width: 400px;
+        z-index: 4;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .content {
+        padding-left: 15px;
     }
 }

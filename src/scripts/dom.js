@@ -49,12 +49,12 @@ function createTaskHtml(obj, date) {
     <div class="div2 color-code ${obj.priority}"></div>
     <div class = "div3 task-name" >${obj.name}</div>
     <div class="div4 fade-effect hide-elements extra-ele tasks-project"><p>#${obj.project}</p></div>
-    <div class="div5"><span class="material-icons calender-icon ${darkModeClass} md-18 ">today</span></div>
-    <div class="div6 due-date">${date}</div>
-    <div class="div7"><span class="material-icons calender-icon md-18 ${darkModeClass}">timer</span> </div>
-    <div class = "div8 due-time">${obj.dueTime}</div>
+    <div class="div5"><span class="material-icons calender-icon hide-elements ${darkModeClass} md-18 ">today</span></div>
+    <div class="div6 due-date hide-elements extra-ele">${date}</div>
+    <div class="div7"><span class="material-icons calender-icon md-18 hide-elements${darkModeClass}">timer</span></div>
+    <div class = "div8 due-time hide-elements extra-ele">${obj.dueTime}</div>
     <div class="div9">
-        <span class="arrow-container"><img class="task-arrow-button fade-effect" src="pics/arrow.png"></span>
+        <span class="arrow-container"><img class="task-arrow-button" src="pics/arrow.png"></span>
     </div>
     <div class="div10 fade-effect hide-elements extra-ele"><button class="edit-task-btn">Edit</button></div>
     <div class="div11 fade-effect hide-elements extra-ele">Notes:</div>
@@ -180,6 +180,19 @@ function readDarkmodeFromStorage() {
     }
 }
 
+function changeHeaderIfSmallScreen(type) {
+    let intViewportWidth = window.innerWidth;
+    if(intViewportWidth < 640) {
+        if(type == 'open') {
+            document.querySelector('.header-txt').style.opacity = 0;
+            document.querySelector('#header-btn').style.opacity = 0;
+        } else if(type == 'closed') {
+            document.querySelector('.header-txt').style.opacity = 1;
+            document.querySelector('#header-btn').style.opacity = 1;
+        }       
+    }
+    console.log('screen width is ' + intViewportWidth);
+}
 
 function openNav() {
     document.getElementById("side-nav").style.width = "300px";
@@ -196,7 +209,7 @@ function openNav() {
     if (filterFolderIsOpen) {
         document.querySelector(".filter-menu").classList.toggle("menu-visible");
     }
-
+    changeHeaderIfSmallScreen('open');
 }
 
 function closeNav() {
@@ -213,6 +226,7 @@ function closeNav() {
     if (filterFolderIsOpen) {
         document.querySelector(".filter-menu").classList.toggle("menu-visible");
     }
+    changeHeaderIfSmallScreen('closed');
 }
 
 
@@ -290,6 +304,19 @@ function rotateProjectSpanArrow(id) {
 }
 
 
+
+function toggleTaskCompleteMsgDisplay() {
+    document.querySelector('.task-completed-message').style.opacity = 1;
+    document.querySelector('.task-completed-message').style.transform = 'translateY(-100px)';
+    setTimeout(function () {
+        document.querySelector('.task-completed-message').style.transform = 'translateY(0px)';
+    }, 3000);
+    setTimeout(function () {
+        document.querySelector('.task-completed-message').style.opacity = 0;
+    }, 3700);
+}
+
+
 export {
     openNav,
     closeNav,
@@ -305,4 +332,5 @@ export {
     saveDarkModeToStorage,
     newTaskIdentifyers,
     editTaskIdentifyers,
+    toggleTaskCompleteMsgDisplay,
 };

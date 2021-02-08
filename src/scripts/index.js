@@ -1,4 +1,4 @@
-import "./styles/main.css"
+import "../styles/main.css"
 
 import {
     closeNav,
@@ -11,7 +11,8 @@ import {
     readDarkmodeFromStorage,
     saveDarkModeToStorage,
     newTaskIdentifyers,
-    editTaskIdentifyers
+    editTaskIdentifyers,
+    toggleTaskCompleteMsgDisplay,
 } from "./dom"
 
 import {
@@ -30,7 +31,7 @@ import {
 
 import {
     readTasksFromStorage,
-    displayTasks,
+    displayAllTasksInHomeScreen,
     makeNewTask,
     removeTaskWhenComplete,
     openFormWithObjValues,
@@ -43,100 +44,47 @@ import {
     displayFilteredTasks,
 } from "./tasks";
 
-let homeBtn = document.querySelector('.home-btn');
-let dateBtns = document.querySelectorAll('.due-btn');
 
 let darkModeSlider = document.querySelector('.slider');
-
+let homeBtn = document.querySelector('.home-btn');
+let dateBtns = document.querySelectorAll('.due-btn');
 let navIcon = document.querySelector('#nav-icon');
+
 let openProjectFolder = document.querySelector(".open-project-folder");
 let filterFolderBtn = document.querySelector(".filter-btn");
-
-let taskForm = document.querySelector('.task-form');
-let openNewTaskFormBtn = document.querySelectorAll('.open-task-form-btn');
-let taskContainer = document.querySelector('.tasks-container');
-
-let projectForm = document.querySelector('.add-project-form');
-
-let closeTaskFormBtn = document.querySelector('.close-task-form');
-
-
 let projectsFolder = document.querySelector('.project-menu');
 let priorityFolderItems = document.querySelectorAll('.filter-name');
 
-let openProjectFormBtn = document.querySelector('.open-project-form');
+let taskForm = document.querySelector('.task-form');
+let projectForm = document.querySelector('.add-project-form');
 
+let openProjectFormBtn = document.querySelector('.open-project-form');
+let openNewTaskFormBtn = document.querySelectorAll('.open-task-form-btn');
+let closeTaskFormBtn = document.querySelector('.close-task-form');
+
+let taskContainer = document.querySelector('.tasks-container');
 
 let taskFormBtnContainer = document.querySelector('.form-button-cont');
 
-
 let navIsOpen = true;
 let taskFormIsOpen = false;
-
 let projectFormOpen = false;
-
-
 
 let taskObjId;
 
-
-//Toggles project form into and off from display
-function toggleProjectFormDisplay(callback) {
-    toggleFormBackgroundFilter();
-    callback();
+function start() {
+    eventListeners();
+    readTasksFromStorage();
+    readProjectsFromStorage();
+    displayAllTasksInHomeScreen();
+    displayProjects();
+    readDarkmodeFromStorage();
 }
 
-function closeProjectForm() {
-    removeProjectForm();
-    projectFormOpen = false;
-}
-
-function openProjectForm() {
-    projectFormOpen = true;
-    projectForm.style.display = 'block';
-    displayProjectForm('Edit project');
-}
-
-//Toggles task form into and off from display
-function toggleTaskFormDisplay(callback) {
-    toggleFormBackgroundFilter();
-    let form = document.querySelector('.task-form');
-    callback(form);
-}
-
-function openTaskForm(form) {
-    form.style.display = 'block';
-    taskFormIsOpen = true;
-}
-
-function closeTaskForm(form) {
-    form.style.display = 'none';
-    taskFormIsOpen = false;
-}
-
-
-
-function toggleNavDisplay() {
-    navIcon.classList.toggle("open");
-    if (navIsOpen) {
-        closeNav();
-        navIsOpen = false;
-
-    } else if (!navIsOpen) {
-        openNav();
-        navIsOpen = true;
-    }
-}
-
-
-
-
-function openTaskEditingForm(event) {
-    closeAllTaskElements(event);
-    addIdentifyersToTaskForm(editTaskIdentifyers);
-    displayProjectsInTaskForm();
-    taskObjId = openFormWithObjValues(event);
-    toggleTaskFormDisplay(openTaskForm);
+function eventListeners() {
+    taskListeners();
+    projectListeners();
+    sideBarListeners();
 }
 
 function taskListeners() {
@@ -146,10 +94,10 @@ function taskListeners() {
         toggleTaskFormDisplay(closeTaskForm);
     })
 
-
     taskFormBtnContainer.addEventListener("click", function (event) {
         let targetClassList = event.target.classList;
 
+        //User has filled task form and clicks add task button
         if (targetClassList.contains('form-button-add')) {
             makeNewTask(taskForm);
             toggleTaskFormDisplay(closeTaskForm);
@@ -179,41 +127,28 @@ function taskListeners() {
             if (!taskFormIsOpen) {
                 toggleTaskFormDisplay(openTaskForm);
             }
-            displayTasks();
+            displayAllTasksInHomeScreen();
         })
     })
+
 
     taskContainer.addEventListener('click', function (event) {
         let targetClassList = event.target.classList;
         //User clicks checkmark indicating that task is done. Task can be removed from view and tasks obj
         if (targetClassList.contains('task-completed')) {
             removeTaskWhenComplete(event);
-            document.querySelector('.task-completed-message').style.opacity = 1;
-            document.querySelector('.task-completed-message').style.transform = 'translateY(-100px)';
-            setTimeout(function () {
-                document.querySelector('.task-completed-message').style.transform = 'translateY(0px)';
-            }, 3000);
-            setTimeout(function () {
-                document.querySelector('.task-completed-message').style.opacity = 0;
-            }, 3700);
-
-            
-            //open task editing form
+            toggleTaskCompleteMsgDisplay();
+        //open task editing form
         } else if (targetClassList.contains('edit-task-btn')) {
             openTaskEditingForm(event);
-            displayTasks();
-
+            displayAllTasksInHomeScreen();
         } else if (targetClassList.contains('task-arrow-button')) {
             toggleTaskElementsDisplay(event);
         }
     })
 }
 
-
-
-
 function projectListeners() {
-
     //Edits already existing projects
     projectForm.addEventListener('click', function (event) {
         let targetClassList = event.target.classList;
@@ -245,6 +180,7 @@ function projectListeners() {
     projectsFolder.addEventListener('click', function (event) {
         let elementId = event.target.id;
         let targetClassList = event.target.classList;
+    //User clicks settings icon and edit project form opens
         if (targetClassList.contains('settings-icon')) {
             toggleProjectFormDisplay(() => {
                 projectFormOpen = true;
@@ -252,16 +188,18 @@ function projectListeners() {
                 displayProjectForm('Edit project');
             })
             openProjectEditingForm(event);
-            displayTasks();
+            displayAllTasksInHomeScreen();
         }
+    //User clicks project name, and all of the tasks that are int hat project show in the screen
         if (targetClassList.contains('project-name')) {
             closeTaskContainer();
             displayProjectsTasks(elementId);
         }
     })
 
+    //Add new project button is clicked
     openProjectFormBtn.addEventListener('click', function (event) {
-        displayTasks();
+        displayAllTasksInHomeScreen();
         closeAllTaskElements(event);
         toggleProjectFormDisplay(() => {
             projectFormOpen = true;
@@ -272,12 +210,13 @@ function projectListeners() {
 }
 
 function sideBarListeners() {
-
+    //Dark mode slider is clicked
     darkModeSlider.addEventListener('click', function (e) {
         saveDarkModeToStorage();
         toggleDarkMode();
     })
 
+    //User clicks priority item in the priority folder and all of the tasks that have that priority is shown in the screen
     priorityFolderItems.forEach(item => {
         item.addEventListener('click', function (e) {
             let elementId = e.target.id;
@@ -293,12 +232,10 @@ function sideBarListeners() {
         toggleFolderDisplay(event);
     })
 
-
     //Opens and closes sidebar nav
     navIcon.addEventListener('click', function () {
         toggleNavDisplay();
     })
-
 
     //Opens and closes sidebars filter priority folder
     filterFolderBtn.addEventListener('click', function (event) {
@@ -306,11 +243,13 @@ function sideBarListeners() {
         toggleFolderDisplay(event);
     })
 
+    //Home button is clicked, and all of the tasks are shown in the screen
     homeBtn.addEventListener('click', function (e) {
         closeTaskContainer()
-        displayTasks();
+        displayAllTasksInHomeScreen();
     })
 
+    //user clicks today or tomorrow btn, and all of the tasks that are due today/tomorrow is shown
     dateBtns.forEach(function (button) {
         button.addEventListener('click', function (e) {
             closeTaskContainer();
@@ -322,25 +261,56 @@ function sideBarListeners() {
     })
 }
 
-function eventListeners() {
-    taskListeners();
-    projectListeners();
-    sideBarListeners();
+
+function openTaskEditingForm(event) {
+    closeAllTaskElements(event);
+    addIdentifyersToTaskForm(editTaskIdentifyers);
+    displayProjectsInTaskForm();
+    taskObjId = openFormWithObjValues(event);
+    toggleTaskFormDisplay(openTaskForm);
 }
 
+//Toggles task form into and off from display
+function toggleTaskFormDisplay(callback) {
+    toggleFormBackgroundFilter();
+    let form = document.querySelector('.task-form');
+    callback(form);
+}
 
+//Toggles project form into and off from display
+function toggleProjectFormDisplay(callback) {
+    toggleFormBackgroundFilter();
+    callback();
+}
 
-function start() {
-    eventListeners();
-    readTasksFromStorage();
-    readProjectsFromStorage();
-    displayTasks();
-    displayProjects();
-    readDarkmodeFromStorage();
+function closeProjectForm() {
+    removeProjectForm();
+    projectFormOpen = false;
+}
+
+function openTaskForm(form) {
+    form.style.display = 'block';
+    taskFormIsOpen = true;
+}
+
+function closeTaskForm(form) {
+    form.style.display = 'none';
+    taskFormIsOpen = false;
+}
+
+function toggleNavDisplay() {
+    navIcon.classList.toggle("open");
+    if (navIsOpen) {
+        closeNav();
+        navIsOpen = false;
+
+    } else if (!navIsOpen) {
+        openNav();
+        navIsOpen = true;
+    }
 }
 
 start();
-
 
 
 if (module.hot) {

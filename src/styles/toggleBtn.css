@@ -1,3 +1,5 @@
+/*------------------Dark mode toggle button---------------*/
+
 .dark-mode-cont {
     display: grid;
     grid-template-columns: 2fr 50px 35px; 
