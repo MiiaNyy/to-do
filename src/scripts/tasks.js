@@ -468,7 +468,7 @@ function readTasksFromStorage() {
 }
 
 function generateDefaultTasks() {
-    tasks.push(new TodoItem('Water the plants', '2021-02-06', '15.00', 'Home', 'priority2', 'When was the last time you watered your plants? '));
+    tasks.push(new TodoItem('Water the plants', '2021-08-06', '15.00', 'Home', 'priority2', 'When was the last time you watered your plants? '));
     tasks.push(new TodoItem('Star Wars Revenge of the Sith', '2021-02-13', '20.00', 'Movies', 'priority3', 'Buy more popcorn'));
     tasks.push(new TodoItem('Make a new project', '2021-06-31', '18.00', 'Work', 'priority1', 'Go to the project folder and add new project into it. '));
     tasks.push(new TodoItem('Change this task, so it is in a different project', '2021-04-30', '21.00', 'General', 'priority5', 'Press tasks edit button and change tasks project or priority'));
