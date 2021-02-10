@@ -4,18 +4,18 @@ import {
 
 let docFrame = document.querySelectorAll(".main");
 let taskContainer = document.querySelector('.tasks-container');
-let projectForm = document.querySelector('.add-project-form');
+const projectForm = document.querySelector('.add-project-form');
 
 let projectsFolderIsOpen = false;
 let filterFolderIsOpen = false;
 let darkMode = false;
 
 function displayNewTask(obj) {
-    let date = getFormatedDate(obj.dueDate);
+    let date = getFormattedDate(obj.dueDate);
     let dateIsInPast = checkPassedDates(obj.dueDate);
     let taskHtml = document.createElement('div');
 
-    if (obj.dueTime == '') {
+    if (obj.dueTime === '') {
         obj.dueTime = 'No schedule'
     }
     if (dateIsInPast) {
@@ -29,8 +29,8 @@ function displayNewTask(obj) {
     taskContainer.appendChild(taskHtml);
 }
 
-function getFormatedDate(date) {
-    if (date == '') {
+function getFormattedDate(date) {
+    if (date === '') {
         return 'No due date'
     }
     let newDate = date.split('-');
@@ -42,41 +42,25 @@ function createTaskHtml(obj, date) {
     if (darkMode) {
         darkModeClass = 'dark-mode-icons'
     }
-    return `<label class="div1 checkbox-container">
-    <input type="checkbox">
-    <span class="task-completed checkmark"></span>
-    </label>  
-    <div class="div2 color-code ${obj.priority}"></div>
-    <div class = "div3 task-name" >${obj.name}</div>
-    <div class="div4 fade-effect hide-elements extra-ele tasks-project"><p>#${obj.project}</p></div>
-    <div class="div5"><span class="material-icons calender-icon hide-elements ${darkModeClass} md-18 ">today</span></div>
-    <div class="div6 due-date hide-elements extra-ele">${date}</div>
-    <div class="div7"><span class="material-icons calender-icon md-18 hide-elements${darkModeClass}">timer</span></div>
-    <div class = "div8 due-time hide-elements extra-ele">${obj.dueTime}</div>
-    <div class="div9">
-        <span class="arrow-container"><img class="task-arrow-button" src="pics/arrow.png"></span>
-    </div>
-    <div class="div10 fade-effect hide-elements extra-ele"><button class="edit-task-btn">Edit</button></div>
-    <div class="div11 fade-effect hide-elements extra-ele">Notes:</div>
-    <div class="div12 task-notes fade-effect hide-elements extra-ele">${obj.notes}</div>`
+    return `<label class="div1 checkbox-container">\n    <input type="checkbox">\n    <span class="task-completed checkmark"></span>\n    </label>  \n    <div class="div2 color-code ${obj.priority}"></div>\n    <div class = "div3 task-name" >${obj.name}</div>\n    <div class="div4 fade-effect hide-elements extra-ele tasks-project"><p>#${obj.project}</p></div>\n    <div class="div5"><span class="material-icons calender-icon hide-elements ${darkModeClass} md-18 ">today</span></div>\n    <div class="div6 due-date hide-elements extra-ele">${date}</div>\n    <div class="div7"><span class="material-icons calender-icon md-18 hide-elements${darkModeClass}">timer</span></div>\n    <div class = "div8 due-time hide-elements extra-ele">${obj.dueTime}</div>\n    <div class="div9">\n        <span class="arrow-container"><img class="task-arrow-button" src="pics/arrow.png" alt="arrow button"></span>\n    </div>\n    <div class="div10 fade-effect hide-elements extra-ele"><button class="edit-task-btn">Edit</button></div>\n    <div class="div11 fade-effect hide-elements extra-ele">Notes:</div>\n    <div class="div12 task-notes fade-effect hide-elements extra-ele">${obj.notes}</div>`
 
 }
 
 
 //Adds different header and buttons, depending if user adds or edits task
-function addIdentifyersToTaskForm(callback) {
+function addIdentifiersToTaskForm(callback) {
     let formHeader = document.querySelector('.task-form-header');
     let taskFormBtnContainer = document.querySelector('.form-button-cont');
     taskFormBtnContainer.innerHTML = callback(formHeader);
 }
 
-function newTaskIdentifyers(formHeader) {
+const newTaskIdentifiers = formHeader => {
     formHeader.innerHTML = 'Add Task';
     return `<input class="form-button-add add-task-btn form-add fade-effect" type="submit" value="Add"/>
         <input class="form-button-cancel form-cancel fade-effect" type="reset" value="Cancel"/>`
-}
+};
 
-function editTaskIdentifyers(formHeader) {
+function editTaskIdentifiers(formHeader) {
     formHeader.innerHTML = 'Edit Task';
         return `<input class="form-button-edit form-add fade-effect" type="submit" value="Edit"/>
         <input class="form-button-cancel form-cancel fade-effect" type="reset" value="Cancel"/>`;
@@ -118,10 +102,10 @@ function displayProjectForm(task) {
         </div>
         </div>`;
 
-    if (task == 'Edit project') {
+    if (task === 'Edit project') {
         projectForm.innerHTML += `<input type="button" value="Edit" class="edit-project form-add fade-effect"/>
         <button class="delete-project form-cancel fade-effect" >Delete</button>`;
-    } else if (task == 'Add project') {
+    } else if (task === 'Add project') {
         projectForm.innerHTML += `<input type="button" value="Add" class="add-project form-add fade-effect"/>
         <input type="reset" value="Cancel" class="cancel-project-form form-cancel fade-effect"/>`;
     }
@@ -157,7 +141,6 @@ function saveDarkModeToStorage() {
 }
 
 function toggleDarkMode() {
-    document.querySelector('.header-icon').classList.toggle('dark-mode-icons');
     document.querySelector('.content-container').classList.toggle('dark-mode');
     document.querySelectorAll('.nav-icon').forEach(function (item) {
         item.classList.toggle('dark-mode-icons');
@@ -182,14 +165,12 @@ function readDarkmodeFromStorage() {
 
 function changeHeaderIfSmallScreen(type) {
     let intViewportWidth = window.innerWidth;
-    if(intViewportWidth < 640) {
-        if(type == 'open') {
-            document.querySelector('.header-txt').style.opacity = 0;
-            document.querySelector('#header-btn').style.opacity = 0;
-        } else if(type == 'closed') {
-            document.querySelector('.header-txt').style.opacity = 1;
-            document.querySelector('#header-btn').style.opacity = 1;
-        }       
+    if(intViewportWidth < 640) if (type === 'open') {
+        document.querySelector('.header-txt').style.opacity = 0;
+        document.querySelector('#header-btn').style.opacity = 0;
+    } else if (type === 'closed') {
+        document.querySelector('.header-txt').style.opacity = 1;
+        document.querySelector('#header-btn').style.opacity = 1;
     }
     console.log('screen width is ' + intViewportWidth);
 }
@@ -242,12 +223,12 @@ function toggleFormBackgroundFilter() {
 function toggleFolderDisplay(e) {
     let targetId = e.target.id;
     console.log(targetId);
-    if (targetId == 'projects') {
-        toggleProjectFolderZindex();
+    if (targetId === 'projects') {
+        toggleProjectFolderIndex();
         toggleProjectDisplay();
-    } else if (targetId == 'filter') {
+    } else if (targetId === 'filter') {
         togglePriorityDisplay();
-        toggleOpenTaskBtnZindex();
+        toggleOpenTaskBtnIndex();
     }
     rotateProjectSpanArrow(targetId);
 }
@@ -263,7 +244,7 @@ function toggleProjectDisplay() {
     document.querySelector(".filter-folder").classList.toggle('filter-margin-top');
 }
 
-function toggleProjectFolderZindex() {
+function toggleProjectFolderIndex() {
     if (!projectsFolderIsOpen) {
         document.querySelector(".project-menu").style.zIndex = 'auto';
         document.querySelector('.project-button-cont').style.zIndex = 'auto';
@@ -273,7 +254,7 @@ function toggleProjectFolderZindex() {
     }
 }
 
-function toggleOpenTaskBtnZindex() {
+function toggleOpenTaskBtnIndex() {
     if (!filterFolderIsOpen) {
         document.querySelector(".filter-menu").style.zIndex = 'auto';
     } else if (filterFolderIsOpen) {
@@ -282,7 +263,7 @@ function toggleOpenTaskBtnZindex() {
 }
 
 function rotateProjectSpanArrow(id) {
-    if (id == 'projects') {
+    if (id === 'projects') {
         let targetElement = document.querySelector(".project-span");
         if (!projectsFolderIsOpen) {
             targetElement.style.transform = 'rotate(-90deg)';
@@ -291,7 +272,7 @@ function rotateProjectSpanArrow(id) {
             targetElement.style.transform = 'rotate(0deg)';
             projectsFolderIsOpen = false;
         }
-    } else if (id == 'filter') {
+    } else if (id === 'filter') {
         let targetElement = document.querySelector(".filter-span");
         if (!filterFolderIsOpen) {
             targetElement.style.transform = 'rotate(-90deg)';
@@ -325,12 +306,12 @@ export {
     displayNewProject,
     displayProjectForm,
     toggleFormBackgroundFilter,
-    addIdentifyersToTaskForm,
-    getFormatedDate,
+    addIdentifiersToTaskForm,
+    getFormattedDate,
     toggleDarkMode,
     readDarkmodeFromStorage,
     saveDarkModeToStorage,
-    newTaskIdentifyers,
-    editTaskIdentifyers,
+    newTaskIdentifiers,
+    editTaskIdentifiers,
     toggleTaskCompleteMsgDisplay,
 };

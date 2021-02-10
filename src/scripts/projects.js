@@ -1,17 +1,13 @@
-import {
-    TodoProject
-} from "./classes";
+import {TodoProject} from "./classes";
+
+import {displayNewProject,} from "./dom";
 
 import {
-    displayNewProject,
-} from "./dom";
-
-import {
-    eraseTasksFromProject,
     closeAllTaskElements,
-    displayProjectHeader,
-    displayFilteredTasks,
     displayAllTasksInHomeScreen,
+    displayFilteredTasks,
+    displayProjectHeader,
+    eraseTasksFromProject,
 } from "./tasks";
 
 let projectForm = document.querySelector('.add-project-form');
@@ -35,16 +31,18 @@ function getNewProject(data, id, submitType) {
 
     for (const entry of data) {
         console.log(entry[0] + ' = ' + entry[1]);
-        if (entry[0] == 'task-priority') {
+        if ('task-priority' === entry[0]) {
             obj.priority = entry[1];
-        } else if (entry[0] == 'project-name') {
+        } else if (entry[0] === 'project-name') {
             obj.name = entry[1];
         }
     }
 
-    if (submitType == 'edit') {
+
+    if (submitType === 'edit') {
         return changeProjectValuesAfterEdit(id, obj.name, obj.priority)
-    } else if (submitType == 'addNew') {
+    }
+    if (submitType === 'addNew') {
         return new TodoProject(obj.name, obj.priority);
     }
 }
@@ -80,13 +78,7 @@ function submitEditedProject() {
 //Checks that project form input field is not empty
 function checkEmptyInput(form) {
     let data = new FormData(form);
-    for (const entry of data) {
-        if (entry[0] == 'project-name' && entry[1].length <= 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+    for (const entry of data) return !(entry[0] === 'project-name' && entry[1].length <= 0);
 }
 
 function changeProjectValuesAfterEdit(id, name, priority) {
@@ -94,7 +86,7 @@ function changeProjectValuesAfterEdit(id, name, priority) {
     for (let i = 0; i < projects.length; i++) {
         let element = projects[i];
         //By comparing elements id to the obj.id we find the right obj
-        if (element.id == id) {
+        if (element.id === id) {
             obj = projects[i];
             element.projectName = name;
             element.projectPriority = priority;
@@ -118,7 +110,7 @@ function displayEditedProject(obj, id) {
                     e.innerHTML = obj.projectName;
                     break;
                 case 'color-code':
-                    //Because class name priority is always on the last item on the divs classlist
+                    //Because class name priority is always on the last item on the divs class list
                     let elementsPriority = eClassNames[1];
                     e.classList.remove(elementsPriority);
                     e.classList.add(obj.projectPriority);
@@ -129,6 +121,7 @@ function displayEditedProject(obj, id) {
 }
 
 //When user wants to edit already existing project. Open obj values in the form.
+
 function openFormWithObjValues(event) {
     let element = event.target;
     let parentId = element.parentNode.id;
@@ -137,19 +130,21 @@ function openFormWithObjValues(event) {
 
     for (let i = 0; i < projects.length; i++) {
         let project = projects[i];
-        if (project.id == parentId) {
+        if (project.id === parentId) {
             projectId = project.id;
 
             for (let j = 0; j < formElements.length; j++) {
-                let eleName = formElements[j].name;
-                switch (eleName) {
+                const {id, name} = formElements[j];
+                switch (name) {
                     case 'project-name':
                         formElements[j].value = project.projectName;
                         break;
                     case 'task-priority':
-                        if (formElements[j].id == project.projectPriority) {
+                        if (id === project.projectPriority) {
                             formElements[j].checked = true;
                         }
+                        break;
+                    default:
                         break;
                 }
             }
@@ -174,7 +169,7 @@ function eraseProject(e) {
 
 function getProjectName(id) {
     for (let i = 0; i < projects.length; i++) {
-        if (projects[i].id == id) {
+        if (projects[i].id === id) {
             let projectName = projects[i].projectName;
             return projectName.toLowerCase();
         }
@@ -183,7 +178,7 @@ function getProjectName(id) {
 
 function deleteProjectObj(id) {
     for (let i = projects.length - 1; i >= 0; i--) {
-        if (projects[i].id == id) {
+        if (projects[i].id === id) {
             projects.splice(i, 1);
             saveProjectsToStorage();
         }
@@ -192,6 +187,7 @@ function deleteProjectObj(id) {
 
 function removeProjectFromDisplay(id) {
     let element = document.getElementById(id);
+    // noinspection JSValidateTypes
     element.style.opacity = 0;
     element.style.marginBottom = '-40px';
     setTimeout(function () {
@@ -221,7 +217,7 @@ function displayProjectsTasks(elementId) {
 //Return right obj, that is later used to generate task header
 function getObjForHeader(id) {
     for (let i = 0; i < projects.length; i++) {
-        if (id == projects[i].nameToLower) {
+        if (id === projects[i].nameToLower) {
             return projects[i];
         }
     }
@@ -229,12 +225,11 @@ function getObjForHeader(id) {
     for (let i = 0; i < priorityArr.length; i++) {
         let toLower = priorityArr[i].toLowerCase();
         let priority = toLower.replace(/\s+/g, '');
-        if (id == priority) {
-            let priorityObj = {
+        if (id === priority) {
+            return {
                 name: priorityArr[i],
                 priority: id
-            };
-            return priorityObj
+            }
         }
     }
 }

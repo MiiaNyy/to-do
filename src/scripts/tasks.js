@@ -1,11 +1,6 @@
-import {
-    TodoItem
-} from "./classes";
+import {TodoItem} from "./classes";
 
-import {
-    displayNewTask,
-    getFormatedDate,
-} from "./dom";
+import {displayNewTask, getFormattedDate,} from "./dom";
 
 import add from 'date-fns/add'
 
@@ -48,41 +43,41 @@ function openFormWithObjValues(event) {
 
     for (let i = 0; i < tasks.length; i++) {
         let task = tasks[i];
-        if (task.id == targetElementId) {
-
-            taskId = task.id;
-            for (let j = 0; j < formElements.length; j++) {
-                let eleName = formElements[j].name;
-                switch (eleName) {
-                    case 'task-name':
-                        formElements[j].value = task.name;
-                        break;
-                    case 'select-project':
-                        console.log('tasks project is ' + task.project);
-                        formElements[j].value = task.project.toLowerCase();
-                        break;
-                    case 'dueDate':
-                        formElements[j].value = task.dueDate;
-                        break;
-                    case 'time':
-                        formElements[j].value = task.dueTime;
-                        break;
-                    case 'task-priority':
-                        if (formElements[j].id == task.priority) {
-                            formElements[j].checked = true;
-                        }
-                        break;
-                    case 'task-notes':
-                        formElements[j].value = task.notes;
-                        break;
-                }
+        if (task.id !== targetElementId) {
+            continue;
+        }
+        taskId = task.id;
+        for (let j = 0; j < formElements.length; j++) {
+            let eleName = formElements[j].name;
+            switch (eleName) {
+                case 'task-name':
+                    formElements[j].value = task.name;
+                    break;
+                case 'select-project':
+                    console.log('tasks project is ' + task.project);
+                    formElements[j].value = task.project.toLowerCase();
+                    break;
+                case 'dueDate':
+                    formElements[j].value = task.dueDate;
+                    break;
+                case 'time':
+                    formElements[j].value = task.dueTime;
+                    break;
+                case 'task-priority':
+                    if (formElements[j].id === task.priority) {
+                        formElements[j].checked = true;
+                    }
+                    break;
+                case 'task-notes':
+                    formElements[j].value = task.notes;
+                    break;
             }
         }
     }
     return taskId;
 }
 
-//When user has inputed info about the task, or has edited old task, make return taks obj
+//When user has input info about the task, or has edited old task, make return task obj
 function getValuesFromTaskForm(data, id, submitType) {
     let obj = {}
 
@@ -109,9 +104,9 @@ function getValuesFromTaskForm(data, id, submitType) {
                 break;
         }
     }
-    if (submitType == 'edit') {
+    if (submitType === 'edit') {
         return changeTaskObjValues(id, obj.name, obj.project, obj.dueDate, obj.dueTime, obj.priority, obj.notes);
-    } else if (submitType == 'addNew') {
+    } else if (submitType === 'addNew') {
         return new TodoItem(obj.name, obj.dueDate, obj.dueTime, obj.project, obj.priority, obj.notes);
     }
 }
@@ -122,7 +117,7 @@ function changeTaskObjValues(id, name, project, duedate, duetime, priority, note
     for (let i = 0; i < tasks.length; i++) {
         let task = tasks[i];
         //By comparing elements id to the obj.id we find the right obj
-        if (task.id == id) {
+        if (task.id === id) {
             obj = task;
             task.name = name;
             task.project = project;
@@ -139,7 +134,7 @@ function changeTaskObjValues(id, name, project, duedate, duetime, priority, note
 function displayEditedTask(id, obj) {
     let element = document.getElementById(id);
     let childElements = element.children;
-    let date = getFormatedDate(obj.dueDate)
+    let date = getFormattedDate(obj.dueDate)
 
     for (let i = 0; i < childElements.length; i++) {
         const e = childElements[i];
@@ -158,7 +153,7 @@ function displayEditedTask(id, obj) {
                     e.innerHTML = obj.dueTime;
                     break;
                 case 'color-code':
-                    //Because class name priority is always on the last item on the divs classlist
+                    //Because class name priority is always on the last item on the divs class list
                     let elementsPriority = eClassNames[2];
                     e.classList.remove(elementsPriority);
                     e.classList.add(obj.priority);
@@ -175,7 +170,7 @@ function displayEditedTask(id, obj) {
 }
 
 
-function closeAllTaskElements(e) {
+const closeAllTaskElements = () => {
     for (let i = 0; i < tasks.length; i++) {
         let task = tasks[i];
         let taskElement = document.getElementById(task.id);
@@ -185,8 +180,7 @@ function closeAllTaskElements(e) {
             task.containerOpen = false;
         }
     }
-}
-
+};
 
 
 //changes the task obj container open to false, so when user clicks another project, tasks get drawn closed
@@ -213,10 +207,10 @@ function toggleElementsOpacity(elementId) {
         let childClasses = child.classList;
         for (let j = 0; j < childClasses.length; j++) {
             let cc = childClasses[j];
-            if (cc == 'extra-ele') {
+            if (cc === 'extra-ele') {
                 console.log(child);
                 child.classList.toggle('hide-elements');
-            } else if (cc == 'div7' || cc == 'div5') {
+            } else if (cc === 'div7' || cc === 'div5') {
                 child.childNodes[0].classList.toggle('hide-elements');
             }
         }
@@ -228,7 +222,7 @@ function toggleElementsSize(id) {
     for (let i = 0; i < tasks.length; i++) {
         let task = tasks[i];
 
-        if (task.id == id) {
+        if (task.id === id) {
             if (!task.containerOpen) {
                 taskElement.style.gridTemplateRows = "1fr 2fr 1fr";
                 task.containerOpen = true;
@@ -242,8 +236,7 @@ function toggleElementsSize(id) {
 
 function getTaskElementsId(e) {
     let eleGrandParent = e.target.parentNode.parentNode;
-    let targetElementId = eleGrandParent.parentNode.id;
-    return targetElementId;
+    return eleGrandParent.parentNode.id;
 }
 
 function rotateArrowBtn(e) {
@@ -285,10 +278,10 @@ function displayFilteredTasks(filter) {
     let taskCounter = 0;
     for (let i = 0; i < tasks.length; i++) {
         let projectToLower = tasks[i].project.toLowerCase();
-        if (projectToLower == filter) {
+        if (projectToLower === filter) {
             displayNewTask(tasks[i]);
             taskCounter++
-        } else if (tasks[i].priority == filter) {
+        } else if (tasks[i].priority === filter) {
             displayNewTask(tasks[i]);
             taskCounter++;
         }
@@ -302,17 +295,14 @@ function displayFilteredTasks(filter) {
 function displayDueTasks(date) {
     let taskCounter = 0;
     let a = new Date();
-    let today = getToday(a);
-    let tomorrow = getTomorrow(a);
+    let today = returnDate(a, 'today');
+    let tomorrow = returnDate(a, 'tomorrow');
 
     displayDueHeaders(today, tomorrow, date);
 
     for (let i = 0; i < tasks.length; i++) {
         const element = tasks[i];
-        if (element.dueDate == today && date == 'today-due') {
-            displayNewTask(element);
-            taskCounter++
-        } else if (element.dueDate == tomorrow && date == 'tomorrow-due') {
+        if (element.dueDate === today && date === 'today-due' || element.dueDate === tomorrow && date === 'tomorrow-due') {
             displayNewTask(element);
             taskCounter++
         }
@@ -330,9 +320,9 @@ function displayDueHeaders(today, tomorrow, date) {
     formatToday = formatToday[2] + '.' + formatToday[1] + '.' + formatToday[0];
     formatTom = formatTom[2] + '.' + formatTom[1] + '.' + formatTom[0];
 
-    if (date == 'today-due') {
+    if (date === 'today-due') {
         displayProjectHeader(formatToday, date);
-    } else if (date == 'tomorrow-due') {
+    } else if (date === 'tomorrow-due') {
         displayProjectHeader(formatTom, date);
     }
 }
@@ -340,16 +330,20 @@ function displayDueHeaders(today, tomorrow, date) {
 //Checks if tasks due date is passed
 function checkPassedDates(date) {
     let a = new Date();
-    let today = getToday(a);
+    let today = returnDate(a)
     today = new Date(today);
     let comparedDate = new Date(date);
-    if (comparedDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
-        return true;
-    }
-    return false;
+    return comparedDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0);
+
 }
 
-function getToday(date) {
+function returnDate(date, type) {
+
+    if (type === 'tomorrow') {
+        date = add(date, {
+            days: 1
+        });
+    }
     let year = date.getFullYear();
     let day = date.getDate();
     let month = date.getMonth() + 1;
@@ -359,39 +353,18 @@ function getToday(date) {
     if (day < 10) {
         day = '0' + day;
     }
-
-    let today = `${year}-${month}-${day}`
-    return today;
+    return `${year}-${month}-${day}`;
 }
 
-function getTomorrow(date) {
-    const t = add(date, {
-        days: 1
-    })
-
-    let year = t.getFullYear();
-    let day = t.getDate();
-    let month = t.getMonth() + 1;
-
-    if (month < 10) {
-        month = '0' + month;
-    }
-    if (day < 10) {
-        day = '0' + day;
-    }
-
-    let tomorrow = `${year}-${month}-${day}`
-    return tomorrow;
-}
 
 function displayEmptyProjectGreeting(type) {
     let greeting = document.createElement('div');
     greeting.classList.add('empty-greeting');
-    if (type == 'project') {
+    if (type === 'project') {
         greeting.innerHTML = `<h2>This folder seems to be empty</h2> <p>Keep your tasks organized in your projects. <br><br>
     Group tasks according to your goal or area of life or
     create custom task views to filter by priority.</p>`;
-    } else if (type == 'date') {
+    } else if (type === 'date') {
         greeting.innerHTML = `<h2>No tasks that are due</h2><p> Group tasks according to your goal or area of life or
     create custom task views to filter by priority.</p>`;
     }
@@ -419,7 +392,7 @@ function eraseTasksFromProject(projectName) {
         let eleId = tasks[i].id;
         let node = document.getElementById(eleId);
 
-        if (projectToLower == projectName) {
+        if (projectToLower === projectName) {
             node.remove();
             tasks.splice(i, 1);
         }
@@ -428,6 +401,7 @@ function eraseTasksFromProject(projectName) {
 }
 
 function removeTaskFromDisplay(elementId) {
+    // noinspection JSValidateTypes
     document.getElementById(elementId).style.opacity = 0;
     setTimeout(function () {
         document.getElementById(elementId).remove();
@@ -438,16 +412,13 @@ function removeTaskFromDisplay(elementId) {
 function removeTaskObj(elementId) {
     if (tasks.length >= 0) {
         for (let i = tasks.length - 1; i >= 0; i--) {
-            if (tasks[i].id == elementId) {
+            if (tasks[i].id === elementId) {
                 tasks.splice(i, 1);
                 saveTasksToStorage();
             }
         }
     }
 }
-
-
-
 
 
 function saveTasksToStorage() {
@@ -459,10 +430,10 @@ function readTasksFromStorage() {
     // gets information from local storage to use in displayBooks to create display
     let tasksJson = localStorage.getItem('tasks');
     if (tasksJson != null && tasksJson.length > 0) {
-        //parses a JSON string to 'normal' value, number to integar yms.
+        //parses a JSON string to 'normal' value, number to integer yms.
         tasks = JSON.parse(tasksJson);
     } else {
-        //If storage is empty, generoi these tasks on the page
+        //If storage is empty, generate these tasks on the page
         generateDefaultTasks()
     }
 }
@@ -475,11 +446,10 @@ function generateDefaultTasks() {
 }
 
 
-
 export {
     readTasksFromStorage,
-    displayAllTasksInHomeScreen,
     makeNewTask,
+    displayAllTasksInHomeScreen,
     removeTaskWhenComplete,
     openFormWithObjValues,
     eraseTasksFromProject,

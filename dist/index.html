@@ -4,12 +4,13 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>My To-Do</title>
-        <link rel="stylesheet" href="main.css">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+        <link href="main.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"/>
         <link rel="shortcut icon" href="pics/favi.png" type="image/x-icon">  
     </head>
     <body>
+
     <div class="content-container">
         <div class="header main">
             <h1 class="header-txt">My To-Dos</h1>            
@@ -127,7 +128,10 @@
                                 <label for="dueDate">Due date and time</label>
                             </div>                               
                                 <input type="date" id="dueDate" name="dueDate">
-                                <input type="time" name="time" id="time">                            
+                            <label for="time">
+                                <input type="time" name="time" id="time">
+                            </label>
+
                         </div>
 
                         <div class="select-priority-cont">
@@ -161,7 +165,9 @@
                         <div class="notes-cont">
                             <label for="task-notes" class="text-label">Notes</label>
                             <br />
-                            <textarea rows="4" cols="34" name="task-notes"></textarea>
+                            <label>
+                                <textarea rows="4" cols="34" name="task-notes"></textarea>
+                            </label>
                         </div>
 
                         <div class="form-button-cont">

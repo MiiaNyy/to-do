@@ -6,12 +6,12 @@ import {
     toggleFolderDisplay,
     toggleFormBackgroundFilter,
     displayProjectForm,
-    addIdentifyersToTaskForm,
+    addIdentifiersToTaskForm,
     toggleDarkMode,
     readDarkmodeFromStorage,
     saveDarkModeToStorage,
-    newTaskIdentifyers,
-    editTaskIdentifyers,
+    newTaskIdentifiers,
+    editTaskIdentifiers,
     toggleTaskCompleteMsgDisplay,
 } from "./dom"
 
@@ -109,7 +109,7 @@ function taskListeners() {
             taskForm.reset();
             toggleTaskFormDisplay(closeTaskForm);
         }
-        //Edited task is submited
+        //Edited task is summited
         if (targetClassList.contains('form-button-edit')) {
             editOldTask(taskForm, taskObjId);
             toggleTaskFormDisplay(closeTaskForm);
@@ -122,7 +122,7 @@ function taskListeners() {
     openNewTaskFormBtn.forEach(function (button) {
         button.addEventListener('click', function (event) {
             closeAllTaskElements(event);
-            addIdentifyersToTaskForm(newTaskIdentifyers);
+            addIdentifiersToTaskForm(newTaskIdentifiers);
             displayProjectsInTaskForm();
             if (!taskFormIsOpen) {
                 toggleTaskFormDisplay(openTaskForm);
@@ -211,7 +211,7 @@ function projectListeners() {
 
 function sideBarListeners() {
     //Dark mode slider is clicked
-    darkModeSlider.addEventListener('click', function (e) {
+    darkModeSlider.addEventListener('click', function () {
         saveDarkModeToStorage();
         toggleDarkMode();
     })
@@ -244,7 +244,7 @@ function sideBarListeners() {
     })
 
     //Home button is clicked, and all of the tasks are shown in the screen
-    homeBtn.addEventListener('click', function (e) {
+    homeBtn.addEventListener('click', function () {
         closeTaskContainer()
         displayAllTasksInHomeScreen();
     })
@@ -254,7 +254,7 @@ function sideBarListeners() {
         button.addEventListener('click', function (e) {
             closeTaskContainer();
             let elementId = e.target.id;
-            if (elementId == 'today-due' || elementId == 'tomorrow-due') {
+            if (elementId === 'today-due' || elementId === 'tomorrow-due') {
                 displayDueTasks(elementId);
             }
         })
@@ -264,7 +264,7 @@ function sideBarListeners() {
 
 function openTaskEditingForm(event) {
     closeAllTaskElements(event);
-    addIdentifyersToTaskForm(editTaskIdentifyers);
+    addIdentifiersToTaskForm(editTaskIdentifiers);
     displayProjectsInTaskForm();
     taskObjId = openFormWithObjValues(event);
     toggleTaskFormDisplay(openTaskForm);

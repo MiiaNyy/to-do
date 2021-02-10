@@ -24,7 +24,6 @@ body {
 
 /* use viewport-relative units to cover page fully */
 body {
-
     height: 100vh;
     width: 100vw;
     font-family: 'Source Sans Pro', sans-serif;
@@ -35,8 +34,6 @@ body {
     display: grid;
     grid-template-columns: 300px repeat(3, 1fr);
     grid-template-rows: 80px repeat(3, 2fr) 5%;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
     height: 100%;
     width: 100%;
 }
@@ -44,8 +41,8 @@ body {
 .color-code {
     justify-self: end;
     align-self: center;
-    width: 15px;
-    height: 15px;
+    width: 1.5463917525773196vw;
+    height: 1.6008537886873vh;
     border-radius: 20px;
 }
 
@@ -97,13 +94,19 @@ body {
 .empty-greeting {
     margin: 100px auto;
     font-family: 'Montserrat', sans-serif;
-    padding: 20px;
-    width: 400px;
+    padding: 2.0618556701030926vw;
+    width: 41.19464469618949vw;
     text-align: center;
     color: #5858585e;
-    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    box-shadow: 3px 3px 12px 0px rgba(189, 189, 189, 0.45);
+    box-shadow: 3px 3px 12px 0 rgba(189, 189, 189, 0.45);
+}
+
+.empty-greeting {
+    -moz-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
+}
+
+.empty-greeting {
+    -webkit-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
 }
 
 .task-completed-message {
@@ -114,7 +117,7 @@ body {
     left: 50%;
     bottom: 0%;
     padding: 1px;
-    width: 180px;
+    width: 18.537590113285273vw;
     background-color: #f3f3f3;
     -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
     -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
