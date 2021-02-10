@@ -47,7 +47,7 @@
     min-width: 450px;
     display: grid;
     grid-template-columns: 40px repeat(2, 30px) 90px repeat(2, 30px) auto auto;
-    grid-template-rows: 1fr 0px 20px;
+    grid-template-rows: 1fr 0 20px;
     grid-column-gap: 5px;
     grid-row-gap: 5px;
     padding: 16px;
@@ -55,9 +55,9 @@
     margin: 20px;
     font-size: 10px;
     font-family: 'Montserrat', sans-serif;
-    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    -webkit-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
+    box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
     align-items: center;
 }
 
@@ -139,9 +139,9 @@
     cursor: pointer;
     background-color: #dddddd;
     color: white;
-    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    box-shadow: 3px 3px 12px 0px rgba(189, 189, 189, 0.45);
+    -webkit-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
+    box-shadow: 3px 3px 12px 0 rgba(189, 189, 189, 0.45);
 }
 
 .task button:hover {

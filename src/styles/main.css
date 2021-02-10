@@ -115,13 +115,13 @@ body {
     grid-column-gap: 5px ;
     position: fixed;
     left: 50%;
-    bottom: 0%;
+    bottom: 0;
     padding: 1px;
     width: 18.537590113285273vw;
     background-color: #f3f3f3;
-    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
+    -webkit-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
+    box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
     transition: all 0.8s ease-in-out;
     opacity: 0;
 }
