@@ -42,7 +42,8 @@ function createTaskHtml(obj, date) {
     if (darkMode) {
         darkModeClass = 'dark-mode-icons'
     }
-    return `<label class="div1 checkbox-container">\n    <input type="checkbox">\n    <span class="task-completed checkmark"></span>\n    </label>  \n    <div class="div2 color-code ${obj.priority}"></div>\n    <div class = "div3 task-name" >${obj.name}</div>\n    <div class="div4 fade-effect hide-elements extra-ele tasks-project"><p>#${obj.project}</p></div>\n    <div class="div5"><span class="material-icons calender-icon hide-elements ${darkModeClass} md-18 ">today</span></div>\n    <div class="div6 due-date hide-elements extra-ele">${date}</div>\n    <div class="div7"><span class="material-icons calender-icon md-18 hide-elements${darkModeClass}">timer</span></div>\n    <div class = "div8 due-time hide-elements extra-ele">${obj.dueTime}</div>\n    <div class="div9">\n        <span class="arrow-container"><img class="task-arrow-button" src="pics/arrow.png" alt="arrow button"></span>\n    </div>\n    <div class="div10 fade-effect hide-elements extra-ele"><button class="edit-task-btn">Edit</button></div>\n    <div class="div11 fade-effect hide-elements extra-ele">Notes:</div>\n    <div class="div12 task-notes fade-effect hide-elements extra-ele">${obj.notes}</div>`
+
+    return `<label class="div1 checkbox-container">\n    <input type="checkbox">\n    <span class="task-completed checkmark"></span>\n    </label>  \n    <div class="div2 color-code ${obj.priority}"></div>\n    <div class = "div3 task-name" >${obj.name}</div>\n    <div class="div4 fade-effect hide-elements extra-ele tasks-project"><p>#${obj.project}</p></div>\n    <div class="div5"><span class="material-icons calender-icon hide-elements ${darkModeClass} md-18 ">today</span></div>\n    <div class="div6 due-date hide-elements extra-ele">${date}</div>\n    <div class="div7"><span class="material-icons calender-icon md-18 hide-elements ${darkModeClass}">timer</span></div>\n    <div class = "div8 due-time hide-elements extra-ele">${obj.dueTime}</div>\n    <div class="div9">\n        <span class="arrow-container"><img class="task-arrow-button" src="pics/arrow.png" alt="arrow button"></span>\n    </div>\n    <div class="div10 fade-effect hide-elements extra-ele"><button class="edit-task-btn">Edit</button></div>\n    <div class="div11 fade-effect hide-elements extra-ele">Notes:</div>\n    <div class="div12 task-notes fade-effect hide-elements extra-ele">${obj.notes}</div>`
 
 }
 
@@ -62,10 +63,9 @@ const newTaskIdentifiers = formHeader => {
 
 function editTaskIdentifiers(formHeader) {
     formHeader.innerHTML = 'Edit Task';
-        return `<input class="form-button-edit form-add fade-effect" type="submit" value="Edit"/>
+    return `<input class="form-button-edit form-add fade-effect" type="submit" value="Edit"/>
         <input class="form-button-cancel form-cancel fade-effect" type="reset" value="Cancel"/>`;
 }
-
 
 
 function displayProjectForm(task) {
@@ -129,7 +129,6 @@ function displayNewProject(obj) {
 }
 
 
-
 function saveDarkModeToStorage() {
     darkMode = !darkMode;
 
@@ -165,7 +164,7 @@ function readDarkmodeFromStorage() {
 
 function changeHeaderIfSmallScreen(type) {
     let intViewportWidth = window.innerWidth;
-    if(intViewportWidth < 640) if (type === 'open') {
+    if (intViewportWidth < 640) if (type === 'open') {
         document.querySelector('.header-txt').style.opacity = 0;
         document.querySelector('#header-btn').style.opacity = 0;
     } else if (type === 'closed') {
@@ -175,10 +174,49 @@ function changeHeaderIfSmallScreen(type) {
     console.log('screen width is ' + intViewportWidth);
 }
 
+
+function returnNavBarWidth() {
+    let w = window.innerWidth;
+    let widthObj = {}
+    if (w <= 400) {
+        widthObj.navWidthOpen = 200;
+        widthObj.navWidthClosed = 30;
+        widthObj.marginLeftOpen = -50;
+        widthObj.marginLeftClosed = -30;
+    } else if (w <= 500) {
+        widthObj.navWidthOpen = 200;
+        widthObj.navWidthClosed = 30;
+        widthObj.marginLeftOpen = -50;
+        widthObj.marginLeftClosed = -52;
+    } else if (w <= 600) {
+        widthObj.navWidthOpen = 250;
+        widthObj.navWidthClosed = 60;
+        widthObj.marginLeftOpen = -50;
+        widthObj.marginLeftClosed = -240;
+    } else {
+        widthObj.navWidthOpen = 300;
+        widthObj.navWidthClosed = 100;
+        widthObj.marginLeftOpen = -10;
+        widthObj.marginLeftClosed = -200;
+    }
+    return widthObj;
+}
+
+function changeNavBarSize(type) {
+    let widthObj = returnNavBarWidth();
+    if (type === 'open') {
+        document.getElementById("side-nav").style.width = widthObj.navWidthOpen + "px";
+        docFrame.forEach(section => section.style.marginLeft = widthObj.marginLeftOpen + "px");
+        document.querySelector('.content').style.marginLeft = widthObj.marginLeftOpen + "px";
+    } else if (type === 'closed') {
+        document.getElementById("side-nav").style.width = widthObj.navWidthClosed + "px";
+        docFrame.forEach(section => section.style.marginLeft = widthObj.marginLeftClosed + "px");
+        document.querySelector('.content').style.marginLeft = widthObj.marginLeftClosed + "px";
+    }
+}
+
 function openNav() {
-    document.getElementById("side-nav").style.width = "300px";
-    docFrame.forEach(section => section.style.marginLeft = "0");
-    document.querySelector('.content').style.marginLeft = "0px";
+    changeNavBarSize('open');
     document.querySelectorAll('.menu-item').forEach(item => item.style.opacity = 1);
     document.querySelector('#side-btn').style.opacity = 1;
     document.querySelector('.dark-mode-cont').style.opacity = 1;
@@ -194,9 +232,7 @@ function openNav() {
 }
 
 function closeNav() {
-    document.getElementById("side-nav").style.width = "100px";
-    docFrame.forEach(section => section.style.marginLeft = "-200px");
-    document.querySelector('.content').style.marginLeft = "-200px";
+    changeNavBarSize('closed');
     document.querySelectorAll('.menu-item').forEach(item => item.style.opacity = 0);
     document.querySelector('#side-btn').style.opacity = 0;
     document.querySelector('.dark-mode-cont').style.opacity = 0;
@@ -283,7 +319,6 @@ function rotateProjectSpanArrow(id) {
         }
     }
 }
-
 
 
 function toggleTaskCompleteMsgDisplay() {

@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>My To-Do</title>
-        <link href="main.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"/>
-        <link rel="shortcut icon" href="pics/favi.png" type="image/x-icon">  
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>My To-Do</title>
+    <link href="../src/styles/main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"/>
+    <link rel="shortcut icon" href="pics/favi.png" type="image/x-icon">
+</head>
+<body>
 
-    <div class="content-container">
-        <div class="header main">
-            <h1 class="header-txt">My To-Dos</h1>            
-            <button id="header-btn" class="open-task-form-btn">
-            <img src="pics/whiteplus.png" alt="" />
-            </button>
+<div class="content-container">
+    <div class="header main">
+        <h1 class="header-txt">My To-Dos</h1>
+        <button id="header-btn" class="open-task-form-btn">
+            <img src="pics/whiteplus.png" alt=""/>
+        </button>
+    </div>
+    <div id="side-nav" class="side-bar">
+        <div class="dark-mode-cont fade-effect">
+            <p class="light">Light</p>
+            <label class="switch">
+                <input id="darkmode-checkbox" type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            <p class="dark">Dark</p>
         </div>
-        <div id="side-nav" class="side-bar">
-            <div class="dark-mode-cont fade-effect">
-                <p class="light">Light</p>
-                <label class="switch">
-                    <input id="darkmode-checkbox" type="checkbox">
-                    <span class="slider round"></span>
-                </label>
-                <p class="dark">Dark</p>
+
+        <div id="nav-icon" class="open nav-display-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu">
+
+            <div class="menu-item fade-effect">
+                <span class="material-icons nav-icon">home</span>
+                <p class="home-btn">Home</p>
+            </div>
+            <div class="menu-item fade-effect">
+                <span class="material-icons nav-icon">today</span>
+                <p id="today-due" class="due-btn">Today</p>
+            </div>
+            <div class="menu-item fade-effect">
+                <span class="material-icons nav-icon">date_range</span>
+                <p id="tomorrow-due" class="due-btn">Tomorrow</p>
+            </div>
+            <div id="project-folder" class="menu-item fade-effect ">
+                <span class="material-icons nav-icon">folder_open</span>
+                <p id="projects" class="open-project-folder">
+                    <span class="project-span"><img src="pics/arrow.png" alt=""></span>Project</p>
             </div>
 
-            <div id="nav-icon" class="open nav-display-icon">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="collapse-menu fade-effect project-button-cont">
+                <button class="open-project-form">Add project</button>
             </div>
-            <div class="menu">
-
-                <div class="menu-item fade-effect">
-                    <span class="material-icons nav-icon">home</span>
-                    <p class="home-btn">Home</p>
-                </div>
-                <div class="menu-item fade-effect">
-                    <span class="material-icons nav-icon">today</span>
-                    <p id="today-due" class="due-btn">Today</p>
-                </div>
-                <div class="menu-item fade-effect">
-                    <span class="material-icons nav-icon">date_range</span>
-                    <p id="tomorrow-due" class="due-btn">Tomorrow</p>
-                </div>
-                <div id="project-folder" class="menu-item fade-effect ">
-                    <span class="material-icons nav-icon">folder_open</span>
-                    <p id="projects" class="open-project-folder">
-                    <span class="project-span"><img src="pics/arrow.png" alt=""></span>Project</p>                   
-                </div>
-
-                <div class="collapse-menu fade-effect project-button-cont">
-                    <button class="open-project-form">Add project</button>
-                </div>
             <div class="project-menu fade-effect collapse-menu">
                 <!--This is where different projects live-->
             </div>
@@ -64,7 +64,7 @@
                 <span class="material-icons nav-icon">folder_open</span>
                 <p id="filter" class="filter-btn">
                     <span class="filter-span"><img src="pics/arrow.png" alt=""></span>
-                Filter
+                    Filter
                 </p>
             </div>
             <div class="collapse-menu filter-menu fade-effect">
@@ -90,100 +90,100 @@
                 </div>
             </div>
             <button id="side-btn" class="open-task-form-btn fade-effect">
-                <img src="pics/plus.png" alt="" />
+                <img src="pics/plus.png" alt=""/>
             </button>
-            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="task-cont-header">
         </div>
 
-        <div class="content">
-            <div class="task-cont-header">                
-            </div>
+        <div class="tasks-container">
+            <!--This is where tasks live when they are created-->
+        </div>
 
-            <div class="tasks-container">    
-                <!--This is where tasks live when they are created-->  
-            </div>
+        <form class="task-form fade-effect">
+            <span class="close-task-form close-form-btn">&#10006;</span>
+            <h2 class="task-form-header"></h2>
 
-                <form class="task-form fade-effect">
-                    <span class="close-task-form close-form-btn">&#10006;</span>
-                    <h2 class="task-form-header"></h2>
-                    
-                    <hr class="divider">
-                    <div class="form-content-container">
-                        <div class="task-name-cont">
-                            <label for="task-name" class="text-label">Name</label>
-                            <br />
-                            <input class="input-field" required type="text" id="task-name" name="task-name"/>
-                        </div>
-
-                        <div class="select-project-cont">                    
-                            <label for="select-project">Select Project</label>
-                            <div class="select-project"> 
-                                <!--Here will be selection of projects that user can add to tasks-->
-                            </div>
-                        </div>
-                        
-
-                        <div class="due-date-cont">
-                            <div class="dates-label-cont" >
-                                <label for="dueDate">Due date and time</label>
-                            </div>                               
-                                <input type="date" id="dueDate" name="dueDate">
-                            <label for="time">
-                                <input type="time" name="time" id="time">
-                            </label>
-
-                        </div>
-
-                        <div class="select-priority-cont">
-                            <div class="priority-cont">
-                                <input type="radio" name="task-priority" id="priority1" value="priority1"/>
-                                <div class="priority1 color-code"></div>
-                                <label for="priority1"> Priority 1</label>                            
-                            </div>
-                            <div class="priority-cont">
-                                <input type="radio" name="task-priority" id="priority2" value="priority2"/>
-                                <div class="priority2 color-code"></div>
-                                <label for="priority2"> Priority 2</label>                            
-                            </div>
-                            <div class="priority-cont">
-                                <input type="radio" name="task-priority" id="priority3" value="priority3"/>
-                                <div class="priority3 color-code"></div>
-                                <label for="priority3"> Priority 3</label>                            
-                            </div>
-                            <div class="priority-cont">
-                                <input type="radio" name="task-priority" id="priority4" value="priority4"/>
-                                <div class="priority4 color-code"></div>
-                                <label for="priority4"> Priority 4</label>                            
-                            </div>
-                            <div class="priority-cont">
-                                <input type="radio" name="task-priority" id="priority5" value="priority5"/>
-                                <div class="priority5 color-code"></div>
-                                <label for="priority5"> Priority 5</label>                            
-                            </div>           
-                        </div>
-
-                        <div class="notes-cont">
-                            <label for="task-notes" class="text-label">Notes</label>
-                            <br />
-                            <label>
-                                <textarea rows="4" cols="34" name="task-notes"></textarea>
-                            </label>
-                        </div>
-
-                        <div class="form-button-cont">
-                            <!--Here the forms buttons live-->
-                        </div>
-                    </div>                
-                </form>
-
-                <form class="add-project-form fade-effect"></form>              
-            
-                <div class="task-completed-message">
-                    <span class="material-icons task-complete">verified</span>
-                    <p>Task Completed</p>
+            <hr class="divider">
+            <div class="form-content-container">
+                <div class="task-name-cont">
+                    <label for="task-name" class="text-label">Name</label>
+                    <br/>
+                    <input class="input-field" required type="text" id="task-name" name="task-name"/>
                 </div>
-            </div>            
-        </div> 
-        <script src="bundle.js"></script>       
-    </body>
+
+                <div class="select-project-cont">
+                    <label for="select-project">Select Project</label>
+                    <div class="select-project">
+                        <!--Here will be selection of projects that user can add to tasks-->
+                    </div>
+                </div>
+
+
+                <div class="due-date-cont">
+                    <div class="dates-label-cont">
+                        <label for="dueDate">Due date and time</label>
+                    </div>
+                    <input type="date" id="dueDate" name="dueDate">
+                    <label for="time">
+                        <input type="time" name="time" id="time">
+                    </label>
+
+                </div>
+
+                <div class="select-priority-cont">
+                    <div class="priority-cont">
+                        <input type="radio" name="task-priority" id="priority1" value="priority1"/>
+                        <div class="priority1 color-code"></div>
+                        <label for="priority1"> Priority 1</label>
+                    </div>
+                    <div class="priority-cont">
+                        <input type="radio" name="task-priority" id="priority2" value="priority2"/>
+                        <div class="priority2 color-code"></div>
+                        <label for="priority2"> Priority 2</label>
+                    </div>
+                    <div class="priority-cont">
+                        <input type="radio" name="task-priority" id="priority3" value="priority3"/>
+                        <div class="priority3 color-code"></div>
+                        <label for="priority3"> Priority 3</label>
+                    </div>
+                    <div class="priority-cont">
+                        <input type="radio" name="task-priority" id="priority4" value="priority4"/>
+                        <div class="priority4 color-code"></div>
+                        <label for="priority4"> Priority 4</label>
+                    </div>
+                    <div class="priority-cont">
+                        <input type="radio" name="task-priority" id="priority5" value="priority5"/>
+                        <div class="priority5 color-code"></div>
+                        <label for="priority5"> Priority 5</label>
+                    </div>
+                </div>
+
+                <div class="notes-cont">
+                    <label for="task-notes" class="text-label">Notes</label>
+                    <br/>
+                    <label>
+                        <textarea rows="4" cols="34" name="task-notes"></textarea>
+                    </label>
+                </div>
+
+                <div class="form-button-cont">
+                    <!--Here the forms buttons live-->
+                </div>
+            </div>
+        </form>
+
+        <form class="add-project-form fade-effect"></form>
+
+        <div class="task-completed-message">
+            <span class="material-icons task-complete">verified</span>
+            <p>Task Completed</p>
+        </div>
+    </div>
+</div>
+<script src="bundle.js"></script>
+</body>
 </html>

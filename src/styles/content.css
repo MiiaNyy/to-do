@@ -1,11 +1,11 @@
+/*noinspection CssUnknownTarget*/
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 .content {
     grid-area: 2 / 2 / 5 / 5;
     background-color: #FAFAFA;
     transition: margin-left .5s;
-    padding: 16px;
-    padding-left: 100px;
+    padding: 16px 16px 16px 100px;
     height: fit-content;
     margin-bottom: 100px;
     overflow: visible;
@@ -36,14 +36,14 @@
 
 /*------------------Task container-------------------*/
 .tasks-container {
-    max-width: 70%;
-    margin-bottom: 100px;
+    width: 100%;
+    margin-bottom: 12%;
     height: fit-content;
 }
 
 /*task element*/
 .task {
-    max-width: 700px;
+    max-width: 50%;
     min-width: 450px;
     display: grid;
     grid-template-columns: 40px repeat(2, 30px) 90px repeat(2, 30px) auto auto;

@@ -1,42 +1,175 @@
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 500px) {
     .content-container {
-        width: 110vw;
-    }
-    .content {
-        width: 110vw;
+        grid-template-columns: 17% repeat(3, 1fr) !important;
     }
 
     .header {
-        width: 110vw;
+        height: 70px;
     }
 
-    .side-bar {
-        height: 100vh;
-        position: fixed;
+    .header, .task-cont-header {
+        font-size: 0.7em;
     }
-    .tasks-container {
-        width: 110%;
+
+    .content {
+        padding: 0 10px !important;
     }
+
     .task {
-        grid-template-columns: 40px repeat(2, 20px) 60px repeat(2, 30px) 50px 30px!important;
-        min-width: 280px !important;
-        padding: 10px;
-        margin-right: 20px;
+        min-width: 100% !important;
+        grid-template-columns: repeat(8, auto) !important;
     }
 
-    .div12,
-    .div3 {
-        font-size: 9px;
+    #nav-icon {
+        width: 20px;
+        margin-bottom: 40px;
+    }
+
+    #nav-icon span {
+        height: 5px;
+    }
+
+    #nav-icon span:nth-child(1) {
+        top: 0px;
+    }
+
+    #nav-icon span:nth-child(2) {
+        top: 11px;
+    }
+
+    #nav-icon span:nth-child(3) {
+        top: 22px;
+    }
+
+    #nav-icon.open span:nth-child(3) {
+        width: 30px;
+        top: 22px;
+        left: 9px;
+    }
+
+    #nav-icon.open span:nth-child(1) {
+        width: 30px;
+        top: 0;
+        left: 9px;
+    }
+
+    .menu {
+        width: 90%;
+        margin: 20px 5px;
+    }
+
+    #side-btn, #header-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    #side-btn img, #header-btn img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .empty-greeting {
+        font-size: 0.7em;
+    }
+
+    .task-completed-message {
+        width: 150px !important;
+        font-size: 0.9em;
+        left: 35% !important;
+    }
+
+    .form-content-container {
+        grid-row-gap: 2px;
+        grid-column-gap: 2px;
+        height: 450px;
+        width: 300px;
+        padding: 10px;
+    }
+
+    #task-name,
+    textarea,
+    .select-project-cont select,
+    #dueDate,
+    #time {
+        width: 250px
+    }
+
+    .due-date-cont {
+        grid-template-columns: 70px 50px;
+    }
+
+    #dueDate, #time {
+        width: 100%;
+    }
+
+    .select-project-cont select {
+        width: 100px;
+        margin-bottom: 5px;
+    }
+
+    .form-button-add, .form-button-cancel, .form-button-edit {
+        font-size: 0.9em !important;
+        width: 60px !important;
+        height: 30px !important;
+    }
+
+}
+
+
+@media only screen and (max-width: 590px) {
+    .side-bar {
+        width: 250px;
+    }
+
+    .header {
+        margin-left: -50px;
+    }
+
+    .menu p {
+        font-size: 16px;
+    }
+
+    .task {
+        padding: 10px;
+        min-width: 400px;
+        grid-template-columns: 40px repeat(2, 20px) 90px repeat(2, 30px) 90px 30px;
+    }
+
+    .div3, .div12 {
+        font-size: 1em;
     }
 
     .div6,
     .div8 {
-        font-size: 8px;
+        font-size: 0.9em;
+    }
 
+    .task button {
+        font-size: 11px;
+        width: 35px;
+        height: 20px;
+        justify-self: center;
+    }
+
+}
+
+@media only screen and (max-width: 840px) {
+    .content {
+        padding-left: 15px;
+    }
+
+    .task {
+        margin: 20px auto;
     }
 }
 
+@media only screen and (max-width: 900px) {
+    .content {
+        padding-left: 15px;
+    }
+}
 
+/*
 @media only screen and (max-width: 550px) {
     #header-btn {
         width: 40px;
@@ -91,4 +224,4 @@
     .content {
         padding-left: 15px;
     }
-}
+}*/
