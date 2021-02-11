@@ -2,7 +2,7 @@
 
 .dark-mode-cont {
     display: grid;
-    grid-template-columns: 2fr 50px 35px; 
+    grid-template-columns: 2fr 50px 35px;
     align-items: center;
 }
 
@@ -56,15 +56,15 @@
     transition: .4s;
 }
 
-input:checked+.slider {
+input:checked + .slider {
     background-color: #616161;
 }
 
-input:focus+.slider {
+input:focus + .slider {
     box-shadow: 0 0 1px #616161;
 }
 
-input:checked+.slider:before {
+input:checked + .slider:before {
     -webkit-transform: translateX(17px);
     -ms-transform: translateX(17px);
     transform: translateX(17px);
