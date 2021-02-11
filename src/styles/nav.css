@@ -10,15 +10,15 @@
     z-index: 1;
     top: 0;
     left: 0;
-    overflow-x: hidden;
     transition: 0.2s;
     width: 300px;
     overflow: hidden;
-    -webkit-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    -moz-box-shadow: 3px 3px 12px 0px rgba(50, 50, 50, 0.45);
-    box-shadow: 3px 3px 12px 0px rgba(189, 189, 189, 0.45);
+    -webkit-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
+    box-shadow: 3px 3px 12px 0 rgba(189, 189, 189, 0.45);
 }
 
+/*This contains menu items. Project and priority folders, red button*/
 .menu {
     height: 75%;
     margin: 60px;
@@ -35,6 +35,7 @@
     color: rgb(119, 119, 119);
 }
 
+/*Project folder/Home/Today/tomorrow etc*/
 .menu-item {
     display: grid;
     grid-template-columns: 40px 1fr;
@@ -50,9 +51,9 @@
 .menu-item span {
     transition: all 0.2s ease-in-out;
     display: inline-block;
-
 }
 
+/*Little arrow button in the project and priority folder*/
 .rotate-span {
     -ms-transform: rotate(270deg);
     -webkit-transform: rotate(270deg);
@@ -91,6 +92,7 @@
     z-index: -1;
 }
 
+/*open project form button*/
 .open-project-form {
     margin-top: 10px;
     font-family: 'Montserrat', sans-serif;
@@ -131,7 +133,6 @@
     transition: margin-bottom .2s;
 }
 
-
 .project-item p,
 .filter-item p {
     margin: 0;
@@ -140,7 +141,6 @@
     cursor: pointer;
     font-size: 18px;
 }
-
 
 .filter-folder {
     transition: 0.5s ease-in-out;
@@ -151,7 +151,6 @@
     transition:  0.6s ease-in-out;
     margin-top: 20px;
 }
-
 
 .material-icons.nav-icon {
     color: #0707079b;
@@ -175,14 +174,14 @@
     color: #3f3f3f;
     font-size: 20px;
     transition: box-shadow 0.2s, transform 0.2s;
-    -webkit-box-shadow: 3px 3px 8px 0px rgba(50, 50, 50, 0.33);
-    -moz-box-shadow: 3px 3px 8px 0px rgba(50, 50, 50, 0.33);
-    box-shadow: 3px 3px 8px 0px rgba(50, 50, 50, 0.33);
+    -webkit-box-shadow: 3px 3px 8px 0 rgba(50, 50, 50, 0.33);
+    -moz-box-shadow: 3px 3px 8px 0 rgba(50, 50, 50, 0.33);
+    box-shadow: 3px 3px 8px 0 rgba(50, 50, 50, 0.33);
     cursor: pointer;
 }
 
 .open-task-form-btn:hover {
-    box-shadow: 0px 10px 13px -7px #555555, 5px 0px 14px 2px rgba(102, 101, 101, 0.34);
+    box-shadow: 0 10px 13px -7px #555555, 5px 0 14px 2px rgba(102, 101, 101, 0.34);
     transform: scale(1.05);
 }
 

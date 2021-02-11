@@ -62,17 +62,20 @@
 }
 
 /*task elements different grid items*/
+/*checkmark*/
 .div1 {
     grid-area: 1 / 1 / 2 / 2;
     justify-self: end;
     align-self: flex-start
 }
 
+/*color-code*/
 .div2 {
     grid-area: 1 / 2 / 2 / 3;
     justify-self: center;
 }
 
+/*Task name/header*/
 .div3 {
     grid-area: 1 / 3 / 2 / 9;
     font-size: 13px;
@@ -80,30 +83,35 @@
     border-bottom: 1px solid #5858581e;
 }
 
+/*Tasks project name*/
 .div4 {
     grid-area: 3 / 1 / 4 / 3;
     font-size: 10px;
     text-align: center;
 }
-
+/*calender icon*/
 .div5 {
     grid-area: 3 / 3 / 4 / 4;
     justify-self: center;
 }
 
+/*due date*/
 .div6 {
     grid-area: 3 / 4 / 4 / 5;
 }
 
+/*date icon*/
 .div7 {
     grid-area: 3 / 5 / 4 / 6;
     justify-self: center;
 }
 
+/*Due time*/
 .div8 {
     grid-area: 3 / 6 / 4 / 7;
 }
 
+/*Arrow button*/
 .div9 {
     grid-area: 3 / 8 / 4 / 9;
     justify-self: end;
@@ -112,23 +120,26 @@
     font-size: 15px;
 }
 
+/*edit button container*/
 .div10 {
     grid-area: 3 / 7 / 4 / 8;
     justify-self: end;
 }
 
+/*Task notes header*/
 .div11 {
     grid-area: 2 / 1 / 3 / 3;
     justify-self: center;
     align-self: flex-start;
 }
 
+/*Notes*/
 .div12 {
     grid-area: 2 / 3 / 3 / 9;
     font-size: 13px;
 }
 
-
+/*Task edit button*/
 .task button {
     width: 50px;
     height: 25px;
@@ -149,8 +160,6 @@
     color: white;
 }
 
-
-
 .task-arrow-button {
     cursor: pointer;
     transition: all 0.4s ease-in-out;
@@ -161,19 +170,14 @@
     transition: all 0.4s ease-in-out;
 }
 
+/*When tasks due date has passed, add task element red border*/
 .past-due-date {
     border: 1px rgba(255, 0, 0, 0.431) solid;
 }
 
+/*When user clicks arrow button, task element get bigger*/
 .task-element-bigger {
     grid-template-rows: 1fr 2fr 1fr;
-}
-
-.material-icons.calender-icon {
-    color: rgba(0, 0, 0, 0.26);
-    cursor: default;
-    opacity: 1;
-    transition: all 0.2s ease-in-out;
 }
 
 .hide-elements {
@@ -184,5 +188,10 @@
     opacity: 1;
 }
 
-
+.material-icons.calender-icon {
+    color: rgba(0, 0, 0, 0.26);
+    cursor: default;
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+}
 

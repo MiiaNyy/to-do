@@ -9,7 +9,7 @@
 @import "darkMode.css";
 @import "media.css";
 
-
+/*--------------------------General style rules-----------------------*/
 
 /* include border and padding in element width and height */
 * {
@@ -69,9 +69,9 @@ body {
 .main,
 .content {
     transition: margin-left .5s;
-    
 }
 
+/*When user opens form, background gets little filter*/
 .filter-on {
     transform: scale(0.99);
     filter: blur(3px);
@@ -81,16 +81,8 @@ body {
     -ms-filter: blur(3px);
 }
 
-.close-form-btn,
-.close-project-form {
-    cursor: pointer;
-}
 
-.close-form-btn:hover,
-.close-project-form:hover {
-    color: rgb(177, 177, 177);
-}
-
+/*When project folder or priority folder is empty, there is little message in the screen*/
 .empty-greeting {
     margin: 100px auto;
     font-family: 'Montserrat', sans-serif;
@@ -100,11 +92,9 @@ body {
     color: #5858585e;
     box-shadow: 3px 3px 12px 0 rgba(189, 189, 189, 0.45);
 }
-
 .empty-greeting {
     -moz-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
 }
-
 .empty-greeting {
     -webkit-box-shadow: 3px 3px 12px 0 rgba(50, 50, 50, 0.45);
 }
@@ -126,6 +116,7 @@ body {
     opacity: 0;
 }
 
+/*----------------------Icons---------------------------*/
 .material-icons.calender-icon.hide-elements {
     opacity: 0;
 }

@@ -29,6 +29,7 @@ select {
     box-shadow: 3px 3px 12px 0 rgba(98, 98, 98, 0.555);
 }
 
+/*Form button styles*/
 .form-add,
 .form-cancel {
     margin: 0 30px;
@@ -44,20 +45,21 @@ select {
     cursor: pointer;
 }
 
+/*Add/Edit task/project button styles*/
 .form-add {
     background-color: #E63946;
     color: white;
 }
-
 .form-add:hover  {
     transform: scale(1.02);
 }
+
+/*Cancel form/delete project button styles*/
 .form-cancel{
     background-color: #58585867;
     color: white;
     transition: background-color 0.4s;
 }
-
 .form-cancel:hover {
     transform: scale(1.02);
     background-color: #585858ce;
@@ -80,6 +82,17 @@ select {
     width: 70%;
     background-color: #58585886;
     border: none;
+}
+
+/*litlle cross that closes form*/
+.close-form-btn,
+.close-project-form {
+    cursor: pointer;
+}
+
+.close-form-btn:hover,
+.close-project-form:hover {
+    color: rgb(177, 177, 177);
 }
 
 /*-----------------Project-form--------------------------*/
@@ -195,7 +208,6 @@ textarea,
     grid-area: 1 / 1 / 2 / 3;
     align-self: flex-end;
     text-align: center;
-
 }
 
 #dueDate {
